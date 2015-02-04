@@ -149,30 +149,30 @@
 \examiner    {}
 \degree      {}
 \authors     {}
-\university  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
-                {University Name}}
-                {University Name}}
-\UNIVERSITY  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
-                {UNIVERSITY NAME (IN BLOCK CAPITALS)}}
-                {UNIVERSITY NAME (IN BLOCK CAPITALS)}}
-\department  {\texorpdfstring{\href{Department or School Web Site URL Here (include http://)}
-                {Department or School Name}}
-                {Department or School Name}}
-\DEPARTMENT  {\texorpdfstring{\href{Department or School Web Site URL Here (include http://)}
-                {DEPARTMENT OR SCHOOL NAME (IN BLOCK CAPITALS)}}
-                {DEPARTMENT OR SCHOOL NAME (IN BLOCK CAPITALS)}}
+\university  {\texorpdfstring{\href{http://www.lunduniversity.lu.se/}
+                {Lund University}}
+                {Lund University}}
+\UNIVERSITY  {\texorpdfstring{\href{http://www.lunduniversity.lu.se/}
+                {LUND UNIVERSITY}}
+                {LUND UNIVERSITY}}
+\department  {\texorpdfstring{\href{http://www.control.lth.se/}
+                {Department of Automatic Control}}
+                {Department of Automatic Control}}
+\DEPARTMENT  {\texorpdfstring{\href{http://www.control.lth.se/}
+                {DEPARTMENT OF AUTOMATIC CONTROL}}
+                {DEPARTMENT OF AUTOMATIC CONTROL}}
 \group       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
                 {Research Group Name}}
                 {Research Group Name}}
 \GROUP       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
-\faculty     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
-                {Faculty Name}}
-                {Faculty Name}}
-\FACULTY     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
-                {FACULTY NAME (IN BLOCK CAPITALS)}}
-                {FACULTY NAME (IN BLOCK CAPITALS)}}
+\faculty     {\texorpdfstring{\href{http://www.lth.se/english}
+                {Faculty of Engineering}}
+                {Faculty of Engineering}}
+\FACULTY     {\texorpdfstring{\href{http://www.lth.se/english}
+                {FACULTY OF ENGINEERING}}
+                {FACULTY OF ENGINEERING}}
 \addresses   {}
 \subject     {}
 \keywords    {}
@@ -201,7 +201,7 @@
       {\LARGE \authornames \par}
       \vfill
       {\large A thesis submitted in partial fulfillment for the \par}
-      {\large degree of Doctor of Philosophy \par}
+      {\large degree of Master of Science in Electrical Engineering \par}
       \bigskip
       \bigskip
       {\large in the \par}
@@ -244,7 +244,7 @@
     {\normalsize \facname \par}
     {\normalsize \deptname \par}
     \bigskip
-    {\normalsize Doctor of Philosophy\par}
+    {\normalsize Master of Science in Electrical Engineering\par}
     \bigskip
     {\normalsize\bf \@title \par}
     \medskip
