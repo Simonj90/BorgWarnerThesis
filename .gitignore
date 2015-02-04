@@ -44,3 +44,5 @@ Thumbs.db
 *.out
 *.pdf
 *.toc
+*.bbl
+*.blg
