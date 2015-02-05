@@ -67,11 +67,13 @@ F_{y}=C_{F}\alpha
 
 \section{Tire Models}
 
-There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, similarity models, simple physical models and complex physical  models. 
+There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, models using the similarity method, simple physical models and complex physical  models. 
 
 Empirical models describe tire characteristics that are acquired from measurements of the tire. To fit the curve according to measured data the parameters are assessed with methods like regression. A well-known empirical model is the Magic Formula \cite{pacejka}. This model provides good fit for $F_{x}$, $F_{y}$ and $M_{z}$ curves and have coefficients that's easy to interpret.
 
+Models using the similarity method are semi-empirical which means that some calculations are replaced by known or measured data. By distorting, rescaling and multiplying the result new relationships are acquired which can describe the tire in different situations. For example one can observe that that the pure slip curves shape doesn't change much \cite{pacejka} when the tire runs on different conditions. By shifting the nominal curve these conditions can be described.
 
+The physical models are purely analytical and aims to describe the tire with help of its physical characteristics. A simple physical model uses simple mechanical representation and can be calculated fairly easy by hand. This often results in pretty poor accuracy but sometimes that's enough. To get better accuracy a more complex model can be set up and simulated in a computer using aids like the finite element method. 
 
 \begin{figure}[h]
 	\centering
