@@ -2,7 +2,10 @@
 
 Before describing the work on friction estimates that has been done, it is important to have some knowledge within vehicle dynamics, including basic knowledge on how tires and also different differentials work. The following chapter tries to describe this so that the reader has the right basic knowledge needed.
 
-\section{Vehicle Dynamics}
+\section{Vehicle dynamics}
+
+\subsection{Normal forces}
+
 
 \subsection{The bicycle model}
 The bicycle model is often used as a simplified way of describing vehicle dynamics.
@@ -14,7 +17,7 @@ The bicycle model is often used as a simplified way of describing vehicle dynami
 	\label{bicycle_model}
 \end{figure}
 
-\section{Tire Dynamics}
+\section{Tire dynamics}
 
 A tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting from the ground, it will deform against the contact area to the ground. This deformation will lead to a shorter radius to the ground, called the effective rolling radius. 
 
@@ -66,7 +69,7 @@ This can only be used in the linear part of the tire force/slip angle relationsh
 
 
 
-\section{Tire Models}
+\section{Tire models}
 
 There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, models using the similarity method, simple physical models and complex physical  models. 
 
@@ -85,13 +88,11 @@ The physical models are purely analytical and aims to describe the tire with hel
 
 In Figure \ref{tire_modeling} some modeling characteristics and how they behave depending on category can be seen.
 
-\subsection{Brush Model}
-
+\subsection{Brush model}
 
 
 \section{Differentials}
 
-Diff e bra NÄUU=
 
 \subsection{Open differential}
 
@@ -124,7 +125,7 @@ If ABS or ESP is active, the FXD function is shutout.
 "Side pull reduction"
 
 
-\subsubsection{Control Algorithm}
+\subsubsection{Control algorithm}
 
 Signals available for the control algorithm through CAN:
 \begin{itemize}
@@ -149,7 +150,16 @@ Lateral acceleration???
 
 
 
-\subsubsection{Applying Pressure}
+\subsubsection{Applying pressure}
 
-By applying higher current to the pump, it will spin faster and thus creating larger centrifugal forces. This force will block the oil from exiting the pump, leading to a higher pressure within the pump. This pressure is also applied to the clutch which will press the clutch discs together and locking the axles together. 
+By applying higher current to the pump, it will spin faster and thus creating larger centrifugal forces. This force will block the oil from exiting the pump, leading to a higher pressure within the pump. This pressure is also applied to the clutch which will press the clutch discs together and locking the axles together.
 
+\subsection{How differentials affect vehicle handling} 
+
+\section{Tire/road friction models/methods}
+
+There have been extensive research within this field for the last fifty years and this results in many different approaches to model tire/road friction. Some of the more relevant models/methods for this work will be presented here.
+
+\subsection{Mue}
+
+\subsection{Slip-based friction model}
