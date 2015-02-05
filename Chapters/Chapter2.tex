@@ -10,6 +10,12 @@ Bla bla \cite{fordonsdynamik}
 Bla bla \cite{pacejka}
 
 \section{Tire Dynamics}
+=======
+\subsection{The bicycle model}
+
+The bicycle model is often used as a simplified way of describing vehicle dynamics. 
+
+\section{Tire Models}
 
 A tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting from the ground, it will deform against the contact area to the ground. This deformation will lead to a shorter radius to the ground, called the effective rolling radius. 
 
@@ -19,13 +25,21 @@ Without torque acting on the tire, there will be rolling resistance due to highe
 \begin{equation}
  	RollingResistance = \frac{F_{resistance}}{F_{z}}
 \end{equation}
-When a longitudinal force is acting on the tire, traction or braking, the tire will have more compression/expansion and a slip will occur. The longitudinal slip is defined as
+When a longitudinal force is acting on the tire, traction or braking, the tire will have more compression/expansion and a slip will occur. The longitudinal slip, $ \kappa $ is defined as
 \begin{equation}
 	 \kappa = \dfrac{R_{e}\omega-V_{x}}{V_{x}}
 \end{equation}
-Where $V_{x}$ is the nominal velocity, $R_{e}$ the effective rolling radius, and $\omega$ the angular velocity of the wheel.
-
-The longitudinal force that will be acquired depends on the normal force, $ F_{N} $ and the friction used, $ \mu(s) $.
+Where $V_{x}$ is the nominal velocity, $R_{e}$ the effective rolling radius, and $\omega$ the angular velocity of the wheel. This leads to the following slip with different angular velocities:
+\begin{equation}
+	Braking: \omega = 0 \Rightarrow \kappa = -1
+\end{equation}
+\begin{equation}
+	Free rolling: \omega = \frac{V}{R_{e}} \Rightarrow \kappa = 0
+\end{equation}
+\begin{equation}
+	Spinning: \omega = 2\frac{V}{R_{e}} \Rightarrow \kappa = 1
+\end{equation}
+The longitudinal force that will be acquired depends on the normal force, $ F_{z} $ and the friction used, $ \mu(s) $.
 \begin{equation}
 	 F_{x} = F_{z}\mu(s)
 \end{equation}
@@ -68,8 +82,26 @@ There are several models to describe a tire mathematically. These models can be 
 
 \section{Differentials}
 
+Diff e bra
+
 \subsection{Open differential}
 
+With an open differential, the torque will be evenly distributed on the two wheels, but the velocities can be different. This means that the inner wheel will have a lower velocity in a corner, due tu its smaller turning radius. When one wheel has significant lower resistant then the other, its velocity will become much higher due to the same amount of torque. Two possible scenarios for this is when you climb a hill with different friction on the two tires and when you take corner fast leading to the inner wheel lifting from the ground. Both of these scenarios will lead to very high speeds on the wheel on the low $ \mu $ surface respectively the inner lifting wheel. The torque that the non-spinning wheel can transfer to the ground will be the same amount that the spinning wheel can transfer, leading to significant lower traction than what actually is available on the wheels.
+
+A solution in these different scenarios would be to lock the differential. This would lead to that the two wheels would have the exact same velocity, and therefore not the same torque in certain situations. 
+
+Side-gear and crown wheel angular velocities:
+\begin{equation}
+	-1 = \frac{\omega_{1} - \omega_{r}}{\omega_{2} - \omega_{r}}
+\end{equation}
+\begin{equation}
+	\omega_{r} = \frac{\omega_{1} + \omega_{2}}{2}
+\end{equation}
+
+
+
 \subsection{Limited slip differential}
+
+The goal with a limited slip differential (LSD) is to not apply more torque to a wheel then it can transfer to the ground. 
 
 \subsection{FXD}
