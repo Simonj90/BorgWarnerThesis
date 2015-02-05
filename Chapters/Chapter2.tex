@@ -5,18 +5,10 @@ We are doing some friction eztimates
 
 \section{Vehicle Dynamics}
 
-Bla bla \cite{fordonsdynamik}
-
-Bla bla \cite{pacejka}
-
-
-\section{Tire Dynamics}
-
 \subsection{The bicycle model}
-
 The bicycle model is often used as a simplified way of describing vehicle dynamics. 
 
-\section{Tire Models}
+\section{Tire Dynamics}
 
 A tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting from the ground, it will deform against the contact area to the ground. This deformation will lead to a shorter radius to the ground, called the effective rolling radius. 
 
@@ -24,25 +16,25 @@ A tire that is non loaded will have a radius called unloaded radius. When a tire
 
 Without torque acting on the tire, there will be rolling resistance due to higher compressing in the tire/road compression area then in the expansion area.
 \begin{equation}
- 	RollingResistance = \frac{F_{resistance}}{F_{z}}
+RollingResistance = \frac{F_{resistance}}{F_{z}}
 \end{equation}
 When a longitudinal force is acting on the tire, traction or braking, the tire will have more compression/expansion and a slip will occur. The longitudinal slip, $ \kappa $ is defined as
 \begin{equation}
-	 \kappa = \dfrac{R_{e}\omega-V_{x}}{V_{x}}
+\kappa = \dfrac{R_{e}\omega-V_{x}}{V_{x}}
 \end{equation}
 Where $V_{x}$ is the nominal velocity, $R_{e}$ the effective rolling radius, and $\omega$ the angular velocity of the wheel. This leads to the following slip with different angular velocities:
 \begin{equation}
-	Braking: \omega = 0 \Rightarrow \kappa = -1
+Braking: \omega = 0 \Rightarrow \kappa = -1
 \end{equation}
 \begin{equation}
-	Free rolling: \omega = \frac{V}{R_{e}} \Rightarrow \kappa = 0
+Free rolling: \omega = \frac{V}{R_{e}} \Rightarrow \kappa = 0
 \end{equation}
 \begin{equation}
-	Spinning: \omega = 2\frac{V}{R_{e}} \Rightarrow \kappa = 1
+Spinning: \omega = 2\frac{V}{R_{e}} \Rightarrow \kappa = 1
 \end{equation}
 The longitudinal force that will be acquired depends on the normal force, $ F_{z} $ and the friction used, $ \mu(s) $.
 \begin{equation}
-	 F_{x} = F_{z}\mu(s)
+F_{x} = F_{z}\mu(s)
 \end{equation}
 The used friction will increase with the slip ratio until the maximum friction is met. This is when full gliding occurs. 
 
@@ -50,20 +42,22 @@ The used friction will increase with the slip ratio until the maximum friction i
 
 Cornering stiffness
 \begin{equation}
-	C_{y} = \frac{\delta F_{y}}{\delta}
+C_{y} = \frac{\delta F_{y}}{\delta}
 \end{equation}
 Where $\delta$ is the steering wheel angle.
 
 Self aligning torque
 \begin{equation}
-	M_{z} = F_{y}t_{p}
+M_{z} = F_{y}t_{p}
 \end{equation}
 Where $ F_{y} $  is the lateral force acting on the tire and $ t_{p} $ its distance to the center of the wheel. 
 
 The lateral force acting on the wheel depends on its slip angle
 \begin{equation}
-	F_{y}=C_{F}\alpha
+F_{y}=C_{F}\alpha
 \end{equation}
+
+
 
 \section{Tire Models}
 
@@ -83,7 +77,7 @@ There are several models to describe a tire mathematically. These models can be 
 
 \section{Differentials}
 
-Diff e bra
+Diff e bra NÄUU=
 
 \subsection{Open differential}
 
