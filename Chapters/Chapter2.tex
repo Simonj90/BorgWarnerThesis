@@ -1,5 +1,6 @@
 \chapter{Theory}
 
+\cite{fordonsdynamik99}
 
 We are doing some friction eztimates
 
@@ -61,7 +62,11 @@ F_{y}=C_{F}\alpha
 
 \section{Tire Models}
 
-There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, similarity models, simple physical models and complex physical  models. In Figure \ref{tire_modeling} some modeling characteristics and how they behave depending on category can be seen.
+There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, similarity models, simple physical models and complex physical  models. 
+
+Empirical models describe tire characteristics that are acquired from measurements of the tire. To fit the curve according to measured data the parameters are assessed with methods like regression. A well-known empirical model is the Magic Formula \cite{pacejka}. This model provides good fit for $F_{x}$, $F_{y}$ and $M_{z}$ curves and have coefficients that's easy to interpret.
+
+
 
 \begin{figure}[h]
 	\centering
@@ -70,6 +75,7 @@ There are several models to describe a tire mathematically. These models can be 
 	\label{tire_modeling}
 \end{figure}
 
+In Figure \ref{tire_modeling} some modeling characteristics and how they behave depending on category can be seen.
 
 \subsection{Brush Model}
 
