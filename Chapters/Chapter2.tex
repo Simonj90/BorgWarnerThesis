@@ -62,6 +62,7 @@ The lateral force acting on the wheel depends on its slip angle
 \begin{equation}
 F_{y}=C_{F}\alpha
 \end{equation}
+This can only be used in the linear part of the tire force/slip angle relationship. 
 
 
 
@@ -114,6 +115,13 @@ The goal with a limited slip differential (LSD) is to not apply more torque to a
 
 \subsection{FXD}
 
+Does not create under steering like locking torque LSD's. 
+
+Lightweight alternative  to improve traction performance. Very little extra fuel consumption. Pre-emptive lock torque for take off. Wheel slip control. Yaw damping. 
+
+If ABS or ESP is active, the FXD function is shutout. 
+
+"Side pull reduction"
 
 
 \subsubsection{Control Algorithm}
@@ -132,5 +140,16 @@ Signals available for the control algorithm through CAN:
 	\item Lateral acceleration
 \end{itemize}
 
+Other signals that are used are estimated:
+
+Vehicle speed.
+Tire size difference.
+Tire stiffness???
+Lateral acceleration???
+
+
+
 \subsubsection{Applying Pressure}
+
+By applying higher current to the pump, it will spin faster and thus creating larger centrifugal forces. This force will block the oil from exiting the pump, leading to a higher pressure within the pump. This pressure is also applied to the clutch which will press the clutch discs together and locking the axles together. 
 
