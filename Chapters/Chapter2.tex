@@ -1,6 +1,10 @@
 \chapter{Theory}
 
 Before describing the work on friction estimates that has been done, it is important to have some knowledge within vehicle dynamics, including basic knowledge on how tires and also different differentials work. The following chapter tries to describe this so that the reader has 
+=======
+\cite{fordonsdynamik99}
+
+We are doing some friction eztimates
 
 \section{Vehicle Dynamics}
 
@@ -67,7 +71,11 @@ F_{y}=C_{F}\alpha
 
 \section{Tire Models}
 
-There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, similarity models, simple physical models and complex physical  models. In Figure \ref{tire_modeling} some modeling characteristics and how they behave depending on category can be seen.
+There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, similarity models, simple physical models and complex physical  models. 
+
+Empirical models describe tire characteristics that are acquired from measurements of the tire. To fit the curve according to measured data the parameters are assessed with methods like regression. A well-known empirical model is the Magic Formula \cite{pacejka}. This model provides good fit for $F_{x}$, $F_{y}$ and $M_{z}$ curves and have coefficients that's easy to interpret.
+
+
 
 \begin{figure}[h]
 	\centering
@@ -76,6 +84,7 @@ There are several models to describe a tire mathematically. These models can be 
 	\label{tire_modeling}
 \end{figure}
 
+In Figure \ref{tire_modeling} some modeling characteristics and how they behave depending on category can be seen.
 
 \subsection{Brush Model}
 
