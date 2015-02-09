@@ -6,6 +6,40 @@ Before describing the work on friction estimates that has been done, it is impor
 
 \subsection{Normal forces}
 
+The longitudinal and lateral forces that act on the tires are dependent on the normal forces. It is therefore interesting to know how much normal force we have on each tire. 
+
+\subsubsection{Lateral influence}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/normal_force_lateral}
+	\caption{Normal force on the car seen from the front.}
+	\label{normal_force_lateral}
+\end{figure}
+Without any lateral acceleration, the right and left normal forces can be described as in equation \ref{eq:normal}. 
+\begin{equation} \label{eq:normal}
+	F_{zL} + F_{zR} = mg
+\end{equation}
+With lateral acceleration, a torque will occur that changes the normal forces on the two sides. 
+\begin{equation} \label{eq:normal_with_lat_acc}
+	F_{zR}*T_{w} = mg*\frac{T_{w}}{2} + m*a_{y}*CGH
+\end{equation}
+The torque that affects the right side does in equation \ref{eq:normal_with_lat_acc} not take account for that the center of gravity height will change during driving.
+
+\subsubsection{Longitudinal influence}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/normal_force_longitudinal}
+	\caption{Normal force on the car seen from the front.}
+	\label{normal_force_longitudinal}
+\end{figure}
+\begin{equation} \label{eq:normal_2}
+	F_{zF} + F_{zR} = mg
+\end{equation}
+\begin{equation} \label{eq:normal_with_long_acc}
+	F_{zF}*(a+b) = mg*b - m*a_{x}*CGH
+\end{equation}
 
 \subsection{The bicycle model}
 The bicycle model is often used as a simplified way of describing vehicle dynamics.
@@ -67,8 +101,6 @@ F_{y}=C_{F}\alpha
 \end{equation}
 This can only be used in the linear part of the tire force/slip angle relationship. 
 
-
-
 \section{Tire models}
 There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, semi-empirical models, simple physical models and complex physical  models. 
 
@@ -108,9 +140,7 @@ For pure side slip the bristles will deflect in the direction of the y-axis, thi
 
 \subsection{Magic formula}
 
-
 \section{Differentials}
-
 
 \subsection{Open differential}
 
@@ -125,8 +155,6 @@ Side-gear and crown wheel angular velocities:
 \begin{equation}
 	\omega_{r} = \frac{\omega_{1} + \omega_{2}}{2}
 \end{equation}
-
-
 
 \subsection{Limited slip differential}
 
