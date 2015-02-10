@@ -6,7 +6,8 @@ Before describing the work on friction estimates that has been done, it is impor
 
 \subsection{Normal forces}
 
-The longitudinal and lateral forces that act on the tires are dependent on the normal forces. It is therefore interesting to know how much normal force we have on each tire. 
+The longitudinal and lateral forces that act on the tires are dependent on the normal forces. It is therefore interesting to know how large the normal forces are on each tire. 
+
 
 \subsubsection{Lateral influence}
 
@@ -26,6 +27,23 @@ With lateral acceleration, a torque will occur that changes the normal forces on
 \end{equation}
 The torque that affects the right side does in equation \ref{eq:normal_with_lat_acc} not take account for that the center of gravity height will change during driving.
 
+When taking a corner, there will be load transfer from the inner to the outer wheel will depend on the centrifugal force and the load transfer coefficient $ \sigma_{i} $
+\begin{equation}
+	\Delta F_{zi} = \sigma_{i} ma_{y}
+\end{equation}
+\begin{equation}
+	\sigma_{i} = \frac{1}{T_{w}}*( \frac{c_{\phi i}}{c_{\phi 1}+c_{\phi 2} - mgh'}h' + \frac{l-a_{i}}{l}h_{i}) 
+\end{equation}
+Where the \textit{i} denotes one of the axles (either front or rear), $ c $ the rolling stiffness, $ h $ the height from the ground to the axle, $ h' $ the distance from CoG to the roll axis, $ a_{1} = a $ and $ a_{2} = b $.
+
+The final normal force on the front right wheel will be the normal force acting on the two front wheels divided by two, the unsprung mass of that one wheel, and the weight from the load transfer.
+\begin{equation}
+	F_{zFrontRight} = \frac{F_{zFront}}{2} + m_{UnsprungOneWheel}*g + \Delta F_{z}
+\end{equation}
+The problem with the calculations done above, is that the roll stiffness of both front and rear axle has to be known. The roll stiffness calculations are taken from \cite{pacejka}.
+
+
+
 \subsubsection{Longitudinal influence}
 
 \begin{figure}[h]
@@ -41,8 +59,15 @@ The torque that affects the right side does in equation \ref{eq:normal_with_lat_
 	F_{zF}*(a+b) = mg*b - m*a_{x}*CGH
 \end{equation}
 
+For a car not in motion, the downward forces on the front and rear wheels will be equal to the gravitational force on the whole car. With longitudinal acceleration, the normal forces on the on the front respective the back will be changed, as can be seen in equation \ref{eq:normal_with_long_acc}. The normal force on the front will go down with positive acceleration. 
+
+
+
 \subsection{The bicycle model}
 The bicycle model is often used as a simplified way of describing vehicle dynamics.
+
+
+
 
 \begin{figure}[h]
 	\centering
