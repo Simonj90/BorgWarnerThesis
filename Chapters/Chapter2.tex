@@ -2,11 +2,13 @@
 
 Before describing the work on friction estimates that has been done, it is important to have some knowledge within vehicle dynamics, including basic knowledge on how tires and also different differentials work. The following chapter tries to describe this so that the reader has the right basic knowledge needed.
 
+\cite{rajamani}
+
 \section{Vehicle dynamics}
 
 \subsection{Normal forces}
 
-The longitudinal and lateral forces that act on the tires are dependent on the normal forces. It is therefore interesting to know how much normal force we have on each tire. 
+The longitudinal and lateral forces that act on the tires are dependent on the normal forces. It is therefore interesting to know how much normal force that's acting on each tire. 
 
 \subsubsection{Lateral influence}
 
@@ -56,7 +58,6 @@ The bicycle model is often used as a simplified way of describing vehicle dynami
 A tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting from the ground, it will deform against the contact area to the ground. This deformation will lead to a shorter radius to the ground, called the effective rolling radius. 
 
 \subsection{Longitudinal forces}
-
 Without torque acting on the tire, there will be rolling resistance due to higher compressing in the tire/road compression area then in the expansion area.
 \begin{equation}
 RollingResistance = \frac{F_{resistance}}{F_{z}}
@@ -79,9 +80,10 @@ The longitudinal force that will be acquired depends on the normal force, $ F_{z
 \begin{equation}
 F_{x} = F_{z}\mu(s)
 \end{equation}
-The used friction will increase with the slip ratio until the maximum friction is met. This is when full gliding occurs. 
+The used friction will increase with the slip ratio until the maximum friction is met. This is when full sliding occurs. 
 
 \subsection{Lateral forces}
+When turning a tires contact area against the road can be divided into two, sliding area and adhesion area. For a given slip angle one part of the contact area will adhere to the road and one part will slide against the road. The part that is sliding has reached the friction limit and the part that is adhering can still handle more force. As the slip angle increases a larger lateral force will occur forcing a bigger part of the contact area into the sliding region. At a certain slip angle the whole contact area will be in the sliding region. When this happens the lateral force for that tire has reached its maximum, turning more won't affect the vehicle anymore. This is well illustrated later on in \textit{Brush model (\ref{sec:brush})}.
 
 Cornering stiffness
 \begin{equation}
@@ -120,6 +122,7 @@ The physical models are purely analytical and aims to describe the tire with the
 In Figure \ref{tire_modeling} some modeling characteristics and how they behave depending on category can be seen.
 
 \subsection{Brush model}
+\label{sec:brush}
 The \textit{brush model} is a highly used \textit{simple physical model}. The idea is to model the tire surface as a row of elastic bristles that deflects in different directions depending on how the tire is loaded. This model is illustrated to the left in Figure \ref{brush1}.
 
 \begin{figure}[h]
@@ -137,6 +140,8 @@ For pure side slip the bristles will deflect in the direction of the y-axis, thi
 	\caption{The brush tire model. \cite{pacejka}}
 	\label{brush2}
 \end{figure}
+
+In Figure \ref{brush2} it can be seen how different slip angles affects the tire. Small slip angles gives a large adhesion area (flat part) and a small sliding area (curved part). As the slip angle increases a larger number of bristles reaches their maximum deflection, hence increasing the sliding area. At a certain slip angle all bristles have reached their maximum deflection and this results in full sliding. 
 
 \subsection{Magic formula}
 
