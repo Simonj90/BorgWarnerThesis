@@ -135,23 +135,23 @@ A loaded tires contact area against the road can be divided into two, adhesion a
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/adh_sliding}
-	\caption{Adhesion area and sliding area of a tire.}
+	\caption{Adhesion area and sliding area of a tire. \cite{svendenius2013}}
 	\label{adh_sliding}
 \end{figure}
 
 \subsection{Longitudinal forces}
-Rotating the tire will result in compression of the tire where the it hits the road and expansion where it leaves the road. The tire itself has a dampening effect meaning that all energy used to compress the tire won't be recovered when it expands again. This energy loss is called rolling resistance, $ R_{x} $. $ R_{x} $ is often modeled as being proportional to $ F_{z} $ with the proportionality constant $ f $ (Equation \ref{eq:rollingres}). A typical value of $ f $ is 0.015 for passenger cars \cite{rajamani}. The compression and expansion of the tire will also move the normal force acting on the tire in front of the center line (Figure \ref{rolling_resistance}) when the tire is rolling. The moved normal force will result in a third radius of the tire, the effective rolling radius. This is the radius related to the actual linear longitudinal velocity of the rolling tire, it's longer than the loaded radius but shorter than the unloaded radius.
+Rotating the tire will result in compression of the tire where the it hits the road and expansion where it leaves the road. The tire itself has a dampening effect meaning that all energy used to compress the tire won't be recovered when it expands again. This energy loss is called rolling resistance, $ F_{rr} $. $ F_{rr} $ is often modeled as being proportional to $ F_{z} $ with the proportionality constant $ f $ (Equation \ref{eq:rollingres}). A typical value of $ f $ is 0.015 for passenger cars \cite{rajamani}. The compression and expansion of the tire will also move the normal force acting on the tire in front of the center line (Figure \ref{rolling_resistance}) when the tire is rolling. The moved normal force will result in a third radius of the tire, the effective rolling radius. This is the radius related to the actual linear longitudinal velocity of the rolling tire, it's longer than the loaded radius but shorter than the unloaded radius.
 \begin{equation}
-R_{x} = fF_{z}
+F_{rr} = fF_{z}
 \label{eq:rollingres}
 \end{equation}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/rolling_resistance}
-	\caption{Normal force acting on the tire.}
+	\caption{Normal force acting on the tire. \cite{rajamani}}
 	\label{rolling_resistance}
 \end{figure}
-Applying torque on the tire will generate longitudinal force moving the tire forwards or backwards. Doing so will always generate a longitudinal slip, a difference between the velocity of the tire and the actual velocity of the vehicle. The longitudinal slip, $ \kappa $ is defined as: 
+Applying torque on the tire will generate longitudinal force moving the tire forwards or backwards. Doing so will always generate a longitudinal slip, called \textit{slip ratio}. This is a ratio of the difference between the velocity of the tire and the actual velocity of the vehicle. The slip ratio is defined as: 
 \begin{equation}
 \kappa = \dfrac{R_{e}\omega-V_{x}}{V_{x}}
 \label{eq:longslip}
@@ -173,18 +173,25 @@ The maximum longitudinal force that can be generated is proportional to the norm
 F_{x} =  \mu F_{z}
 \label{eq:fxmufz}
 \end{equation}
-The friction constant depends on the longitudinal slip, hence the longitudinal force depends on the slip and this is the key to maximizing grip while accelerating and braking.
+The friction constant depends on the longitudinal slip, hence the longitudinal force depends on the slip and this is the key to maximizing grip while accelerating or braking.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/fric_slip}
-	\caption{Longitudinal force as a function of slip ratio for a tire.}
+	\caption{Friction coefficient as a function of slip ratio for a tire. \cite{gustafsson1997}}
 	\label{fric_slip}
 \end{figure}
-As can be seen in Figure \ref{fric_slip} there is a clear maximum tire force at a specific slip, hence this is the desired slip when accelerating or braking.
+As can be seen in Figure \ref{fric_slip} there is a clear maximum of the friction coefficient at a specific slip when driving on good surfaces as asphalt. Hence this is the desired slip when accelerating or braking.
 
 \subsection{Lateral forces}
-Lateral forces will be generated when the vehicle is turning, more specifically when there is a difference in the angles of the front tires relative the angle of the vehicle. 
+Lateral forces will be generated when the vehicle is turning, more specifically when there is a difference in the angles of the front tires relative the angle of the vehicle. When turned, the tire won't travel in the direction of its orientation, there will be a slip between the tires orientation and the velocity vector. This lateral slip is called \textit{slip angle} since it can be expressed as an angle.
 
+As can be seen in The lateral force is proportional to the slip angle for small slip angles.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/slipangle_latforce}
+	\caption{Lateral force as a function of slip angle for a tire. The self aligning torque can also be seen. \cite{sae2004}}
+	\label{slipangle_latforce}
+\end{figure}
 For a given slip angle one part of the contact area will adhere to the road and one part will slide against the road. The part that is sliding has reached the friction limit and the part that is adhering can still handle more force. As the slip angle increases a larger lateral force will occur forcing a bigger part of the contact area into the sliding region. At a certain slip angle the whole contact area will be in the sliding region. When this happens the lateral force for that tire has reached its maximum, turning more won't affect the vehicle anymore. This is well illustrated later on in \textit{Brush model (\ref{sec:brush})}.
 
 Cornering stiffness
