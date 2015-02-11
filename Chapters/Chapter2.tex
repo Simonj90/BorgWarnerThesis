@@ -4,13 +4,13 @@ Before describing the work on friction estimates that has been done, it is impor
 
 \section{Vehicle dynamics}
 
-When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the lateral and longitudinal velocities and forces. The characteristics of a whole car is very complex and these parameters are therefore impossible to calculate exactly. There exists many different car models that try to describe the characteristics of a car as adequate as possible.If these calculations are supposed to be done on a cars computer, the model has to be simple enough to not reach the cars limited computing capacity.
+When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. The characteristics of a whole car is very complex and these parameters are therefore impossible to calculate exactly. There exists many different car models that try to describe the characteristics of a car as adequate as possible.If these calculations are supposed to be done on a cars computer, the model has to be simple enough to not reach the cars limited computing capacity.
 
 \subsection{The bicycle model}
 
-The bicycle model is a rather simple model that can be used to describe vehicle dynamics when turning, e.i. when we have a yaw rate and lateral forces that are affecting the vehicle. The models major simplifications consist of that the mass of the car is seen as one center of gravity point and that the two front wheels and the two rear wheels are combined into one wheel respectively as can be seen in Figure \ref{bicycle_model}. These simplifications lead to that there is no difference in normal forces on the two sides, e.i. there will be no roll  effect on the car when turning in a corner. There is also an assumption made that there will be no pitch effect on the car, which means that there is no suspension system that effecting the car. The model also assumes that there is no torque on the wheels, and therefore only lateral forces on the vehicle.
+The bicycle model is a rather simple model that can be used to describe vehicle dynamics when turning, e.i. when we have a yaw rate and lateral forces that are affecting the vehicle. The models major simplifications are that the mass of the car is seen as one center of gravity point and that the two front wheels and the two rear wheels are combined into one wheel respectively as can be seen in Figure \ref{bicycle_model}. These simplifications mean that there is no difference in forces on the two sides, e.i. there will be no roll effect to the outside wheel when turning in a corner. There is also an assumption made that there will be no pitch effect on the car, which means that there is no suspension system that is effecting the car. The model also assumes that there is no driving torque generated to the wheels, and therefore only lateral forces on the vehicle.
 
-For most situations, these assumptions work fine, and the model gives a good idea on how different parameters are affected. Despite this, one has to bare in mind that these assumptions could result in rather large errors for certain driving situations.
+For most cornering situations, these assumptions work fine, and the model gives a good idea on how different parameters are affected. Despite this, one has to bare in mind that these assumptions could result in rather large errors during certain driving situations.
 
 \begin{figure}[h]
 	\centering
@@ -19,45 +19,57 @@ For most situations, these assumptions work fine, and the model gives a good ide
 	\label{bicycle_model}
 \end{figure}
 
-The total lateral force acting on the car will depend on the forces that the front and rear tires contribute with. By using Newtons second law of physics, $ F_{y} = m*a_{y} $, the lateral force on the car will be
+The total lateral force acting on the car will depend on the forces that the front and rear tires contribute with combined. By using Newtons second law of physics, $ F_{y} = m*a_{y} $, the total lateral force acting on the car will be
 \begin{equation} \label{eq:lateral_force}
 	F_{y} = m*a_{y} = F_{yR} + cos(\delta)F_{yF} + sin(\delta)F_{xF} 
 \end{equation}
-where $ m $ denotes the vehicle mass, $ \delta $ is the front wheel steering angle and the acceleration in the center of gravity can be described as 
+where $ m $ denotes the vehicle mass, $ \delta $ is the front wheel steering angle. The acceleration in the center of gravity can be described as 
 \begin{equation} \label{eq:lateral_acceleration}
 	a_{y} = \dot v_{y} + \dfrac{F_{c}}{m}
 \end{equation}
-where $ \dot v_{y} $ is the actual change of velocity in lateral direction. The centrifugal force in the center of gravity, $ F_{c} $, depends on the yaw rate
+where $ \dot v_{y} $ is the actual change of velocity in lateral direction and the centrifugal force in the center of gravity, $ F_{c} $, depends on the yaw rate
 \begin{equation} \label{eq:yaw_rate}
-	\dot \Psi = \dfrac{v_{x}}{R}
+	\dot \psi = \dfrac{v_{x}}{R}
 \end{equation}
 \begin{equation} \label{eq:centrifugal_force}
-	F_{c} = \dfrac{m*v^2_{x}}{R} = mv_{x}*\dot \Psi
+	F_{c} = \dfrac{m*v^2_{x}}{R} = mv_{x}*\dot \psi
 \end{equation}
-Where $ R $ is the radius of the turning circle and $ v_{x} $ the velocity in x-direction in relation to the cars pointing direction. By combining Equations \ref{eq:lateral_acceleration} and \ref{eq:centrifugal_force}, the acceleration can described as
+Where $ R $ is the radius of the turn and $ v_{x} $ the velocity in the direction that the car is pointing. By combining Equations \ref{eq:lateral_acceleration} and \ref{eq:centrifugal_force}, the acceleration can described as
 \begin{equation} \label{eq:lateral_acceleration_2}
-	a_{y} = \dot v_{y} + v_{x}*\dot \Psi
+	a_{y} = \dot v_{y} + v_{x}*\dot \psi
 \end{equation}
-
-When combining Equations \ref{eq:lateral_acceleration_2} and \ref{eq:lateral_force} the different lateral force components can be described as
+When combining Equations \ref{eq:lateral_acceleration_2} and \ref{eq:lateral_force} the three different lateral force components that are effecting the vehicle can be described as
 \begin{equation} \label{lateral_forces_2}
-	F_{yR} + cos(\delta)F_{yF} + sin(\delta)F_{xF} = m*(\dot v_{y} + v_{x}\dot \Psi)
+	F_{yR} + cos(\delta)F_{yF} + sin(\delta)F_{xF} = m*(\dot v_{y} + v_{x}\dot \psi)
 \end{equation}
 If taken one step further, the lateral force components can describe the torque created around the z-axis in the center of gravity 
 \begin{equation} \label{lateral_torque}
-	M_{z} = I_{z}*\dot \Psi = a*(cos(\delta)F_{yF} + sin(\delta)F_{xF}) + b*F_{yR}
+	M_{z} = I_{z}*\dot \psi = a*(cos(\delta)F_{yF} + sin(\delta)F_{xF}) + b*F_{yR}
 \end{equation}
-where $ a $ and $ b $ are the lever lengths generated by the distances from the center of gravity to the front and rear axles respectively. 
+where $ a $ and $ b $ are the lever lengths from the center of gravity to the front respective the rear axle. 
 
-When looking at the bicycle model,the assumption is that the longitudinal force is negligible. This means, as mentioned earlier, that the lateral force will almost only depend on the tire slip angle created by the front wheel steering angle and the angle to the direction the front wheel is heading towards. When assuming this model with only two wheels, the slip angles for the tires will be \cite{pacejka}
-
+When looking at the bicycle model,the assumption is that the longitudinal force is negligible. This means, as mentioned earlier, that the lateral force will almost only depend on the tire slip angle created by the front wheel steering angle and the angle to the direction the front wheel is heading towards. When assuming this model with only two wheels, the slip angles for the front respective rear tires will be \cite{fordonsdynamik99}
 \begin{equation} \label{eq:wheel_slip_front}
-	\alpha _{f} = -arctan(\dfrac{v_{y} + \dot \Psi *a}{v_{x}}) + \delta
+	\alpha _{F} = -arctan(\dfrac{v_{y} + \dot \psi *a}{v_{x}}) + \delta
 \end{equation}
-
 \begin{equation} \label{eq:wheel_slip_rear}
-\alpha _{r} = -arctan(\dfrac{v_{y} - \dot \Psi *b}{v_{x}})
+\alpha _{R} = -arctan(\dfrac{v_{y} - \dot \psi *b}{v_{x}})
 \end{equation}
+A number of interpretations can be made from these formulas. One is that the steering angle only directly influences the slip angles of the front wheels. Another is that if the numerator in \ref{eq:wheel_slip_front} goes to zero, which means that the lateral velocity plus the yaw rate is zero, the slip angle of the front wheel is equal to the front wheel steering angle. This means that the vehicle is gliding straight forward regardless of the steering angle. Another conclusion is that if $ \dot \psi *b $ is larger than $ v_{y} $, in \ref{eq:wheel_slip_rear}, the numerator will become less then zero and slip angle of the rear wheel will move to the other side on the x-axis. This happens when a vehicle takes a corner more aggressively, which means higher longitudinal velocity compared to the radius of the corner, leading to higher yaw rate as can be seen in \ref{eq:yaw_rate}.
+
+The lateral forces acting on the front and rear wheels can also be described as 
+\begin{equation}
+	F_{yF} = C_{F}\alpha _{F}
+\end{equation}
+\begin{equation}
+	F_{yR} = C_{R}\alpha _{R}
+\end{equation}
+where $ C_{F} $ and $ C_{R} $ are the lateral force coefficients for the front and rear wheels. A steering response, $ B $, can de defined from these two forces
+\begin{equation}
+	B = F_{yR} - F_{yF}
+\end{equation}
+If $ B $ is 0, we have equal amount of lateral force on the front and rear wheels, which means that there is no under- or oversteer. Theoretically, this means that with a constant steering angle, the radius of the corner will be the same for all velocities. With a $ B < 0 $, a car has more force on the front tires, leading to that less and less steering angle is needed when the velocity increases in a corner. At one point, the steering angle will have to be negative to keep the radius of the corner. This phenomena is called understeer. If $ B > 0 $ on the other hand, more force will be on the rear tires and more steering angle is needed to keep the radius of a corner when increasing the velocity. This kind of behavior is called understeer. A slight understeer is usually desired for commercially available cars because handling of the car becomes easier and the risk of skidding is reduced.
+
 
 \subsection{Normal forces}
 
@@ -160,7 +172,7 @@ Cornering stiffness
 \begin{equation}
 C_{y} = \frac{\delta F_{y}}{\delta}
 \end{equation}
-Where $\delta$ is the steering wheel angle.
+Where $\delta$ is the steering angle.
 
 Self aligning torque
 \begin{equation}
