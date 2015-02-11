@@ -185,32 +185,19 @@ As can be seen in Figure \ref{fric_slip} there is a clear maximum of the frictio
 \subsection{Lateral forces}
 Lateral forces will be generated when the vehicle is turning, more specifically when there is a difference in the angles of the front tires relative the angle of the vehicle. When turned, the tire won't travel in the direction of its orientation, there will be a slip between the tires orientation and the velocity vector. This lateral slip is called \textit{slip angle} since it can be expressed as an angle.
 
-As can be seen in The lateral force is proportional to the slip angle for small slip angles.
+As can be seen in Figure \ref{slipangle_latforce} the lateral force is proportional to the slip angle for small slip angles.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/slipangle_latforce}
 	\caption{Lateral force as a function of slip angle for a tire. The self aligning torque can also be seen. \cite{sae2004}}
 	\label{slipangle_latforce}
 \end{figure}
-For a given slip angle one part of the contact area will adhere to the road and one part will slide against the road. The part that is sliding has reached the friction limit and the part that is adhering can still handle more force. As the slip angle increases a larger lateral force will occur forcing a bigger part of the contact area into the sliding region. At a certain slip angle the whole contact area will be in the sliding region. When this happens the lateral force for that tire has reached its maximum, turning more won't affect the vehicle anymore. This is well illustrated later on in \textit{Brush model (\ref{sec:brush})}.
+The slip angle is another factor that will decide the ratio between adhesion area and sliding area. When the slip angle is large enough the whole contact area will be in the sliding region, hence the maximum lateral force is generated.
 
-Cornering stiffness
-\begin{equation}
-C_{y} = \frac{\delta F_{y}}{\delta}
-\end{equation}
-Where $\delta$ is the steering angle.
+In Figure \ref{slipangle_latforce} the self-aligning torque can also be seen. This is a force generated due to the uneven force distribution over the tires contact area when it's turned. This force increases fast for small slip angles and is the counter force felt in the steering wheel when turning. At a certain point it drops again and this is the locking feeling that's felt in the steering wheel when turning sharp enough.
 
-Self aligning torque
-\begin{equation}
-M_{z} = F_{y}t_{p}
-\end{equation}
-Where $ F_{y} $  is the lateral force acting on the tire and $ t_{p} $ its distance to the center of the wheel. 
+\subsection{Combined slip}
 
-The lateral force acting on the wheel depends on its slip angle
-\begin{equation}
-F_{y}=C_{F}\alpha
-\end{equation}
-This can only be used in the linear part of the tire force/slip angle relationship. 
 
 \section{Tire models}
 There are several models to describe a tire mathematically. These models can be divided into four categories, empirical models, semi-empirical models, simple physical models and complex physical  models. 
