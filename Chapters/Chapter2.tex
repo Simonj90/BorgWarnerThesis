@@ -130,7 +130,13 @@ For a car not in motion, the downward forces on the front and rear wheels will b
 \section{Tire dynamics}
 A gas inflated tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting on it from the road, it will deform against the road creating a contact area. The contact area is proportional to the load, more load gives larger contact area. The deformation of the tire will lead to a shorter distance between the center of the tire and the road, this is the loaded radius. 
 
-A loaded tires contact area against the road can be divided into two, adhesion area and sliding area. The adhesion area is the part of the contact area that's said to adhere to the road, this means that this part haven't reached the friction limit yet, it can still handle more force without sliding. The sliding area is area that has reached the friction limit and thus has begun sliding. How this area is divided depends on a number of factors but it can basically be divided into two cases, longitudinal forces and lateral forces which will be explained further on.
+A loaded tires contact area against the road can be divided into two, adhesion area and sliding area (Figure \ref{adh_sliding}). The adhesion area is the part of the contact area that's said to adhere to the road, this means that this part haven't reached the friction limit yet, it can still handle more force without sliding. The sliding area is area that has reached the friction limit and thus has begun sliding. How this area is divided depends on a number of factors but it can basically be divided into two cases, longitudinal forces and lateral forces which will be explained further on.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/adh_sliding}
+	\caption{Adhesion area and sliding area of a tire.}
+	\label{adh_sliding}
+\end{figure}
 
 \subsection{Longitudinal forces}
 Rotating the tire will result in compression of the tire where the it hits the road and expansion where it leaves the road. The tire itself has a dampening effect meaning that all energy used to compress the tire won't be recovered when it expands again. This energy loss is called rolling resistance, $ R_{x} $. $ R_{x} $ is often modeled as being proportional to $ F_{z} $ with the proportionality constant $ f $ (Equation \ref{eq:rollingres}). A typical value of $ f $ is 0.015 for passenger cars \cite{rajamani}. The compression and expansion of the tire will also move the normal force acting on the tire in front of the center line (Figure \ref{rolling_resistance}) when the tire is rolling. The moved normal force will result in a third radius of the tire, the effective rolling radius. This is the radius related to the actual linear longitudinal velocity of the rolling tire, it's longer than the loaded radius but shorter than the unloaded radius.
@@ -144,13 +150,14 @@ R_{x} = fF_{z}
 	\caption{Normal force acting on the tire.}
 	\label{rolling_resistance}
 \end{figure}
-When a longitudinal force is acting on the tire, traction or braking, the tire will have more compression/expansion and a slip will occur. The longitudinal slip, $ \kappa $ is defined as
+Applying torque on the tire will generate longitudinal force moving the tire forwards or backwards. Doing so will always generate a longitudinal slip, a difference between the velocity of the tire and the actual velocity of the vehicle. The longitudinal slip, $ \kappa $ is defined as: 
 \begin{equation}
 \kappa = \dfrac{R_{e}\omega-V_{x}}{V_{x}}
+\label{eq:longslip}
 \end{equation}
-Where $V_{x}$ is the nominal velocity, $R_{e}$ the effective rolling radius, and $\omega$ the angular velocity of the wheel. This leads to the following slip with different angular velocities:
+This leads to the following slip relationships:
 \begin{equation}
-Braking: \omega = 0 \Rightarrow \kappa = -1
+Locked: \omega = 0 \Rightarrow \kappa = -1
 \end{equation}
 \begin{equation}
 Free rolling: \omega = \frac{V}{R_{e}} \Rightarrow \kappa = 0
@@ -158,13 +165,24 @@ Free rolling: \omega = \frac{V}{R_{e}} \Rightarrow \kappa = 0
 \begin{equation}
 Spinning: \omega = 2\frac{V}{R_{e}} \Rightarrow \kappa = 1
 \end{equation}
-The longitudinal force that will be acquired depends on the normal force, $ F_{z} $ and the friction used, $ \mu(s) $.
+The amount of slip will be one of the factors that decide the ratio between adhesion area and slip area for the tires contact area. The more slip the bigger slip area. The slip area will grow with the slip from the backside of the contact area. When the sliding area is as big as the contact full tire spin occurs. When braking the sliding area will grow from the front and be as big as the contact area when the tire is completely locked. With the same analogy the adhesion area will be as big as the contact area when the tire is free rolling. 
+
+The maximum longitudinal force that can be generated is proportional to the normal force with the friction coefficient as proportionality constant:
 \begin{equation}
-F_{x} = F_{z}\mu(s)
+F_{x} =  \mu F_{z}
+\label{eq:fxmufz}
 \end{equation}
-The used friction will increase with the slip ratio until the maximum friction is met. This is when full sliding occurs. 
+The friction constant depends on the longitudinal slip, hence the longitudinal force depends on the slip and this is the key to maximizing grip while accelerating and braking.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/fric_slip}
+	\caption{Longitudinal force as a function of slip ratio for a tire.}
+	\label{fric_slip}
+\end{figure}
+As can be seen in Figure \ref{fric_slip} there is a clear maximum tire force at a specific slip, hence this is the desired slip when accelerating or braking.
 
 \subsection{Lateral forces}
+Lateral forces will be generated when the vehicle is turning, more specifically when there is a difference in the angles of the front tires relative the angle of the vehicle. 
 
 For a given slip angle one part of the contact area will adhere to the road and one part will slide against the road. The part that is sliding has reached the friction limit and the part that is adhering can still handle more force. As the slip angle increases a larger lateral force will occur forcing a bigger part of the contact area into the sliding region. At a certain slip angle the whole contact area will be in the sliding region. When this happens the lateral force for that tire has reached its maximum, turning more won't affect the vehicle anymore. This is well illustrated later on in \textit{Brush model (\ref{sec:brush})}.
 
