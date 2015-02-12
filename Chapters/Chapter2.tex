@@ -239,7 +239,68 @@ For pure side slip the bristles will deflect in the direction of the y-axis, thi
 
 In Figure \ref{brush2} it can be seen how different slip angles affects the tire. Small slip angles gives a large adhesion area (flat part) and a small sliding area (curved part). As the slip angle increases a larger number of bristles reaches their maximum deflection, hence increasing the sliding area. At a certain slip angle all bristles have reached their maximum deflection and this results in full sliding. 
 
-\subsection{Magic formula}
+\subsection{The Magic Formula Tire Model}
+
+The magic formula is a series of tire design models developed by H. Pacejka \cite{pacejka} in collaboration with Volvo. The formula is a well known empirical model which has been given its name due to no physical basis for the structure of the equation. It models the fact that different tires has various characteristics which influence the final force generated from the contact patch to the ground. The formula is very complex, where these numerous parameters for each tire can be used to calculate lateral and longitudinal forces and also self aligning torque depending on the slip angle or slip ratio. In this report, the magic formula is kept fairly simple to show the idea behind the model, rather than getting a profound understanding behind the development of the model.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/magic_formula}
+	\caption{The parameters influence on the magic formula. \cite{pacejka}}
+	\label{magic_formula}
+\end{figure}
+
+The formula follows
+\begin{equation}
+	y = Dsin[CarctanBx-E(Bx-arctanBx)]
+\end{equation}
+where the four fixed constants are
+
+B stiffness factor
+
+C shape factor
+
+D peak factor
+
+E curvature factor
+
+$ y $ is the output, either lateral or longitudinal force, dependent on $ x $ which is the slip angle, $ \alpha $, or slip ratio, $ \kappa $. The input and output can be affected by a offset, $ S_{V} $ and $ S_{H} $, so the curve doesn't pass through the origin.
+\begin{equation}
+	Y(X) = y(x) + S_{V}
+\end{equation}
+\begin{equation}
+	x = X + S_{H}
+\end{equation}
+The stiffness factor, $ B $, depends on the cornering stiffness, $ C_{F\alpha} $.
+\begin{equation}
+	B = \dfrac{C_{F\alpha}}{CD}
+\end{equation}
+\begin{equation}
+	C_{F\alpha} = c_{1}sin(2arctan(\dfrac{F_{z}}{c_{2}}))
+\end{equation}
+where $ c_{1} $ and $ c_{2} $ is the maximum cornering stiffness respective the load at maximum cornering stiffness.
+
+D is the maximum lateral or longitudinal force
+\begin{equation}
+	D = \mu F_{z}
+\end{equation}
+The shape and curvature factors can be described as
+\begin{equation}
+	C = 1 \pm (1 - \dfrac{2}{\pi}arcsin\dfrac{y_{a}}{D})
+\end{equation}
+\begin{equation}
+	E = \dfrac{Bx_{m} - tan{\dfrac{\pi}{2C}}}{Bx_{m} - arctan(Bx_{m})}
+\end{equation}
+where $ x_{m} $ is the distance on x-axis from $ x_{0} $ to the peak of the curve. And $ y_{a} $ is the distance on the y-axis from $ y_{0} $ to the point that the curve converges. Look at Figure \ref{magic_formula} for help.
+
+\subsection{Exponential tire model}
+
+The magic formula tire model is very complex formula that requires extensive computation power. Another model that is much simpler but still captures the main characteristics of tires is the exponential model. 
+\begin{equation}
+	y = \mu F_{z} (1 - e^{-\dfrac{K}{\mu}|x|} )sign(x)
+\end{equation}
+The only tire parameter that has to be tuned is $ K $.
 
 \section{Differentials}
 
