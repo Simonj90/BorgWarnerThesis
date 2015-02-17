@@ -2,10 +2,11 @@
 
 
 
-
 \section{Tire/road friction models/methods}
 
 There have been extensive research within this field for the last fifty years and this results in many different approaches to model tire/road friction. Some of the more relevant models/methods for this work will be presented here.
+
+There has been a lot of research and model proposals related to friction estimates. The results from these researches usually show that the results work very good on car simulations that have been perfomed. Some important aspects to think about for this report, is that the proposed model has to work for its intended target, which is the FXD product. First of all, cars with FXD are front wheel driven, meaning that there are no longitudinal forces acting on the rear tires when accelerating. Therefore the velocity of the rear wheels can be used as reference speed for the whole vehicle. These assumptions do not work when braking, when there will be slip ratio on both the front and rear wheels. Another aspect that has to be considered is that the FXD is an active limited slip differential, which means that the torque on the right and left hand side will be different in certain situations, compared to a car with an open differential. A last important aspect that has to be considered is that this friction model has to be able to work in a car in real environment. This means that the signals that are to be used usually come with a lot of noise which can have huge impacts on the calculated outcome.
 
 \subsection{Mue}
 
@@ -17,4 +18,6 @@ There have been extensive research within this field for the last fifty years an
 
 
 
-\subsection{Slip-based friction model}
+\subsection{Slip-slope friction model}
+
+One friction model that is frequently used and referred to in research papers is the so called slip-slope friction model. The models general idea is that the maximum tire/road friction available can be decided due to its dependency on the slope from the slip-force curve in the linear region. This slip-force curve has the same characteristics as the slip-friction coefficient curve seen in Figure \ref{fric_slip}.
