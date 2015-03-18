@@ -43,8 +43,8 @@ When combining Equations \ref{eq:lateral_acceleration_2} and \ref{eq:lateral_for
 	F_{yR} + cos(\delta)F_{yF} + sin(\delta)F_{xF} = m*(\dot v_{y} + v_{x}\dot \psi)
 \end{equation}
 If taken one step further, the lateral force components can describe the torque created around the z-axis in the center of gravity 
-\begin{equation} \label{lateral_torque}
-	M_{z} = I_{z}* \ddot \psi = a*(cos(\delta)F_{yF} + sin(\delta)F_{xF}) + b*F_{yR}
+\begin{equation} \label{yaw_bicycle}
+	M_{z} = I_{z}* \ddot \psi = a*(cos(\delta)F_{yF} + sin(\delta)F_{xF}) - b*F_{yR}
 \end{equation}
 where $ a $ and $ b $ are the lever lengths from the center of gravity to the front respective the rear axle and $ \ddot \psi $ the yaw acceleration. 
 
@@ -70,6 +70,21 @@ where $ C_{F} $ and $ C_{R} $ are the lateral force coefficients for one front r
 \end{equation}
 If $ B $ is 0, we have equal amount of lateral force on the front and rear wheels, which means that there is no under- or oversteer. Theoretically, this means that with a constant steering angle, the radius of the corner will be the same for all velocities. With a $ B < 0 $, a car has more force on the front tires, leading to that less and less steering angle is needed when the velocity increases in a corner. At one point, the steering angle will have to be negative to keep the radius of the corner. This phenomena is called understeer. If $ B > 0 $ on the other hand, more force will be on the rear tires and more steering angle is needed to keep the radius of a corner when increasing the velocity. This kind of behavior is called understeer. A slight understeer is usually desired for commercially available cars because handling of the car becomes easier and the risk of skidding is reduced.
 
+\subsection{Two track vehicle model}
+
+The bicycle model described earlier is simplified car model that only captures the main characteristics of car. The fact that the bicycle model only has one wheel per axis means that the forces on the two front wheels respectively the two back wheels will be the same. In reality, there are many factors that affect the two wheels different, e.g. during cornering, the weight will be transfered from the inner to the outer wheel. In the case when an FXD is used in a car, this will transfer torque from one shaft to the other. The effects of the FXD will be described further in a later part of the paper. A model that is slightly more complicated that tries to capture these lateral differences, is the two track model seen in \ref{two_track_model}. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/two_track_model}
+	\caption{Forces acting on the car with a two track model.}
+	\label{two_track_model}
+\end{figure}
+
+The torque created around the z-axis can be described as
+\begin{equation} \label{yaw_two_track}
+M_{z} = I_{z}* \ddot \psi = l_{f}*(F_{y,1}*(cos(\delta) + sin(\delta)) + F_{y,2}*(cos(\delta) + sin(\delta)) + t(-F_{x,1}*cos(\delta)+F_{x,2}*cos(\delta)-F_{x,3} + F_{x,4})
+\end{equation}
 
 \subsection{Normal forces}
 
