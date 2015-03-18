@@ -2,7 +2,7 @@
 
 Before describing the work on friction estimates that has been done, it is important to have some knowledge within vehicle dynamics, including basic knowledge on how tires and also different differentials work. The following chapter tries to describe this so that the reader has the right basic knowledge needed.
 
-\section{Vehicle dynamics}
+\section{Vehicle dynamics and models}
 
 When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. The characteristics of a whole car is very complex and these parameters are therefore impossible to calculate exactly. There exists many different car models that try to describe the characteristics of a car as adequate as possible.If these calculations are supposed to be done on a cars computer, the model has to be simple enough to not reach the cars limited computing capacity.
 
@@ -72,7 +72,7 @@ If $ B $ is 0, we have equal amount of lateral force on the front and rear wheel
 
 \subsection{Two track vehicle model}
 
-The bicycle model described earlier is simplified car model that only captures the main characteristics of car. The fact that the bicycle model only has one wheel per axis means that the forces on the two front wheels respectively the two back wheels will be the same. In reality, there are many factors that affect the two wheels different, e.g. during cornering, the weight will be transfered from the inner to the outer wheel. In the case when an FXD is used in a car, this will transfer torque from one shaft to the other. The effects of the FXD will be described further in a later part of the paper. A model that is slightly more complicated that tries to capture these lateral differences, is the two track model seen in \ref{two_track_model}. 
+The bicycle model described earlier is a simplified car model that only captures the main characteristics well in many situations. The fact that it is modeled by merely one wheel per axis leads to that the forces on the two wheels on the same axis will be modeled exactly the same. In reality, there will of course exist factors that affect the two wheels different, e.g. when cornering, the normal force will be transfered from the inner to the outer wheel. If a car uses an FXD, the active differential will in certain situations transfer torque from one shaft to the other. The effect that the FXD contributes with will be described further on in a later section of the paper. A model that is slightly more complicated than the bicycle model,  that tries to capture these lateral differences, is the two track model seen in \ref{two_track_model}. 
 
 \begin{figure}[h]
 	\centering
@@ -81,7 +81,11 @@ The bicycle model described earlier is simplified car model that only captures t
 	\label{two_track_model}
 \end{figure}
 
+A couple of assumptions are made in this report when considering the two track model. There will never be a steering angle on the rear wheels and also the steering angle of the two front wheels are considered to be identical. Cars that are using an FXD are exclusively front wheel driven, and therefore the rear wheels will never contribute with positive forces. 
+
 The torque created around the z-axis can be described as
+
+DENNA ÄR FEL JUST NU!!behövs den ?
 \begin{equation} \label{yaw_two_track}
 M_{z} = I_{z}* \ddot \psi = l_{f}*(F_{y,1}*(cos(\delta) + sin(\delta)) + F_{y,2}*(cos(\delta) + sin(\delta)) + t(-F_{x,1}*cos(\delta)+F_{x,2}*cos(\delta)-F_{x,3} + F_{x,4})
 \end{equation}
