@@ -1,9 +1,5 @@
 \chapter{Friction Estimation}
 
-JA DIGUTT ATT VETEA FRIKTIONEN VA! DET SA SIMON!
-
-
-
 \section{Tire/road friction models/methods}
 There have been lots of research and model proposals related to friction estimation. Much of the results from this research usually shows that the proposed solution works very good during testing. This is of course because the researchers are trying to solve a problem proposed by them. Their solution might help this work, but it might as well not help at all. The problem proposed in this work is friction estimation for the FXD, hence it's important to think about the aspects of the FXD when choosing a solution and line of work. First of all, cars with FXD are front wheel driven, meaning that there are no longitudinal forces acting on the rear tires when accelerating. Therefore the velocity of the rear wheels can be used as reference speed for the whole vehicle. This can simplify a solution proposed by someone else where for example advanced GPS equipment are used to determine absolute speed. Another aspect that has to be considered is that the FXD is an active limited slip differential, which means that the torque on the right and left hand side will be different in certain situations compared to a car with an open differential. This can complicate a solution proposed by someone else because that solution assumes that the torque is split evenly between the driven wheels. A last, but very important, aspect that has to be considered is that this friction model has to work in a real car. This means that the proposed solution must for example be able to handle signals that aren't perfect due to noise. All of the things stated above and much more must be considered when deciding what model to use and this is a big part of this work.
 
@@ -17,10 +13,14 @@ There have been lots of research and model proposals related to friction estimat
 
 
 
-\subsection{Slip-slope friction model}
+\section{Slip-slope friction model}
 
 One friction model that is frequently used and referred to in research papers is the so called slip-slope friction model. The models general idea is that the maximum tire/road friction available can be decided due to its dependency on the slope from the slip-force curve in the linear region. This slip-force curve has the same characteristics as the slip-friction coefficient curve seen in Figure \ref{fric_slip}. 
 \begin{equation}
 	\dfrac{F_{x}}{F_{z}} = k*\kappa
 \end{equation}
-Where $ F_{x} $ and $ F_{z} $ is the estimated longitudinal and normal force acting on a tire depending on input values. The slip-slope can be estimated with for example recursive least square fitting. 
+Where $ F_{x} $ and $ F_{z} $ is the estimated longitudinal and normal force acting on a tire depending on input values. The slip-slope can be estimated with for example recursive least square fitting.
+
+
+\section{Kalman filter and recursive least squares}
+This approach is done in two steps. First the forces on each wheel are estimated with a Kalman filter. Then the tire road friction coefficient is found by fitting a tire model to the estimated tire force.
