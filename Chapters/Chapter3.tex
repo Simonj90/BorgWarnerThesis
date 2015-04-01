@@ -12,6 +12,17 @@ Friction is the force that resists one element of material sliding against anoth
 
 \section{Tire/road friction}
 
+\section{Tire stiffness}
+
+The force generated from to the car through the tires can, in the linear region, be described as a function of the tire stiffness and the slip. The lateral and longitudinal forces can be described respectively as
+
+\begin{equation}
+	F_{x} = C_{x}*\kappa
+\end{equation}
+\begin{equation}
+	F_{y} = C_{\alpha}*\alpha
+\end{equation}
+
 \section{Restrictions}
 
 \begin{itemize}
@@ -23,8 +34,12 @@ Friction is the force that resists one element of material sliding against anoth
 	\item 
 \end{itemize}
 
-\section{Choosing model}
-There have been lots of research and model proposals related to friction estimation. Much of the results from this research usually shows that the proposed solution works very good during testing. This is of course because the researchers are trying to solve a problem proposed by them. Their solution might help this work, but it might as well not help at all. The problem proposed in this work is friction estimation for the FXD, hence it's important to think about the aspects of the FXD when choosing a solution and line of work. First of all, cars with FXD are front wheel driven, meaning that there are no longitudinal forces acting on the rear tires when accelerating. Therefore the velocity of the rear wheels can be used as reference speed for the whole vehicle. This can simplify a solution proposed by someone else where for example advanced GPS equipment are used to determine absolute speed. Another aspect that has to be considered is that the FXD is an active limited slip differential, which means that the torque on the right and left hand side will be different in certain situations compared to a car with an open differential. This can complicate a solution proposed by someone else because that solution assumes that the torque is split evenly between the driven wheels. A last, but very important, aspect that has to be considered is that this friction model has to work in a real car. This means that the proposed solution must for example be able to handle signals that aren't perfect due to noise. All of the things stated above and much more must be considered when deciding what model to use and this is a big part of this work.
+\section{Restrictions and conditions}
+There have been lots of research and model proposals related to friction estimation the last decades. The outcome of these papers usually show promising results, where the proposed solution works very well during simulations and testing. This is of course a natural part of a research, that the authors want to deliver good solutions to the problem proposed. These different solution that are proposed can provide a lot of help to this paper and guide us a long way. But due to the fact that most results are based on theoretical simulations and that our solution has to work in a real environment with actual sensor signals, a lot of the information provided can be very misleading or useless. 
+
+The problem proposed in this work is tire/road friction estimation for a car using an FXD, and it is therefore important to define the conditions and restrictions that have to be applied throughout this work. First of all, cars with an FXD installed are exclusively front wheel driven, meaning that there are no longitudinal forces acting on the rear tires when accelerating. Therefore the velocity of the rear wheels can in most cases be used as reference speed for the whole vehicle (actually not entirely true when cornering). Through the same reasoning, the acceleration of the car can be derived from the derivative of the rear wheel speeds. Another aspect that has to be considered is that the FXD is an active limited slip differential, which means that the torque applied to the two driven wheels can be different in certain driving situations, unlike a car with a regular open differential. The most important aspect that has to be considered is the fact that the friction model has to work in a real car handled in actual driving situations. A major fact is that the sensor signals that are to be used  will come from the cars controller area network buss (CAN bus) and therefore include both measurement and process noise leading to inaccurate signals. 
+
+The true dynamics of a car and especially a tire is very complex and difficult to describe accurately. The models described earlier work well in describing the vehicle and tire in many situations. But are in many situations not able to capture the actual detailed dynamics. Together with the inaccurate measurements mentioned earlier, this provides a great challenge on the path on finding the estimated tire/road friction. 
 
 \begin{equation}
 \mu(F_{z})=\mu_{nominal}*(\mu_{max} + (-k)\frac{F_{z} - F_{z_{0}}}{F_{z_{0}}})

@@ -337,6 +337,10 @@ The magic formula tire model is very complex formula that requires extensive com
 \end{equation}
 The only tire parameter that has to be tuned is $ K $.
 
+\subsection{Olas tire model}
+
+\subsection{Dugoffs tire model}
+
 \section{Differentials}
 
 When driving in a straight line on a road with equal friction for all wheels, both driven wheels will have equal torque and velocity. In this situation a differential wouldn't even be necessary. The differential is needed when the vehicle is doing a turn. In this situation the different wheels will have different turning radii, thus requiring different velocities. This is the general idea behind a differential, to be able to have different velocities of the driven wheels. Without a differential it would be very hard to turn the vehicle, especially at low speeds, since equal speed of the wheels prevents the rotating movement happening while turning.
@@ -382,22 +386,16 @@ Signals available for the control algorithm through CAN:
 	\item 4x Wheel speeds
 	\item Engine torque
 	\item Engine speed
-	\item Accelerator position
-	\item Brake Pedal Active
-	\item ABS active
-	\item ESP torque request, opening request (slow/fast)
 	\item Yaw rate
 	\item Steering wheel angle
 	\item Lateral acceleration
+	\item (Accelerator position)
+	\item (Brake Pedal Active)
+	\item (ABS active)
+	\item (ESP torque request, opening request (slow/fast))
 \end{itemize}
 
-Other signals that are used are estimated:
-
-Vehicle speed.
-Tire size difference.
-Tire stiffness???
-Lateral acceleration???
-
+Other signals that are used are estimated
 
 
 \subsubsection{Applying pressure}
