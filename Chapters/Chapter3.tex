@@ -1,7 +1,7 @@
 \chapter{To estimate friction}
 
-\section{What is friction?}
-Friction is the force that resists one element of material sliding against another. There are several types of friction, one of them is dry friction which resists relative lateral motion of two solid surfaces in contact. Hence dry friction is the force that one must overcome to pull a box along a floor. Dry friction is the friction that's important for this work. Further on dry friction can be divided in two, static friction and kinetic friction. Coulomb friction is a model used to approximate dry friction. It's expressed as:
+\section{What is friction? (baby don't hurt me, don't hurt me no more)}
+Friction is the force that resists one element of material sliding against another. There are several types of friction, one of them is dry friction which resists relative lateral motion of two solid surfaces in contact. Hence dry friction is the force that one must overcome to pull a box along a floor. Dry friction is the friction that's important for this work. Further on, dry friction can be divided in two, static friction and kinetic friction. Coulomb friction is a model used to approximate dry friction. It's expressed as:
 
 \begin{equation}
 F_{f}\leq\mu F_{n}
@@ -15,9 +15,12 @@ where
 	\item $ F_{n} $ is the normal force exerted by each surface on the other.
 \end{itemize}
 
-This model provides a threshold for how much force of friction is needed to move an object. As long as the force of friction is less than or equal to the normal force multiplied by the friction coefficient of the two surfaces the object will remain static. How much force that is needed to move an object along a surface is thus decided by two factors, the normal force acting on the object and the coefficient of friction between the two surfaces. When the force of friction gets larger than this threshold the object will start to move, hence leaving the static friction region and entering the kinetic friction region. 
+This model provides a threshold for how much side force that can be applied before an object starts to move laterally. As long as the side force is less than or equal to the normal force multiplied by the coefficient of friction an equal amount of friction force will be generated in the opposite direction, thus preventing the object from moving. How much force that is needed to move an object along a surface is thus decided by two factors, the normal force acting on the object and the coefficient of friction between the two surfaces. When the applied side force gets larger than this threshold the object will start to move, hence leaving the static friction region and entering the kinetic friction region. The maximum side force that can be applied before an object starts moving is known as traction which is a common term when dealing with vehicles. It's simply how much longitudinal/lateral force a tire can handle before it loses the grip to the road and starts sliding.
+
+The coefficient of friction for static friction is denoted as $ \mu_{s} $ and the one for kinetic friction as $ \mu_{k} $. Generally the kinetic coefficient of friction is lower than the static one. This means that the side force needed to make an object move is larger than the force needed to keep it sliding. ABS?!?!?! The friction coefficient between two materials needs to be determined empirically, it cannot be calculated. 
 
 \section{Tire/road friction}
+Tire/road friction is, as the name suggests, the friction between tire and road. Normally the tire road friction coefficient is within the range $ 0.1 - 1 $, $ 0.1 $ for bad tires on ice and $ 1 $ for good tires on dry asphalt. 
 
 \section{Friction estimation approach}
 
