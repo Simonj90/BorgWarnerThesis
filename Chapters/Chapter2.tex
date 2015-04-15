@@ -357,10 +357,14 @@ Two possible scenarios for when one wheel run the risk of spinning is when climb
 A solution for these two different scenarios would be to lock the differential. This would lead to that the two wheels would have the exact same velocity, and therefore not the same torque in certain situations. But again, this gives undesired steering behavior including very hard to steer at lower speeds. 
 
 \subsection{Limited slip differential}
-The goal with a limited slip differential (LSD) is not to apply more torque to a wheel then it can transfer to the ground. This means that the torque splitting nature of an open differential needs to be countered. Take a car making a sharp turn as an example. The lateral forces of the car will push the outer wheel to the ground and lift the inner wheel from the ground. This uneven distribution of 
+The goal with a limited slip differential (LSD) is not to apply more torque to a wheel than it can transfer to the ground. This means that the torque splitting nature of an open differential needs to be countered. Take a car making a sharp turn as an example. The lateral forces of the car will push the outer wheel to the ground and lift the inner wheel from the ground. This uneven distribution of normal force will make a difference in how much force each wheel can transfer to the ground. An open differential will always distribute torque between the wheels evenly, hence the amount of torque on the outer wheel will be limited by the amount of torque the inner wheel can handle. With a LSD the torque distribution can be managed freely resulting in more force transfered to the ground when turning than with an open differential.
+
+There are different types of LSDs, they can be divided in two main categories, passive and active LSDs. Passive LSDs are designed in such a way that they do the torque distribution without any required activity from the outside. The Torsen differential is a brilliant example of a passive differential. A complex set of worm gears and spur gears results in a differential that does the torque distribution by itself when needed. Passive differentials require little effort to use but the properties of the differential can't be changed in any way.
+
+Active differentials are controlled from the outside. The amount of torque transfered from one shaft to the other can be freely controlled and this gives much more power of the cars behavior.
 
 \subsection{FXD}
-The FXD is an active limited slip differential. The idea with limited slip differentials is to be able to control the torque distribution in some way and hence limit the longitudinal slip. 
+The FXD is an active limited slip differential made for FWD cars.
 
 Does not create under steering like locking torque LSD's. 
 
