@@ -1,4 +1,16 @@
 \chapter{Introduction}
 
-Maybe some text...
+\section{Background}
+During the spring of 2013 BorgWarner AB went into production with their new product called FXD. This is a brand new LSD for front wheel driven cars which uses some of the technology from their well known four wheel drive systems. Being able to control the applied torque to each wheel results in increased traction, better cornering performance and improved safety.
 
+The torque control is done by a complex algorithm that uses several signals from the car. It has been shown that the tuning of this algorithm is different depending on tire stiffness and road condition. It is therefore desirable to extend the algorithm to be able to estimate tire stiffness and the tire/road friction coefficient.
+
+
+\section{Project goal}
+The goal of the project is estimate tire stiffness and tire/road friction. The system needs to be fast and very robust to be able to trust it in all conditions. The estimated friction won't be given as an exact value since it's really hard to estimate it correctly, instead it will be given in three stages, low, medium and high.
+
+\begin{itemize}
+	\item Low: $ \mu = 0.1-0.4 $, mainly snow and ice.
+	\item Medium: $ \mu = 0.4-0.8 $, wet and damp roads, gravel.
+	\item High: $ \mu > 0.8 $, dry asphalt.
+\end{itemize}

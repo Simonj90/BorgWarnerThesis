@@ -1,6 +1,6 @@
 \chapter{Theory}
 
-Before describing the work on friction estimates that has been done, it is important to have some knowledge within vehicle dynamics, including basic knowledge on how tires and also different differentials work. The following chapter tries to describe this so that the reader has the right basic knowledge needed.
+Before describing the work on friction estimation it is important to have some knowledge within vehicle dynamics, including basic knowledge on how tires and also different differentials work. The following chapter tries to describe this so that the reader has the right basic knowledge needed.
 
 \section{Vehicle dynamics and models}
 
@@ -330,19 +330,11 @@ The shape and curvature factors can be described as
 \end{equation}
 where $ x_{m} $ is the distance on x-axis from $ x_{0} $ to the peak of the curve. And $ y_{a} $ is the distance on the y-axis from $ y_{0} $ to the point that the curve converges. Look at Figure \ref{magic_formula} for help.
 
-\subsection{Exponential tire model}
-The magic formula tire model is very complex formula that requires extensive computation power. Another model that is much simpler but still captures the main characteristics of tires is the exponential model. 
-\begin{equation}
-	y = \mu F_{z} (1 - e^{-\dfrac{K}{\mu}|x|} )sign(x)
-\end{equation}
-The only tire parameter that has to be tuned is $ K $.
+\subsection{Dugoff tire model}
 
-\subsection{Olas tire model}
-
-\subsection{Dugoffs tire model}
+\subsection{Tire model by Ola}
 
 \section{Differentials}
-
 When driving in a straight line on a road with equal friction for all wheels, both driven wheels will have equal torque and velocity. In this situation a differential wouldn't even be necessary. The differential is needed when the vehicle is doing a turn. In this situation the different wheels will have different turning radii, thus requiring different velocities. This is the general idea behind a differential, to be able to have different velocities of the driven wheels. Without a differential it would be very hard to turn the vehicle, especially at low speeds, since equal speed of the wheels prevents the rotating movement happening while turning.
 
 \subsection{Open differential}
