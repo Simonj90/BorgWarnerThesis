@@ -340,22 +340,11 @@ f_{i} = 1 \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; \text{else}
 \begin{equation}
  \lambda = \mu \cdot F_{z} * \frac{(1-\kappa)}{2 \cdot C_{x} \cdot \kappa}
 \end{equation}
-The model depends on four parameters; the slip ratio, the longitudinal tire stiffness, the normal force and the tire/road friction coefficient. If assuming that the slip ratio 
-
-
-    lambda = mue*fz*(1-slipratio)/(2*Cx*slipratio);
-    
-    if(lambda < 1)
-   		 sliding = 1;
-    	fi = lambda*(2-lambda); 
-    else
-   		 fi = 1;
-    end
-    Fx = Cx*slipratio*fi/(1-slipratio);
-
-
+The model depends on four parameters; the slip ratio, the longitudinal tire stiffness, the normal force and the tire/road friction coefficient. Assuming that the slip ratio is the only dynamic parameter during driving, means that $ \lambda $ will be smaller than 1 when the slip ratio is small enough. When $ f_{i} = 1 $ the force will only depend on the longitudinal tire stiffness and the slip ratio, meaning that the friction coefficient and normal force has no impact. 
 
 \subsection{Tire model by Ola}
+
+Three different regions. Three parameters describing the curve: max force slip (at $ \mu = 1$), curvation $ Xsi $ and slope at zero slip $ C_{x} $.
 
 \section{Differentials}
 When driving in a straight line on a road with equal friction for all wheels, both driven wheels will have equal torque and velocity. In this situation a differential wouldn't even be necessary. The differential is needed when the vehicle is cornering. In this situation the different wheels will have different turning radii, thus requiring different angular velocities. This is the general idea behind a differential, to be able to have different angular velocities of the driven wheels. Without a differential it would be very hard to turn the vehicle, especially at low speeds, since equal speed of the wheels prevents the rotating movement happening while turning.
