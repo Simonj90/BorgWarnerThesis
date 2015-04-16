@@ -1,4 +1,4 @@
-\chapter{Friction Estimation Method}
+\chapter{Friction estimation method}
 
 \section{Approach}
 
@@ -9,16 +9,16 @@ The first step includes calculating the forces acting on the tires by using a ve
 In a theoretical world, where a vehicle and tire model work perfect, the friction estimation becomes relatively easy and can be obtained with good certainty quite fast. Unfortunately there exists measurement and process noise in a real car and also an uncertainty from the models in some driving situations, which further complicate the work.
 
 
-\section{Related work}
+\subsection{Related work}
 
 There have been lots of research and model proposals related to friction estimation during the last decades. The outcome of these papers usually show promising results, where the proposed solution works well during simulations and/or testing. The related work can provide a lot of information and help to this paper, especially to get the general understanding of the problem nd its difficulties. But due to the fact that most results are based on theoretical simulations and that this solution has to work in a real environment with actual sensor signals, a lot of the information provided through previous work within the field of study can be of little use or sometimes even misleading.
 
 
-\section{FXD}
+\subsection{Conditions with an FXD}
 
 The problem stated in this work is to estimate the tire/road friction for a car using an FXD, resulting in a number of conditions and restrictions that have to be thought of and applied throughout this work. First of all, cars with an FXD installed are solely front wheel driven, meaning that there are no positive longitudinal forces acting on the rear tires when accelerating. The velocity of the rear wheels can therefore in most cases be used as a good approximation for vehicles reference speed. Through the same reasoning, the longitudinal acceleration of the car can be derived from the derivative of the rear wheel velocities. Another aspect that has to be considered is that the FXD is an active limited slip differential, which means that the torque applied to the two driven shafts can be different in certain driving situations, unlike a car equipped with a standard open differential. 
 
-\section{Theoretical vs. Practical}
+\subsection{Practical restrictions}
 
 The true dynamics of a car, and especially a tire, is very complex and therefore difficult to describe accurately with a model. At the same time, a model has to be simple enough so that the calculations are possible on an engine control unit that has limited computational power. Even though many simplified models are shown to be accurate enough to reflect reality in most driving situations, there are times when a simplified model inaccurately describes the detailed dynamics of a vehicle or a tire. 
 
@@ -34,7 +34,7 @@ The most important aspect that has to be considered is the fact that the frictio
 
 One friction model that is frequently used and referred to in research papers is the so called slip-slope friction model. The models general idea is that the maximum tire/road friction available can be decided due to its dependency on the slope from the slip-force curve in the linear region. This slip-force curve has the same characteristics as the slip-friction coefficient curve seen in Figure \ref{fric_slip}. 
 \begin{equation}
-\dfrac{F_{x}}{F_{z}} = k*\kappa
+\dfrac{F_{x}}{F_{z}} = k \cdot \kappa
 \end{equation}
 Where $ F_{x} $ and $ F_{z} $ is the estimated longitudinal and normal force acting on a tire depending on input values. The slip-slope can be estimated with for example recursive least square fitting.
 
