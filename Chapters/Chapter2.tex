@@ -4,7 +4,7 @@ Before describing the work on friction estimation it is important to have some k
 
 \section{Vehicle dynamics and models}
 
-When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. The characteristics of a whole car is very complex and these parameters are therefore impossible to calculate exactly. There exists many different car models that try to describe the characteristics of a car as adequate as possible.If these calculations are supposed to be done on a cars computer, the model has to be simple enough to not reach the cars limited computing capacity.
+When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. The characteristics of a whole car is very complex and the behaviour of a car is therefore impossible to calculate in every situation. There exists many different car models that try to describe the characteristics of a car as adequate as possible. These calculations are also supposed to be done on a cars computer, which means that the model has to be simple enough to not reach the cars limited computing capacity.
 
 \subsection{The bicycle model}
 
@@ -21,7 +21,7 @@ For most cornering situations, these assumptions work fine, and the model gives 
 
 The total lateral force acting on the car will depend on the forces that the front and rear tires contribute with combined. By using Newtons second law of physics, $ F_{y} = m*a_{y} $, the total lateral force acting on the car will be
 \begin{equation} \label{eq:lateral_force}
-	F_{y} = m*a_{y} = F_{yR} + cos(\delta)F_{yF} + sin(\delta)F_{xF} 
+	F_{y} = m \cdot a_{y} = F_{yR} + cos(\delta) \cdot F_{yF} + sin(\delta) \cdot F_{xF} 
 \end{equation}
 where $ m $ denotes the vehicle mass, $ \delta $ is the front wheel steering angle. The acceleration in the center of gravity can be described as 
 \begin{equation} \label{eq:lateral_acceleration}
@@ -32,7 +32,7 @@ where $ \dot v_{y} $ is the actual change of velocity in lateral direction and t
 	\dot \psi = \dfrac{v_{x}}{R}
 \end{equation}
 \begin{equation} \label{eq:centripetal_force}
-	F_{c} = \dfrac{m*v^2_{x}}{R} = mv_{x}*\dot \psi
+	F_{c} = \dfrac{m \cdot v^2_{x}}{R} = mv_{x}*\dot \psi
 \end{equation}
 Where $ R $ is the radius of the turn and $ v_{x} $ the velocity in the direction that the car is pointing. By combining Equations \ref{eq:lateral_acceleration} and \ref{eq:centripetal_force}, the acceleration can described as
 \begin{equation} \label{eq:lateral_acceleration_2}
@@ -40,20 +40,20 @@ Where $ R $ is the radius of the turn and $ v_{x} $ the velocity in the directio
 \end{equation}
 When combining Equations \ref{eq:lateral_acceleration_2} and \ref{eq:lateral_force} the three different lateral force components that are effecting the vehicle can be described as
 \begin{equation} \label{lateral_forces_2}
-	F_{yR} + cos(\delta)F_{yF} + sin(\delta)F_{xF} = m*(\dot v_{y} + v_{x}\dot \psi)
+	F_{yR} + cos(\delta) \cdot F_{yF} + sin(\delta) \cdot F_{xF} = m*(\dot v_{y} + v_{x} \cdot \dot \psi)
 \end{equation}
 If taken one step further, the lateral force components can describe the torque created around the z-axis in the center of gravity 
 \begin{equation} \label{yaw_bicycle}
-	M_{z} = I_{z}* \ddot \psi = a*(cos(\delta)F_{yF} + sin(\delta)F_{xF}) - b*F_{yR}
+	M_{z} = I_{z} \cdot \ddot \psi = a*(cos(\delta) \cdot F_{yF} + sin(\delta) \cdot F_{xF}) - b \cdot F_{yR}
 \end{equation}
 where $ a $ and $ b $ are the lever lengths from the center of gravity to the front respective the rear axle and $ \ddot \psi $ the yaw acceleration. 
 
 When looking at the bicycle model,the assumption is that the longitudinal force is negligible. This means, as mentioned earlier, that the lateral force will almost only depend on the tire slip angle created by the front wheel steering angle and the angle to the direction the front wheel is heading towards. When assuming this model with only two wheels, the slip angles for the front respective rear tires will be
 \begin{equation} \label{eq:wheel_slip_front}
-	\alpha _{F} = -arctan(\dfrac{v_{y} + \dot \psi *a}{v_{x}}) + \delta
+	\alpha _{F} = -arctan(\dfrac{v_{y} + \dot \psi  \cdot a}{v_{x}}) + \delta
 \end{equation}
 \begin{equation} \label{eq:wheel_slip_rear}
-\alpha _{R} = -arctan(\dfrac{v_{y} - \dot \psi *b}{v_{x}})
+\alpha _{R} = -arctan(\dfrac{v_{y} - \dot \psi  \cdot b}{v_{x}})
 \end{equation}
 This angle is defined to be the angle between the direction of the tire and the direction of the velocity of the wheel. A number of interpretations can be made from these formulas. One is that the steering angle only directly influences the slip angles of the front wheels. Another is that if the numerator in \ref{eq:wheel_slip_front} goes to zero, which means that the lateral velocity plus the yaw rate is zero, the slip angle of the front wheel is equal to the front wheel steering angle. This means that the vehicle is gliding straight forward regardless of the steering angle. Another conclusion is that if $ \dot \psi *b $ is larger than $ v_{y} $, in \ref{eq:wheel_slip_rear}, the numerator will become less then zero and slip angle of the rear wheel will move to the other side on the x-axis. This happens when a vehicle takes a corner more aggressively, which means higher longitudinal velocity compared to the radius of the corner, leading to higher yaw rate as can be seen earlier in \ref{eq:yaw_rate}.
 
@@ -72,7 +72,7 @@ If $ B $ is 0, we have equal amount of lateral force on the front and rear wheel
 
 \subsection{Two track vehicle model}
 
-The bicycle model described earlier is a simplified car model that only captures the main characteristics well in many situations. The fact that it is modeled by merely one wheel per axis leads to that the forces on the two wheels on the same axis will be modeled exactly the same. In reality, there will of course exist factors that affect the two wheels different, e.g. when cornering, the normal force will be transfered from the inner to the outer wheel. If a car uses an FXD, the active differential will in certain situations transfer torque from one shaft to the other. The effect that the FXD contributes with will be described further on in a later section of the paper. A model that is slightly more complicated than the bicycle model,  that tries to capture these lateral differences, is the two track model seen in \ref{two_track_model}. 
+The bicycle model described earlier is a simplified car model that only captures the main characteristics well in many situations. The fact that it is modeled by only one wheel per axis means that the forces on the two wheels on the same axis will be modeled exactly the same. In reality, there will of course exist factors that affect the two wheels different, e.g. when cornering, the normal force will be transfered from the inner to the outer wheel. If a car uses an FXD, the active differential will in certain situations transfer torque from one shaft to the other. The effect that the FXD contributes with will be described further on in a later section of the paper. A model that is slightly more complicated than the bicycle model,  that tries to capture these lateral differences, is the two track model seen in \ref{two_track_model}. 
 
 \begin{figure}[h]
 	\centering
@@ -83,12 +83,7 @@ The bicycle model described earlier is a simplified car model that only captures
 
 A couple of assumptions are made in this report when considering the two track model. There will never be a steering angle on the rear wheels and also the steering angle of the two front wheels are considered to be identical. Cars that are using an FXD are exclusively front wheel driven, and therefore the rear wheels will never contribute with positive forces. 
 
-The torque created around the z-axis can be described as
 
-DENNA ÄR FEL JUST NU!!behövs den ?
-\begin{equation} \label{yaw_two_track}
-M_{z} = I_{z}* \ddot \psi = l_{f}*(F_{y,1}*(cos(\delta) + sin(\delta)) + F_{y,2}*(cos(\delta) + sin(\delta)) + t(-F_{x,1}*cos(\delta)+F_{x,2}*cos(\delta)-F_{x,3} + F_{x,4})
-\end{equation}
 
 \subsection{Normal forces}
 
@@ -328,9 +323,37 @@ The shape and curvature factors can be described as
 \begin{equation}
 	E = \dfrac{Bx_{m} - tan{\dfrac{\pi}{2C}}}{Bx_{m} - arctan(Bx_{m})}
 \end{equation}
-where $ x_{m} $ is the distance on x-axis from $ x_{0} $ to the peak of the curve. And $ y_{a} $ is the distance on the y-axis from $ y_{0} $ to the point that the curve converges. Look at Figure \ref{magic_formula} for help.
-
+Where $ x_{m} $ is the distance on x-axis from $ x_{0} $ to the peak of the curve. And $ y_{a} $ is the distance on the y-axis from $ y_{0} $ to the point that the curve converges. Look at Figure \ref{magic_formula} for help.
 \subsection{Dugoff tire model}
+The longitudinal force described by the Dugoff tire model is defined as:
+
+\begin{equation}
+F_{x} = f_{i}*\frac{C_{x} \cdot \kappa}{1-\kappa}
+\end{equation}
+Where
+\begin{equation}
+\;\;\;\;\;\;\, f_{i} = \lambda*(2-\lambda) \;\;\;\;\;\;\;\;\; \text{if } \lambda < 1
+\end{equation}
+\begin{equation}
+f_{i} = 1 \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; \text{else}
+\end{equation}
+\begin{equation}
+ \lambda = \mu \cdot F_{z} * \frac{(1-\kappa)}{2 \cdot C_{x} \cdot \kappa}
+\end{equation}
+The model depends on four parameters; the slip ratio, the longitudinal tire stiffness, the normal force and the tire/road friction coefficient. If assuming that the slip ratio 
+
+
+    lambda = mue*fz*(1-slipratio)/(2*Cx*slipratio);
+    
+    if(lambda < 1)
+   		 sliding = 1;
+    	fi = lambda*(2-lambda); 
+    else
+   		 fi = 1;
+    end
+    Fx = Cx*slipratio*fi/(1-slipratio);
+
+
 
 \subsection{Tire model by Ola}
 
