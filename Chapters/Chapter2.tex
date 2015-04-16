@@ -4,11 +4,11 @@ Before describing the work on friction estimation it is important to have some k
 
 \section{Vehicle dynamics and models}
 
-When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. The characteristics of a whole car is very complex and the behaviour of a car is therefore impossible to calculate in every situation. There exists many different car models that try to describe the characteristics of a car as adequate as possible. These calculations are also supposed to be done on a cars computer, which means that the model has to be simple enough to not reach the cars limited computing capacity.
+When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. Some variables can be measured directly and some of them needs to be calculated or modeled. The characteristics of a whole car is very complex and the exact behavior of a car is therefore impossible to model in every situation. There exists many different car models that try to describe the characteristics of a car as adequate as possible. All the calculations for these models are to be done on a cars on board computer, which means that the model has to be simple enough to not reach the computers limited computing capacity.
 
 \subsection{The bicycle model}
 
-The bicycle model is a rather simple model that can be used to describe vehicle dynamics when turning, e.i. when we have a yaw rate and lateral forces that are affecting the vehicle. The models major simplifications are that the mass of the car is seen as one center of gravity point and that the two front wheels and the two rear wheels are combined into one wheel respectively as can be seen in Figure \ref{bicycle_model}. These simplifications mean that there is no difference in forces on the two sides, e.i. there will be no roll effect to the outside wheel when turning in a corner. There is also an assumption made that there will be no pitch effect on the car, which means that there is no suspension system that is effecting the car. The model also assumes that there is no driving torque generated to the wheels, and therefore only lateral forces on the vehicle.
+The bicycle model is a rather simple model that can be used to describe vehicle dynamics when turning, e.i. when we have a yaw rate and lateral forces that are affecting the vehicle. The models major simplifications are that the mass of the car is seen as one center of gravity point and that the two front wheels and the two rear wheels are combined into one wheel respectively as can be seen in Figure \ref{bicycle_model}. These simplifications means that there is no difference in forces on the two sides, e.i. there will be no roll effect to the outside wheel when turning in a corner. There is also an assumption made that there will be no pitch effect on the car, which means that there is no suspension system that is effecting the car. The model also assumes that there is no driving torque generated to the wheels, and therefore only lateral forces on the vehicle.
 
 For most cornering situations, these assumptions work fine, and the model gives a good idea on how different parameters are affected. Despite this, one has to bare in mind that these assumptions could result in rather large errors during certain driving situations.
 
@@ -19,36 +19,36 @@ For most cornering situations, these assumptions work fine, and the model gives 
 	\label{bicycle_model}
 \end{figure}
 
-The total lateral force acting on the car will depend on the forces that the front and rear tires contribute with combined. By using Newtons second law of physics, $ F_{y} = m*a_{y} $, the total lateral force acting on the car will be
+The total lateral force acting on the car will depend on the combined forces that the front and rear tires contribute. By using Newtons second law of physics, $ F_{y} = m*a_{y} $, the total lateral force acting on the car will be:
 \begin{equation} \label{eq:lateral_force}
 	F_{y} = m \cdot a_{y} = F_{yR} + cos(\delta) \cdot F_{yF} + sin(\delta) \cdot F_{xF} 
 \end{equation}
-where $ m $ denotes the vehicle mass, $ \delta $ is the front wheel steering angle. The acceleration in the center of gravity can be described as 
+where $ m $ denotes the vehicle mass, $ \delta $ is the front wheel steering angle. The acceleration in the center of gravity can be described as: 
 \begin{equation} \label{eq:lateral_acceleration}
 	a_{y} = \dot v_{y} + \dfrac{F_{c}}{m}
 \end{equation}
-where $ \dot v_{y} $ is the actual change of velocity in lateral direction and the centripetal force in the center of gravity, $ F_{c} $, depends on the yaw rate
+where $ \dot v_{y} $ is the actual change of velocity in lateral direction and the centripetal force in the center of gravity, $ F_{c} $, depends on the yaw rate:
 \begin{equation} \label{eq:yaw_rate}
 	\dot \psi = \dfrac{v_{x}}{R}
 \end{equation}
 \begin{equation} \label{eq:centripetal_force}
 	F_{c} = \dfrac{m \cdot v^2_{x}}{R} = mv_{x}*\dot \psi
 \end{equation}
-Where $ R $ is the radius of the turn and $ v_{x} $ the velocity in the direction that the car is pointing. By combining Equations \ref{eq:lateral_acceleration} and \ref{eq:centripetal_force}, the acceleration can described as
+where $ R $ is the radius of the turn and $ v_{x} $ the velocity in the direction that the car is pointing. By combining Equations \ref{eq:lateral_acceleration} and \ref{eq:centripetal_force}, the acceleration can described as:
 \begin{equation} \label{eq:lateral_acceleration_2}
 	a_{y} = \dot v_{y} + v_{x}*\dot \psi
 \end{equation}
-When combining Equations \ref{eq:lateral_acceleration_2} and \ref{eq:lateral_force} the three different lateral force components that are effecting the vehicle can be described as
+When combining Equations \ref{eq:lateral_acceleration_2} and \ref{eq:lateral_force} the three different lateral force components that are effecting the vehicle can be described as:
 \begin{equation} \label{lateral_forces_2}
 	F_{yR} + cos(\delta) \cdot F_{yF} + sin(\delta) \cdot F_{xF} = m*(\dot v_{y} + v_{x} \cdot \dot \psi)
 \end{equation}
-If taken one step further, the lateral force components can describe the torque created around the z-axis in the center of gravity 
+If taken one step further, the lateral force components can describe the torque created around the z-axis in the center of gravity: 
 \begin{equation} \label{yaw_bicycle}
 	M_{z} = I_{z} \cdot \ddot \psi = a*(cos(\delta) \cdot F_{yF} + sin(\delta) \cdot F_{xF}) - b \cdot F_{yR}
 \end{equation}
 where $ a $ and $ b $ are the lever lengths from the center of gravity to the front respective the rear axle and $ \ddot \psi $ the yaw acceleration. 
 
-When looking at the bicycle model,the assumption is that the longitudinal force is negligible. This means, as mentioned earlier, that the lateral force will almost only depend on the tire slip angle created by the front wheel steering angle and the angle to the direction the front wheel is heading towards. When assuming this model with only two wheels, the slip angles for the front respective rear tires will be
+When looking at the bicycle model, the assumption is that the longitudinal force is negligible. This means, as mentioned earlier, that the lateral force will almost only depend on the tire slip angle created by the front wheel steering angle and the angle to the direction the front wheel is heading towards. When assuming this model with only two wheels, the slip angles for the front respective rear tires will be:
 \begin{equation} \label{eq:wheel_slip_front}
 	\alpha _{F} = -arctan(\dfrac{v_{y} + \dot \psi  \cdot a}{v_{x}}) + \delta
 \end{equation}
@@ -57,14 +57,14 @@ When looking at the bicycle model,the assumption is that the longitudinal force 
 \end{equation}
 This angle is defined to be the angle between the direction of the tire and the direction of the velocity of the wheel. A number of interpretations can be made from these formulas. One is that the steering angle only directly influences the slip angles of the front wheels. Another is that if the numerator in \ref{eq:wheel_slip_front} goes to zero, which means that the lateral velocity plus the yaw rate is zero, the slip angle of the front wheel is equal to the front wheel steering angle. This means that the vehicle is gliding straight forward regardless of the steering angle. Another conclusion is that if $ \dot \psi *b $ is larger than $ v_{y} $, in \ref{eq:wheel_slip_rear}, the numerator will become less then zero and slip angle of the rear wheel will move to the other side on the x-axis. This happens when a vehicle takes a corner more aggressively, which means higher longitudinal velocity compared to the radius of the corner, leading to higher yaw rate as can be seen earlier in \ref{eq:yaw_rate}.
 
-The lateral forces acting on the front and rear wheels can also be described as 
+The lateral forces acting on the front and rear wheels can also be described as: 
 \begin{equation}
 	F_{yF} = 2C_{F}\alpha _{F}
 \end{equation}
 \begin{equation}
 	F_{yR} = 2C_{R}\alpha _{R}
 \end{equation}
-where $ C_{F} $ and $ C_{R} $ are the lateral force coefficients for one front respective rear tire. The above calculations are taken from \cite{rajamani}. A steering response, $ B $, can de defined from these two forces \cite{fordonsdynamik99}
+where $ C_{F} $ and $ C_{R} $ are the lateral force coefficients for one front respective rear tire. The above calculations are taken from \cite{rajamani}. A steering response, $ B $, can de defined from these two forces \cite{fordonsdynamik99}:
 \begin{equation}
 	B = F_{yR} - F_{yF}
 \end{equation}
@@ -143,9 +143,9 @@ Note that $ F_{zF} $ denotes the normal force of the rear and not the right hand
 where $ a $ and $ b $ are the distances from the front and rear axles to the center of gravity. As can be seen in equation \ref{eq:normal_with_long_acc}, he normal force on the front axle will decrease with positive longitudinal acceleration. 
 
 \section{Tire dynamics}
-A gas inflated tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting on it from the road, it will deform against the road creating a contact area. The contact area is proportional to the load, more load gives larger contact area. The deformation of the tire will lead to a shorter distance between the center of the tire and the road, this is the loaded radius. 
+A gas inflated tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting on it from the road, it will deform against the road creating a contact area. The contact area is proportional to the load, more load gives a larger contact area. The deformation of the tire will lead to a shorter distance between the center of the tire and the road, this is the loaded radius. 
 
-A loaded tires contact area against the road can be divided into two, adhesion area and sliding area (Figure \ref{adh_sliding}). The adhesion area is the part of the contact area that's said to adhere to the road, this means that this part haven't reached the friction limit yet, it can still handle more force without sliding. The sliding area is area that has reached the friction limit and thus has begun sliding. How this area is divided depends on a number of factors but it can basically be divided into two cases, longitudinal forces and lateral forces which will be explained further on.
+A loaded tires contact area against the road can be divided into two, adhesion area and sliding area (Figure \ref{adh_sliding}). The adhesion area is the part of the contact area that's said to adhere to the road, this means that this part haven't reached the friction limit yet, it can still handle more force without sliding. The sliding area is the area that has reached the friction limit and thus has begun sliding. How this area is divided depends on a number of factors but it can basically be divided into two cases, longitudinal forces and lateral forces which will be explained further on.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/adh_sliding}
@@ -154,7 +154,7 @@ A loaded tires contact area against the road can be divided into two, adhesion a
 \end{figure}
 
 \subsection{Longitudinal forces}
-Rotating the tire will result in compression of the tire where the it hits the road and expansion where it leaves the road. The tire itself has a dampening effect meaning that all energy used to compress the tire won't be recovered when it expands again. This energy loss is called rolling resistance, $ F_{rr} $. $ F_{rr} $ is often modeled as being proportional to $ F_{z} $ with the proportionality constant $ f $ (Equation \ref{eq:rollingres}). A typical value of $ f $ is 0.015 for passenger cars \cite{rajamani}. The compression and expansion of the tire will also move the normal force acting on the tire in front of the center line (Figure \ref{rolling_resistance}) when the tire is rolling. The moved normal force will result in a third radius of the tire, the effective rolling radius. This is the radius related to the actual linear longitudinal velocity of the rolling tire, it's longer than the loaded radius but shorter than the unloaded radius.
+Rotating the tire will result in compression of the tire where it hits the road and expansion where it leaves the road. The tire itself has a dampening effect meaning that all energy used to compress the tire won't be recovered when it expands again. This energy loss is called rolling resistance, $ F_{rr} $. $ F_{rr} $ is often modeled as being proportional to $ F_{z} $ with the proportionality constant $ f $ (Equation \ref{eq:rollingres}). A typical value of $ f $ is 0.015 for passenger cars \cite{rajamani}. The compression and expansion of the tire will also move the normal force acting on the tire in front of the center line (Figure \ref{rolling_resistance}) when the tire is rolling. The moved normal force will result in a third radius of the tire, the effective rolling radius. This is the radius related to the actual linear longitudinal velocity of the rolling tire, it's longer than the loaded radius but shorter than the unloaded radius.
 \begin{equation}
 F_{rr} = fF_{z}
 \label{eq:rollingres}
@@ -270,7 +270,7 @@ For pure side slip the bristles will deflect in the direction of the y-axis, thi
 
 In Figure \ref{brush2} it can be seen how different slip angles affects the tire. Small slip angles gives a large adhesion area (flat part) and a small sliding area (curved part). As the slip angle increases a larger number of bristles reaches their maximum deflection, hence increasing the sliding area. At a certain slip angle all bristles have reached their maximum deflection and this results in full sliding. 
 
-\subsection{The Magic Formula Tire Model}
+\subsection{The Magic Formula tire model}
 
 The magic formula is a series of tire design models developed by H. Pacejka \cite{pacejka} in collaboration with Volvo. The formula is a well known empirical model which has been given its name due to no physical basis for the structure of the equation. It models the fact that different tires has various characteristics which influence the final force generated from the contact patch to the ground. The formula is very complex, where these numerous parameters for each tire can be used to calculate lateral and longitudinal forces and also self aligning torque depending on the slip angle or slip ratio. In this report, the magic formula is kept fairly simple to show the idea behind the model, rather than getting a profound understanding behind the development of the model.
 
