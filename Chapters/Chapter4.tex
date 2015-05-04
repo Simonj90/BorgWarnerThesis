@@ -87,7 +87,10 @@ There are losses. We found Magic Formula 2.0.
 
 There are several factors that affect how much of the engine torque that actually generates a driving force between the road and the tire. There are losses in form of friction within the driveline, and also rotating masses within the vehicle that have moment of inertias. 
 
-The frictional losses are very dependant on the design of the engine, driveline, and transmisson. This means that the losses will differ between vehicle models and therefore there are no good model that can represent such losses accurately. It is however known that there are larger losses when the gear ratio transmission is larger. 
+The frictional losses are very dependant on the design of the engine, driveline, and transmisson. This means that the losses will differ between vehicle models and therefore there are no good model that can represent such losses accurately. It is however known that there are larger losses when the gear ratio transmission is larger. The losses due to higher gear ratio can be described as
+\begin{equation}
+	Loss\% = \frac{1}{1 + factor(0.0025?)*gearratio^2}
+\end{equation}
 
 Each wheel connected to a driven shaft has its own moment of inertia which will be accelerated if enough torque is applied. The amount of torque needed to accelerate the wheel depends on its moment of inertia and the angular acceleration
 \begin{equation}
@@ -105,13 +108,13 @@ In the same manner, this applies for the actual shaft as well.
 
 By subtracting this torque from the shaft, the final torque which generates force between the tire and ground is obtained.
 \begin{equation}
-	T_{wheel} = T_{shaft} - T_{wheel acc}
+	T_{resulting} = T_{shaft} - T_{wheel acc}
 \end{equation}
 Thereafter the force, in $ N $, can be obtained by dividing the torque, in $ Nm $, by the radii of the wheel
 \begin{equation}
-	F_{tire} = \frac{T_{wheel}}{r_{wheel}}
+	F_{tire} = \frac{T_{resulting}}{r_{wheel}}
 \end{equation}
-A restriction that has to be thought of is that the amount of force that can be generated between the tire and the road is limited by the tire/road friction and the normal, $ \mu \cdot F_{z} $. Any additional torque applied to the shaft will merely serve as unwanted acceleration of the wheel, i.e. spinning.
+A restriction that has to be thought of is that the amount of force that can be generated between the tire and the road is limited by the tire/road friction and the normal, $ \mu \cdot F_{z} $. Any additional torque applied to the shaft will add to $ T_{wheelacc} $ and merely serve as unwanted acceleration of the wheel, i.e. spinning.
 
 
 \section{Tire forces}
@@ -122,6 +125,6 @@ slip, mue, normal force!
 
 The main dynamic parameters that affect the frictional force is the slip ratio, which comes from the difference in the wheels angular and  directional velocity, the normal force, which simply depends on the weight loaded on a tire, and also the tire/road friction coefficient, $ \mu $
 \begin{equation}
-	F_{tire} = f(\kappa, Fz, \mu)
+	F_{tire} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
-Where $ f $ is a function depending on these three parameters. The slip ratio and the normal force can be estimated by derivation of sensors signals. As mentioned earlier, the only way to generate a positive force to a vehicle is by generating a frictional force between the tire and the road. This means that the force derived from the vehicle model is equal to the forces from the two driving wheels tire model froce.
+Where $ f $ is a function depending on these three parameters. The slip ratio, the normal force and the tire stiffness can be derived from (REFER TO SLIP CALC AND NORMAL FORCE CALC). Thereafter, the only dynamic parameter becomes the friction coefficient. When the correct friction coefficient is chosen, the force from the tire model should equal positive force acting on the vehicle calculated in the previous step. 
