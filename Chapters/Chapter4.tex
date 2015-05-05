@@ -118,7 +118,29 @@ The main dynamic parameters that affect the frictional force is the slip ratio, 
 \begin{equation}
 	F_{tire} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
-Where $ f $ is a function depending on these three parameters. The slip ratio, the normal force and the tire stiffness can be derived from (REFER TO SLIP CALC AND NORMAL FORCE CALC). Thereafter, the only dynamic parameter becomes the friction coefficient. When the correct friction coefficient is chosen, the force from the tire model should equal positive force acting on the vehicle calculated in the previous step. 
+Where $ f $ is a function depending on these three parameters. The slip ratio, the normal force and the tire stiffness can be derived from (REFER TO SLIP CALC AND NORMAL FORCE CALC). Thereafter, the only dynamic parameter becomes the friction coefficient. When the correct friction coefficient is chosen, the force from the tire model should equal positive force acting on the vehicle calculated in the previous step.
+
+\subsection{Slip ratio}
+
+Important to get accurate slip ratio. Different tire size = no good!
+
+\subsection{Normal force}
+
+\subsection{Tire stiffness}
+
+\section{Digital signal processing}
+
+Signals are noisy on CAN!
+
+\subsection{Filters}
+
+Signals need to be filtered. Low-pass, high-pass. High damping for Cx etc..
+
+\subsection{Timing of signals}
+
+Due to filtering (multiple filtering(acc)), signals delayed, have to be timed.
+
+Different signals have different noise, and therefore should be filtered differently, this leads to signals being delayed against each other. 
 
 \section{Other methods}
 
