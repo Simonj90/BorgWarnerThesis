@@ -108,16 +108,23 @@ A restriction that has to be thought of is that the amount of force that can be 
 
 
 \section{Tire forces}
+To calculate the tire force properly the slip angle is needed. 
 
-slip angle not known, limitation, only longitudinal
-
-slip, mue, normal force!
-
-The main dynamic parameters that affect the frictional force is the slip ratio, which comes from the difference in the wheels angular and  directional velocity, the normal force, which simply depends on the weight loaded on a tire, and also the tire/road friction coefficient, $ \mu $
+The main dynamic parameters that affect the longitudinal tire force is the slip ratio, normal force, and the tire/road friction coefficient, $ \mu $
 \begin{equation}
-	F_{tire} = f(\kappa, Fz, \mu, C_{x})
+F_{tire} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
-Where $ f $ is a function depending on these three parameters. The slip ratio, the normal force and the tire stiffness can be derived from (REFER TO SLIP CALC AND NORMAL FORCE CALC). Thereafter, the only dynamic parameter becomes the friction coefficient. When the correct friction coefficient is chosen, the force from the tire model should equal positive force acting on the vehicle calculated in the previous step.
+The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in equation $ \ref{eq:longslip} $. The normal force is calculated based on the weight distribution derived by the normal force in previous chapter. The tire stiffness is specific to a tire. The 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/force_per_slip_different_mue}
+	\caption {Normalized tire model force per slip ratio for different mue.}
+	\label{force/slip}
+\end{figure}
+
+
+
+ Thereafter, the only dynamic parameter becomes the friction coefficient. When the correct friction coefficient is chosen, the force from the tire model should equal positive force acting on the vehicle calculated in the previous step.
 
 \subsection{Slip ratio}
 
@@ -140,6 +147,10 @@ Signals need to be filtered. Low-pass, high-pass. High damping for Cx etc..
 Due to filtering (multiple filtering(acc)), signals delayed, have to be timed.
 
 Different signals have different noise, and therefore should be filtered differently, this leads to signals being delayed against each other. 
+
+\subsection{Static parameter impact}
+
+Massa, radie på hjulen, CGO height, osv..
 
 \section{Other methods}
 
