@@ -118,11 +118,12 @@ A restriction that has to be thought of is that the amount of force that can be 
 \section{Tire forces}
 To calculate the tire force properly the slip angle is needed. 
 
-The main dynamic parameters that affect the longitudinal tire force is the slip ratio, normal force, and the tire/road friction coefficient, $ \mu $
+The characteristics of a tire is very complex, which makes the actual forces generated to the vehicle  difficult to obtain. The main dynamic parameters of existing longitudinal tire force models include the slip ratio, normal force, and the tire/road friction coefficient, $ \mu $:
 \begin{equation}
 F_{tire} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
-The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in equation $ \ref{eq:longslip} $. The normal force is calculated based on the weight distribution derived by the normal force in previous chapter. The tire stiffness is specific to a tire. The 
+The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in equation $ \ref{eq:longslip} $, the normal force from the weigh of the vehicle and the changing weight distribution derived (IN PREVIOUS CHAPTER), and the tire stiffness as explained  in (IN PREVIOUS CHAPTER). Thereafter, the only dynamic parameter of the tire force equation becomes the friction coefficient. By choosing the correct $ \mu $, the force from the tire model will equal the force from the vehicle model. This calculation is done in a feedback manner, meaning that the tire force depends on the friction coefficient derived in the previous iteration.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/force_per_slip_different_mue}
@@ -130,25 +131,35 @@ The slip ratio is calculated from the wheels difference in angular and forward v
 	\label{force/slip}
 \end{figure}
 
-Thereafter, the only dynamic parameter becomes the friction coefficient. When the correct friction coefficient is chosen, the force from the tire model should equal positive force acting on the vehicle calculated in the previous step.
-
 \subsection{Slip ratio}
 
 Important to get accurate slip ratio. Different tire size = no good!
 
+
+
 \subsection{Normal force}
+
+Longitudinal/lateral force generated from tire depends on the normal force on that tire. Maximum tire force
+\begin{equation}
+	F \leq F_{z*\mu}
+\end{equation}
 
 \subsection{Tire stiffness}
 
-\section{Digital signal processing}
+Tires stiffness mentioned earlier. Problem is that different tires have different stiffness, but the driver shouldn't have to say what kind of tires that are used. Should be detected!
+
+\section{Signal processing}
 
 Signals are noisy on CAN!
+
+
 
 \subsection{Filters}
 
 Signals need to be filtered. Low-pass, high-pass. High damping for Cx etc..
 
-\subsection{Timing of signals}
+
+\subsubsection{Timing of signals}
 
 Due to filtering (multiple filtering(acc)), signals delayed, have to be timed.
 
