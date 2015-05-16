@@ -43,18 +43,40 @@ For this method to be accurate an accurate estimation of the longitudinal accele
 a_{x} = \frac{d}{dt}(\frac{w_{rl}+w_{rr}}{2})
 \end{equation}
 
-\subsubsection{Estimating the total vehicle force}
-This measured or derived acceleration is merely the resulting net force acting on the vehicle mass. The total amount of force that is generated from the tires and up to the body has to include the rest of the forces acting on the vehicle. The resulting force that is generated therefore becomes: \todo{this formula might be altered}
+\subsubsection{Estimating the losses}
+Two different losses are compensated for. Losses from drag and losses from rolling resistance.
+
+The drag force is calculated as:
+
 \begin{equation}
-F_{vehicle} = m \cdot a + F_{steering loss} + F_{wind drag} + F_{rolling resistance}
+F_{D}=\frac{1}{2}\rho v^2 C_{d}A
+\end{equation}
+where:
+\begin{itemize}
+	\item $ \rho $ is the density of air.
+	\item $ v $ is the speed.
+	\item $ C_{d} $ is the drag coefficient.
+	\item $ A $ is the cross sectional area.
+\end{itemize}
+The rolling resistance is calculated as in Equation \ref{eq:rollingres}.
+
+\subsubsection{Estimating the total vehicle force}
+The total amount of force acting on the vehicle thus becomes: \todo{this formula might be altered}
+\begin{equation}
+\label{eq:newton}
+F_{vehicle} = m \cdot a + F_{drag} + F_{rolling resistance}
 \end{equation}
 
 \subsubsection{Complications}
-One major issue with this method is to obtain a proper value for the longitudinal acceleration. If the vehicle doesn't have an accelerometer the acceleration calculated from the wheel speeds needs to be used. This immediately causes problems when the vehicle is accelerating on a gradient road. During an uphill acceleration, the actual force to accelerate the vehicle will be higher than the force calculated from Newtons second law. Driving downhill, the force will be lower. This is because the earths gravity isn't considered in the formula. When climbing a hill the vehicle force needs to include the force of the earths gravitational pull as well. The same goes for then driving downhill, but now the force will instead help accelerating the vehicle. The force of the gravitational pull can be calculated if the angle of the vehicle relative the earths horizontal plane is known but this angle is hard to measure or estimate. \todo{is it really?}
+The main issue with this method is that it's based on longitudinal acceleration and longitudinal losses only, hence it can only be used to estimate the vehicle forces when accelerating in a straight line. Although this is a big restriction it might be enough since acceleration in a straight line happens pretty often while driving.
+
+A major hardship is to obtain a proper value for the longitudinal acceleration. If the vehicle doesn't have an accelerometer the acceleration calculated from the wheel speeds needs to be used. This immediately causes problems when the vehicle is accelerating on a gradient road. During an uphill acceleration, the actual force to accelerate the vehicle will be higher than the force calculated from Newtons second law. Driving downhill, the force will be lower. This is because the earths gravity isn't considered in the formula. When climbing a hill the vehicle force needs to include the force of the earths gravitational pull as well. The same goes for then driving downhill, but now the force will instead help accelerating the vehicle. The force of the gravitational pull can be calculated if the angle of the vehicle relative the earths horizontal plane is known but this angle is hard to measure or estimate. \todo{is it really?}
 
 Measuring it with an accelerometer ......\todo{does it work good or bad in hills?}
 
+The second parameter of Newtons second law is the mass which also is hard to estimate. The mass of the vehicle can vary several hundreds of kilos depending on passengers and load in the trunk. A Golf GTi has a curb weight of about 1350 kg. Hence, the varying weight of several hundreds of kilos will have a great impact on the force calculations. To counter this problem some kind of load detection needs to be available to set a new mass every time the car is driven. This isn't something that is very common on cars today and thus a static mass of the vehicle needs to be set resulting in errors in the force calculations way too often.
 
+Suppose that the force calculation from Newtons second law is correct. Still there are losses to be accounted for. They need to be calculated properly to be able to compare the vehicle force to the tire force. Looking at the formula above \ref{eq:newton}, two different losses are compensated for. The rolling resistance is straight forward if the rolling resistance coefficient is known. The drag is a bit more complicated but should prove to be fairly accurate as well if the parameters is known. All in all, the results of these calculations won't be perfect and there are several more losses that can't be calculated in any good way. \todo{are there really?}
 
 
 \subsection{Longitudinal force from engine torque}
@@ -64,7 +86,7 @@ Another way of calculating the longitudinal force of a vehicle is to derive the 
 This method include some negative aspects that have to be thought of. It is unfortunately very uncommon for a commercially available vehicle today to have a torque sensor mounted, which means that the torque has to be obtained with other parameters. The torque applied to driving shaft is simply the torque generated from the engine multiplied by the current gear ratio. 
 \begin{equation}
 \label{eq:tshaft}
-T_{shafts} = T_{engine}*Gear Ratio
+T_{shafts} = T_{engine}\cdot Gear Ratio
 \end{equation}
 Where the gear ratio is the speed exchange from the engine shaft to the wheel shaft.
 \begin{equation}
@@ -75,7 +97,7 @@ The engine torque, engine speed and the wheel speeds are all parameters commonly
 
 The torque will be split evenly between the two shafts, assuming an open differential, i.e. when the FXD is inactive. By combining equations $ \ref{eq:GR} $ and $ \ref{eq:tshaft} $, it is also seen that the power generated by the engine and the power outputted to the shafts are equal.
 \begin{equation}
-	P = T_{shafts}*RPM_{wheel} = T_{engine}*RPM_{engine}
+	P = T_{shafts}\cdot RPM_{wheel} = T_{engine}\cdot RPM_{engine}
 \end{equation}
 
 \subsubsection{Transfer losses}
@@ -86,10 +108,10 @@ There are losses. We found Magic Formula 2.0.
 There are several factors that affect how much of the engine torque that actually generates a driving force between the road and the tire. There are losses in form of friction within the driveline, and also rotating masses within the vehicle that have moment of inertias. 
 
 The frictional losses are very dependant on the design of the engine, driveline, and transmisson. This means that the losses will differ between vehicle models and therefore there are no good model that can represent such losses accurately. It is however known that there are larger losses when the gear ratio transmission is larger. The losses due to higher gear ratio can be described as
+\todo{ajaj? (formeln)}
 \begin{equation}
 	Loss\% = \frac{1}{1 + factor(0.0025?)*gearratio^2}
 \end{equation}
-
 Each wheel connected to a driven shaft has its own moment of inertia which will be accelerated if enough torque is applied. The amount of torque needed to accelerate the wheel depends on its moment of inertia and the angular acceleration
 \begin{equation}
 	T = a \cdot I
