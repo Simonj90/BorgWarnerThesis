@@ -50,16 +50,16 @@ F_{vehicle} = m \cdot a + F_{steering loss} + F_{wind drag} + F_{rolling resista
 \end{equation}
 
 \subsubsection{Complications}
-One major issue with this method is to obtain a proper value for the longitudinal acceleration. Measuring it with an accelerometer works good as long as the vehicle is driven on a flat road. When driving uphill or downhill the value from the accelerometer will be biased since the earths gravity will affect it. To correct this the angle of the vehicle relative the earths horizontal plane would be needed but this is hard to measure or estimate. \todo{is it really?}
+One major issue with this method is to obtain a proper value for the longitudinal acceleration. If the vehicle doesn't have an accelerometer the acceleration calculated from the wheel speeds needs to be used. This immediately causes problems when the vehicle is accelerating on a gradient road. During an uphill acceleration, the actual force to accelerate the vehicle will be higher than the force calculated from Newtons second law. Driving downhill, the force will be lower. This is because the earths gravity isn't considered in the formula. When climbing a hill the vehicle force needs to include the force of the earths gravitational pull as well. The same goes for then driving downhill, but now the force will instead help accelerating the vehicle. The force of the gravitational pull can be calculated if the angle of the vehicle relative the earths horizontal plane is known but this angle is hard to measure or estimate. \todo{is it really?}
 
-\todo{continue}
+Measuring it with an accelerometer ......\todo{does it work good or bad in hills?}
 
-A problematic situation for this method occurs when the vehicle is accelerating on a gradient road. During an uphill acceleration, the actual forces acting on the car will be higher than the force calculated from the formula. When driving downhill, the force will be lower.
+
 
 
 \subsection{Longitudinal force from engine torque}
 
-Another way of calculating the longitudinal force of a vehicle is to derive the actual torque that is applied to the shafts connected to the driving wheels. The advantage of using the engine torque, instead of the acceleration of the vehicle, is its independence of the roads gradient and losses such wind drag and steering losses. The torque that is applied to the shafts will be directly proportional to the actual force generated to the wheels, regardless of how the gravitational pull and other losses are acting. 
+Another way of calculating the longitudinal force of a vehicle is to derive the actual torque that is applied to the shafts connected to the driving wheels. The advantage of using the engine torque, instead of the acceleration of the vehicle, is its independence of the roads gradient and losses such as wind drag and steering losses. The torque that is applied to the shafts will be directly proportional to the actual force generated to the wheels, regardless of how the gravitational pull and other losses are acting. 
 
 This method include some negative aspects that have to be thought of. It is unfortunately very uncommon for a commercially available vehicle today to have a torque sensor mounted, which means that the torque has to be obtained with other parameters. The torque applied to driving shaft is simply the torque generated from the engine multiplied by the current gear ratio. 
 \begin{equation}
