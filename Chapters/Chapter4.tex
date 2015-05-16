@@ -142,35 +142,63 @@ To calculate the tire force properly the slip angle is needed.
 
 The characteristics of a tire is very complex, which makes the actual forces generated to the vehicle  difficult to obtain. The main dynamic parameters of existing longitudinal tire force models include the slip ratio, normal force, and the tire/road friction coefficient, $ \mu $:
 \begin{equation}
-F_{tire} = f(\kappa, Fz, \mu, C_{x})
+F_{tire, longitudinal} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
 The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in equation $ \ref{eq:longslip} $, the normal force from the weigh of the vehicle and the changing weight distribution derived (IN PREVIOUS CHAPTER), and the tire stiffness as explained  in (IN PREVIOUS CHAPTER). Thereafter, the only dynamic parameter of the tire force equation becomes the friction coefficient. By choosing the correct $ \mu $, the force from the tire model will equal the force from the vehicle model. This calculation is done in a feedback manner, meaning that the tire force depends on the friction coefficient derived in the previous iteration.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/force_per_slip_different_mue}
-	\caption {Normalized tire model force per slip ratio for different mue.}
-	\label{force/slip}
+	\includegraphics[width=0.8\textwidth]{Pictures/slipkraft_olika_mue}
+	\caption {Normalized tire model force per slip ratio for different  mue values.}
+	\label{different_mue}
 \end{figure}
 
 
 \subsection{Tire stiffness}
 
-Tires stiffness mentioned earlier. Problem is that different tires have different stiffness, but the driver shouldn't have to say what kind of tires that are used. Should be detected!
+The tire stiffness is obtained by deriving the tire force generated per slip for values around zero, e.i. the gradient of the slip/force curve at zero slip. The slip force curve for two different tire stiffness's can be seen in \ref{different_cx}. The interpretation from this figure is that a tires stiffness is an essential parameter to have in order to model the tire force correctly. 
 
-The tire stiffness is obtained by deriving how much force the tires generates per slip for low slip values, e.i. in the linear region. Unfortunately, a tire characteristics is further complex, and cannot be explained by this one parameter alone. Two different tires can have the same tire stiffness, but different characteristics for larger slip ratio values. An example of this can be seen in Figure [twi tires].
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/slipkraft_olika_cx}
+	\caption {Normalized tire model force per slip ratio for different tire stiffness's.}
+	\label{different_cx}
+\end{figure}
 
-The tire stiffness will also be different for different road surfaces. Even in the linear region, the same amount fo slip will generate more force on asphalt than on snow or ice. 
+Unfortunately, a tire characteristics is further complex, and cannot be explained by the tire stiffness as a parameter alone. Two different tires can have the same tire stiffness, but differing characteristics at larger slip ratio values. An example of this can be seen in \ref{different_xsi}. Generally, tires with lower tire stiffness value have higher Xsi, hence resulting in even lower forces for higher slip values (IS THIS EVEN TRUE???). 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/slipkraft_olika_xsi}
+	\caption {Normalized tire model force per slip ratio for different tire characteristics for higher slip ratios.}
+	\label{different_xsi}
+\end{figure}
+
+The tire stiffness for a certain tire should theoretically be the same for different road surfaces. Nevertheless, testing has shown that the actual inclination of the slip/force curve for small slips can differ for different road surfaces. The tire stiffness therefore has to be compensated accordingly depending on the roads friction coefficient.
 
 \subsection{Slip ratio}
 
-Important to get accurate slip ratio. Different tire size = no good!
+As seen in most slip/force figures, the maximum force will be generated at a specific slip and will thereafter decrease with an increasing slip ratio. If the tire model doesn't capture this force peak at the correct slip ratio, the tire model force will be very difficult to match to the vehicle force. 
 
-As seen in most slip/force figures, the maximum force will be generated at a specific slip and thereafter decrease as the slip increases. If the chosen tire model does not explain this peak in force correctly, the force from the tire model will be very difficult to match the vehicle force acting. 
+The four wheel speeds that are obtained from the vehicles CAN bus are usually quite noisy signals, as seen in figure \ref{wheel_speed}, subplot 1. In order to overcome this noise and capture the actual value, the signal is run through a low pass filter. The filtered signal will still have an oscillating attribute due to the characteristics of the wheel speed sensor and its design, as can be seen in \ref{wheel_speed}, subplot 2. The frequency of these wheel speed oscillations are proportional to its the angular velocity.
 
-The value of the slip ratio is rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that variances in the slip ratio calculations will have a large impact. The four wheel speeds that are obtained from the vehicles CAN usually include quite a lot of noise [Figure blah, part 1]. The signals will after filtering still have an oscillating attribute due to the characteristics of the wheel speed sensor and its design [Figure blah, part 2]. When the oscillations from the front and its respective rear wheel are not synchronized, the variation of the calculated slip ratio will be even larger.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/wheel_speed_both}
+	\caption {Left front and rear wheel speeds. Non-filtered values in subplot 1. Filtered values in subplot 2.}
+	\label{wheel_speed}
+\end{figure}
 
-Another concrete problem that arises when calculating the slip ratio, is that the radius for each wheel on a vehicle can be different, e.g. when the air pressure of a tire has changed slightly. The wheel speed obtained from the CAN will in this case be wrong, leading to a offset in the slip ratio.
+The slip ratio value during a real driving sequence is usually rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that a small variances in the slip ratio calculations will have a large impact on the resulting force. When the oscillations from the front and its respective rear wheel are not synchronized and with different magnitude, the variation of the calculated slip ratio will be rather larger compared to its real value. These varying calculation results can be seen if \ref{slip_ratio}, subplot 1. To manage this, the slip ratio value is run through a low pass filter, result seen in \ref{slip_ratio}, subplot 2. The results that are seen in the two figures, \ref{wheel_speed} and \ref{slip_ratio}, are obtained from the same driving sequence. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/slip_ratio_both}
+	\caption {Slip ratio between left front and rear wheel. Unfiltered values in subplot 1. Filtered values in subplot 2.}
+	\label{slip_ratio}
+\end{figure}
+
+Another concrete problem that arises when calculating the slip ratio, is that the radius for each wheel on a vehicle can be different, e.g. when the air pressure of a tire has changed slightly. The wheel speed gathered from the CAN bus will in this case be wrong, leading to a offset in the slip ratio calculations.
 
 \subsection{Normal force}
 
