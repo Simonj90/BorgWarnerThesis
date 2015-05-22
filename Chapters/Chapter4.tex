@@ -234,25 +234,17 @@ The tire stiffness for a certain tire should theoretically be the same for diffe
 
 \subsection{Slip ratio}
 
-As seen in most slip/force figures, the maximum force will be generated at a specific slip and will thereafter decrease with an increasing slip ratio. If the tire model doesn't capture this force peak at the correct slip ratio, the tire model force will be very difficult to match to the vehicle force. 
+As seen in most slip/force figures, the maximum force will be generated at a specific slip and will thereafter decrease with an increasing slip ratio. If the tire model doesn't capture this force peak at the correct slip ratio value, it will become very difficult to match the tire model force with the calculated vehicle force. The slip ratio value during a real driving sequence is usually rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that a small variances in the slip ratio calculations will have a large impact on the resulting force.
 
-The four wheel speeds that are obtained from the vehicles CAN bus are usually quite noisy signals, as seen in figure \ref{wheel_speed}, subplot 1. In order to overcome this noise and capture the actual value, the signal is run through a low pass filter. The filtered signal will still have an oscillating attribute due to the characteristics of the wheel speed sensor and its design, as can be seen in \ref{wheel_speed}, subplot 2. The frequency of these wheel speed oscillations are proportional to its the angular velocity.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/wheel_speed_both}
-	\caption {Front left and rear left wheel speeds. Non-filtered values in subplot 1. Filtered values in subplot 2.}
-	\label{wheel_speed}
-\end{figure}
-
-The slip ratio value during a real driving sequence is usually rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that a small variances in the slip ratio calculations will have a large impact on the resulting force. When the oscillations from the front and its respective rear wheel are not synchronized and with different magnitude, the variation of the calculated slip ratio will be rather larger compared to its real value. These varying slip ratios can be seen in \ref{slip_ratio}, subplot 1. To manage this, the slip ratio value is run through a low pass filter, which can be seen in \ref{slip_ratio}, subplot 2. The results in figures \ref{wheel_speed} and \ref{slip_ratio} are obtained from the same driving sequence. 
+In order to calculate the slip ratios of the two front wheels, the four wheel speeds are gathered from the vehicles CAN bus. These signals generally include quite a lot of measurement and/or process noisy which thereafter leads to a noisy slip ratio calculation, as can be seen in the first row of figure \ref{wheel_speed_and_slip}. In order to overcome this noise and capture the actual value, the signals are run through a low pass filter. The wheel speeds will, even after filtering, have an oscillating attribute. When theses oscillations from the front and its respective rear wheel are not synchronized and with different magnitude, the calculated slip ratio will have rather large variation compared to its real value. This can be seen in the second row of figure \ref{wheel_speed_and_slip}, where the wheel speeds are run trough a relatively slow low pass filter, e.i. a low pass filter with a high cutoff frequency. Most of the measure and/or process noise is removed, but due to the characteristics of the wheel speed sensor and its design, the signal will still oscillate with a frequency that is  proportional to its angular velocity. To minimize the error from the oscillations, the wheel speeds are filtered with a lower cutoff frequency, which can be seen in the third row of figure \ref{wheel_speed_and_slip}. 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/slip_ratio_both}
-	\caption {Slip ratio between left front and rear wheel. Unfiltered values in subplot 1. Filtered values in subplot 2.}
-	\label{slip_ratio}
+	\includegraphics[width=0.8\textwidth]{Pictures/wheel_speed_and_slip}
+	\caption {Wheel speeds and slips for different filters.}
+	\label{wheel_speed_and_slip}
 \end{figure}
+
 
 Another concrete problem that arises when calculating the slip ratio, is that the radius for each wheel on a vehicle can be different, e.g. when the air pressure of a tire drops slightly over time. The wheel speed from the CAN bus will in this case be wrong, leading to a offset in the slip ratio calculations.
 
