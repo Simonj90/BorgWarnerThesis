@@ -56,6 +56,7 @@ The simplest way of representing the force acting on the vehicle while accelerat
 	F = m \cdot a
 \end{equation}
 \subsubsection{Estimating the longitudinal acceleration}
+\label{longaccest}
 For this method to be accurate an accurate estimation of the longitudinal acceleration is needed. Some cars have accelerometers installed for longitudinal measurements which makes it straight forward to calculate the force. If one of those aren't available the acceleration has to be calculated instead. This can be done by derivation of the vehicles speed. The speed of the vehicle can be obtained by measuring the speeds of the undriven wheels. For a FWD car this would be the rear wheels. To make the calculation more accurate the average speed of the two rear wheels is calculated before the derivation is done.
 \begin{equation}
 a_{x} = \frac{d}{dt}(\frac{w_{rl}+w_{rr}}{2})
@@ -159,39 +160,38 @@ On newer cars it's not very uncommon to find what gear is active at the moment a
 \end{figure}
 
 \subsubsection{Transfer losses}
-There are several factors that affect how much of the engine torque that actually generates a driving force between the road and the tire. There are several losses in a drive line. Friction and rotating masses within the drive line are the main contributors. 
-
-The frictional losses are very dependant on the design of the engine, driveline, and transmisson. This means that the losses will differ between v ehicle models and therefore there are no good model that can represent such losses accurately. It is however known that there are larger losses when the gear ratio transmission is larger. The losses due to higher gear ratio can be described as:
-\todo{ajaj? (formeln)}
+There are several factors that affect how much of the engine torque that actually becomes available on the drive shafts. There are several losses in a drive line. Friction and rotating masses within the drive line are the main contributors. Some torque are also lost accelerating the mass of the wheel itself.
 \begin{equation}
-	Loss\% = \frac{1}{1 + factor(0.0025?)*gearratio^2}
+T_{driveshaft} = T_{driveshaftwithoutlosses}\cdot\eta_{friction}\cdot\eta_{rotating mass} - T_{wheelacceleration}
 \end{equation}
-Each wheel connected to a driven shaft has its own moment of inertia which will be accelerated if enough torque is applied. The amount of torque needed to accelerate the wheel depends on its moment of inertia and the angular acceleration
+$ \eta_{friction} $ is just a scalar factor. The frictional losses are very dependent on the design of the drive line. This means that the losses will differ between vehicles and that this factor needs to be calculated for each specific car model. Since this factor is easy to change it will also include other losses in the drive line such as acceleration of the drive shafts. \todo{can we say this?}
+
+$ \eta_{rotating mass} $ is modeled as:
+\begin{equation}
+\eta_{rotating mass} = \frac{1}{1 + factor(0.0025?)\cdot gearratio^2}
+\end{equation}\\
+\todo{choose factor}
+The efficiency gets worse as the gear ratio gets higher since there will be more rotating mass in low gears. \todo{is this true?} Just as the frictional losses this loss is also dependent on the design of the drive line. Thus the factor multiplied with the gear ratio needs to be decided for each specific car model.
+
+To calculate $ T_{wheelacceleration} $ requires some more steps. Each wheel connected to a driven shaft has its own moment of inertia which will be accelerated if enough torque is applied. The amount of torque needed to accelerate the wheel depends on its moment of inertia and the angular acceleration:
 \begin{equation}
 	T = a \cdot I
 \end{equation}
-Where the moment of inertia is the sum of its integrated mass multiplied by its radii squared. 
+The moment of inertia is the wheels radii squared and integrated over the mass. 
 \begin{equation}
 	I = \int r^2 \cdot dm
 \end{equation}
-Assuming that a wheel has a shape of a solid cylinder with equal amount of density throughout, the moment of inertia for a wheel can be described as
+Assuming that a wheel has the shape of a solid cylinder with equal amount of density throughout, the moment of inertia for a wheel can instead be described as:
 \begin{equation}
 	I = \dfrac{r^2 \cdot m}{2} 
 \end{equation}
-In the same manner, this applies for the actual shaft as well. 
+In the same manner, this applies for the actual drive shafts as well but as was said earlier this loss is included in the scalar factor describing the frictional losses. \todo{again, can we say this?}
 
-By subtracting this torque from the shaft, the final torque which generates force between the tire and ground is obtained.
-\begin{equation}
-	T_{resulting} = T_{shaft} - T_{wheel acc}
-\end{equation}
-Thereafter the force, in $ N $, can be obtained by dividing the torque, in $ Nm $, by the radii of the wheel
-\begin{equation}
-	F_{tire} = \frac{T_{resulting}}{r_{wheel}}
-\end{equation}
-A restriction that has to be thought of is that the amount of force that can be generated between the tire and the road is limited by the tire/road friction and the normal, $ \mu \cdot F_{z} $. Any additional torque applied to the shaft will add to $ T_{wheelacc} $ and merely serve as unwanted acceleration of the wheel, i.e. spinning.
-
+The angular acceleration is calculated in the same manner as in Section \ref{longaccest} but now for the front left and right wheel separately.
 \subsubsection{Complications}
-This method include some negative aspects that have to be thought of. It is unfortunately very uncommon for a commercially available vehicle today to have a torque sensor mounted, which means that the torque has to be obtained with other parameters. The torque applied to driving shaft is simply the torque generated from the engine multiplied by the current gear ratio.
+This method includes some negative aspects that have to be thought of. It is unfortunately very uncommon for a commercially available vehicle today to have a torque sensor mounted, which means that the torque has to be obtained with other parameters. The torque applied to driving shaft is simply the torque generated from the engine multiplied by the current gear ratio.
+
+A restriction that has to be thought of is that the amount of force that can be generated between the tire and the road is limited by the tire/road friction and the normal, $ \mu \cdot F_{z} $. Any additional torque applied to the shaft will add to $ T_{wheelacc} $ and merely serve as unwanted acceleration of the wheel, i.e. spinning.
 
 \section{Tire forces}
 To calculate the tire force properly the slip angle is needed. 
