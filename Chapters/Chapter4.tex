@@ -29,7 +29,7 @@ All in all it is a great challenge to estimate the tire/road friction coefficien
 
 \section{Signal processing}
 
-Apart from the fact that a vehicle is hard to model properly, the parameter signals from the vehicles CAN bus are noisy and can also be delayed.
+Apart from the fact that a vehicle is hard to model properly, the parameter that are used for the  signals from the vehicles CAN bus are noisy and can also be delayed.
 
 \subsection{Filters}
 
@@ -45,6 +45,13 @@ Different signals have different noise, and therefore should be filtered differe
 \subsection{Static parameter impact}
 
 Massa, radie på hjulen, CGO height, osv..
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/force_diff_re_mass}
+	\caption {Forces for different wheel radius and masses.}
+	\label{force_diff_re_mass}
+\end{figure}
 
 \section{Vehicle forces}
 There are several forces acting on a vehicle. The largest forces are generated between the tires and the ground because the tires are the only parts of a car that have any physical contact with the surrounding world. While accelerating and braking longitudinal forces will arise and while cornering lateral forces will arise. The tires are responsible for all the forces that actually control the vehicle which makes them very important for good handling but also makes them hard to model. Beside these major forces there are also forces such as wind drag and rolling resistance acting on the vehicle.
