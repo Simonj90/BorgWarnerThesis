@@ -195,10 +195,16 @@ Assuming that a wheel has the shape of a solid cylinder with equal amount of den
 In the same manner, this applies for the actual drive shafts as well but as was said earlier this loss is included in the scalar factor describing the frictional losses. \todo{again, can we say this?}
 
 The angular acceleration is calculated in the same manner as in Section \ref{longaccest} but now for the front left and right wheel separately.
-\subsubsection{Complications}
-This method includes some negative aspects that have to be thought of. It is unfortunately very uncommon for a commercially available vehicle today to have a torque sensor mounted, which means that the torque has to be obtained with other parameters. The torque applied to driving shaft is simply the torque generated from the engine multiplied by the current gear ratio.
 
-A restriction that has to be thought of is that the amount of force that can be generated between the tire and the road is limited by the tire/road friction and the normal, $ \mu \cdot F_{z} $. Any additional torque applied to the shaft will add to $ T_{wheelacc} $ and merely serve as unwanted acceleration of the wheel, i.e. spinning.
+
+\subsubsection{Complications}
+\todo{this part needs more work}
+The main issue with this method is the overall uncertainty of it. For example, the engine torque obtained from the CAN bus isn't measured with a torque sensor on the crankshaft but rather is a calculated value from the engine control unit. The engine control unit calculates the torque with the help several engine parameters and even if it's close most of the times there are moments when it isn't quite right. When doing a sudden acceleration that's aggressive enough to make the vehicle shift down some gears, a so called kickdown, the torque reading will be faulty. 
+
+This method won't work during shifting because the link between the engine shaft and the drive shafts will be lost or affected while the clutch and transmission are working to shift gear. To avoid this trouble the vehicle force estimation simply needs to paused as soon as the start of a gear shift is detected.
+
+\subsection{Verification}
+Since the reliability of the method is uncertain is needs to be verified in some way. This was done with test data from a driving session where the vehicle was equipped with torque sensors mounted on the drive shafts. By comparing the results from the calculated torque values to the measured values the functionality of the method can be verified. Further on some basic tuning of the efficiency coefficients can be made.
 
 \section{Tire forces}
 To calculate the tire force properly the slip angle is needed. 
