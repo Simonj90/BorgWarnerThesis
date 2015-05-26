@@ -213,12 +213,17 @@ The main issue with this method is the overall uncertainty of it. For example, t
 This method won't work during shifting because the link between the engine shaft and the drive shafts will be lost or affected while the clutch and transmission are working to shift gear. To avoid this trouble the vehicle force estimation simply needs to paused as soon as the start of a gear shift is detected.
 
 \subsection{Verification}
-Since the reliability of the method is uncertain is needs to be verified in some way. This was done with test data from a driving session where the vehicle was equipped with torque sensors mounted on the drive shafts. By comparing the results from the calculated torque values to the measured values the functionality of the method can be verified. Further on some basic tuning of the efficiency coefficients can be made.
+Since the reliability of the method is uncertain is needs to be verified in some way. This was done with test data from a driving session where the vehicle was equipped with torque sensors mounted on the drive shafts. By comparing the results from the calculated torque values to the measured values the functionality of the method can be verified. Further on some basic tuning of the efficiency coefficients can be made. In Figure \ref{torque_ver} the verification can be seen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{Pictures/torque_ver}
+	\caption{Measured and calculated torque on the left drive shaft from a vehicle equipped with torque sensors on the drive shafts.}
+	\label{torque_ver}
+\end{figure}
 
 \section{Tire forces}
-To calculate the tire force properly the slip angle is needed. 
-
-The characteristics of a tire is very complex, which makes the actual forces generated to the vehicle difficult to obtain. The main dynamic parameters of existing longitudinal tire force models include the slip ratio, normal force, and the tire/road friction coefficient, $ \mu $:
+The characteristic of a tire is very complex, which makes the actual force generated to the vehicle difficult to obtain. A tire can generate both longitudinal and lateral force. It's quite easy to make a tire model that considers both these forces, the hard part is to acquire all the input parameters to the model in real time while driving. The parameters to model the lateral force are especially hard to obtain. These parameters are the slip angle and the lateral tire stiffness. Since these are so hard to calculate only a longitudinal force model is used. The main dynamic parameters of this tire force model include the slip ratio, normal force, and the tire/road friction coefficient, $ \mu $:
 \begin{equation}
 F_{tire, longitudinal} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
