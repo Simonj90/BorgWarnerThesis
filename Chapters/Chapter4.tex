@@ -33,22 +33,26 @@ Apart from the fact that a vehicle is hard to model properly, there is an uncert
 
 \subsection{Filters}
 
-The signals that are taken from the vehicles CAN bus usually include quite a lot of noise and can cause severe errors during calculations and approximations. This measure and process noise mainly consist of sudden unwanted changes that generally has higher frequency than the true parameter value. To exclude these high frequencies, the signal is run trough a low pass filter which will dampen higher frequencies. The amount of damping for certain frequencies depends on the filters cutoff frequency. 
+The signals that are taken from the vehicles CAN bus usually include quite a lot of noise and can cause severe succeeding errors during calculations and approximations. This measure and process noise mainly consist of sudden unwanted changes of the signal that generally has higher frequency than the true parameter value. To exclude these high frequencies, the signal is run trough a low pass filter which will dampen the amplitude of the higher frequencies. The amount of damping for certain frequencies depends on the filters cutoff frequency. 
 
-In figure \ref{filter_and_no}, the filtered and unfiltered values can be seen for two signals, one wheel speed and the engine torque. It can be seen that the noise of the signals are reduced, but to a cost of a delayed signal. The sudden drop of the engine torque, at around $ 11 $ seconds, is due to a gear change. This sudden drop of engine torque has a high frequency and will therefore be incorrectly suppressed by the low pass filter. 
-
-A very important part to think about when filtering the signals is the amount of time that the signal is delayed. Some signals include more noise than others and should preferably be filtered with lower cutoff frequency than other signals. Unfortunately, if different signals are filtered with different low pass filters, they would be delayed with different amount of time. 
-
-
-Due to filtering (multiple filtering(acc)), signals delayed, have to be timed.
-
-Different signals have different noise, and therefore should be filtered differently, this leads to signals being delayed against each other. 
+In figure \ref{filter_and_no}, the filtered and unfiltered values can be seen for two signals, one of the wheel speeds and the engine torque. It can be seen that the noise of the signals are reduced after filtering, but to a cost of a delaying the signal. The sudden drop of the engine torque, at around $ 11 $ seconds, appears due to a gear change. This sudden drop of engine torque will be seen as a high frequency and is therefore incorrectly suppressed by the low pass filter.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Pictures/filter_and_no}
-	\caption {Forces for different wheel radius and masses.}
+	\caption {Wheel speed and engine torque both unfiltered and filtered.}
 	\label{filter_and_no}
+\end{figure}
+
+The amplitude and frequency of the noise will differ for various signals and could therefore  be filtered with different cutoff frequencies to get the most correct value. For example, the engine torque signal, seen in $ \ref{filter_and_no} $ subplot 2, could be filtered with a higher cutoff frequency than the wheel speed, seen in $ \ref{filter_and_no} $ subplot 1, to capture its faster changing characteristic better. However, an important aspect to consider during filtering, is the duration of the delay that will affect the signal. Signals that are run through filters with different cutoff frequencies, will also have differing delay durations. In the extent, this could lead to computations that should equal one another will differ greatly due to their different parameter dependencies. 
+
+In figure $ \ref{different_filter_val} $, two different force models, that should be equal to each other, are dependant on different parameter values. In subplot one, a signal that affects the tire model is filtered with a cutoff frequency significantly lower than the cutoff frequency for the parameters affecting the vehicle model. In the extent, the force calculated from the tire model becomes delayed compared to the computed vehicle force. In subplot 2 however, the signals are filtered with the same cutoff frequency, hence resulting in a better match between the two models. The conclusion from this is that the low pass filters should not only be designed to get the best possible accuracy for that specific parameter, but the succeeding effects also need to be considered.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/different_filter_val}
+	\caption {Vehicle and tire model forces with different filter values for engine torque and wheel speeds.}
+	\label{different_filter_val}
 \end{figure}
 
 \subsection{Static parameter impact}
