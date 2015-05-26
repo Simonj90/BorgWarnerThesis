@@ -33,7 +33,11 @@ Apart from the fact that a vehicle is hard to model properly, there is an uncert
 
 \subsection{Filters}
 
-The signals that are taken from the vehicles CAN bus usually include quite a lot of noise. To exclude this noise, the signals are run through a low pass filter, which eliminates sudden changes, e.i noise, from the signal. 
+The signals that are taken from the vehicles CAN bus usually include quite a lot of noise and can cause severe errors during calculations and approximations. This measure and process noise mainly consist of sudden unwanted changes that generally has higher frequency than the true parameter value. To exclude these high frequencies, the signal is run trough a low pass filter which will dampen higher frequencies. The amount of damping for certain frequencies depends on the filters cutoff frequency. 
+
+In figure \ref{filter_and_no}, the filtered and unfiltered values can be seen for two signals, one wheel speed and the engine torque. It can be seen that the noise of the signals are reduced, but to a cost of a delayed signal. The sudden drop of the engine torque, at around $ 11 $ seconds, is due to a gear change. This sudden drop of engine torque has a high frequency and will therefore be incorrectly suppressed by the low pass filter. 
+
+A very important part to think about when filtering the signals is the amount of time that the signal is delayed. Some signals include more noise than others and should preferably be filtered with lower cutoff frequency than other signals. Unfortunately, if different signals are filtered with different low pass filters, they would be delayed with different amount of time. 
 
 
 Due to filtering (multiple filtering(acc)), signals delayed, have to be timed.
@@ -42,7 +46,7 @@ Different signals have different noise, and therefore should be filtered differe
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/filter_and_no}
+	\includegraphics[width=1.0\textwidth]{Pictures/filter_and_no}
 	\caption {Forces for different wheel radius and masses.}
 	\label{filter_and_no}
 \end{figure}
@@ -53,7 +57,7 @@ Massa, radie på hjulen, CGO height, osv..
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/force_diff_re_mass}
+	\includegraphics[width=1.0\textwidth]{Pictures/force_diff_re_mass}
 	\caption {Forces for different wheel radius and masses.}
 	\label{force_diff_re_mass}
 \end{figure}
@@ -222,7 +226,7 @@ The slip ratio is calculated from the wheels difference in angular and forward v
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/slipkraft_olika_mue}
+	\includegraphics[width=1.0\textwidth]{Pictures/slipkraft_olika_mue}
 	\caption {Normalized tire model force per slip ratio for different mue values.}
 	\label{different_mue}
 \end{figure}
@@ -259,7 +263,7 @@ In order to calculate the slip ratios of the two front wheels, the four wheel sp
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/wheel_speed_and_slip}
+	\includegraphics[width=1.0\textwidth]{Pictures/wheel_speed_and_slip}
 	\caption {Wheel speeds and slips for different filters.}
 	\label{wheel_speed_and_slip}
 \end{figure}
