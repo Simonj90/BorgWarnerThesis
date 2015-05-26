@@ -227,21 +227,25 @@ Since the reliability of the method is uncertain is needs to be verified in some
 \end{figure}
 
 \section{Tire forces}
-The characteristic of a tire is very complex, which makes the actual force generated to the vehicle difficult to obtain. A tire can generate both longitudinal and lateral force. It's quite easy to make a tire model that considers both these forces, the hard part is to acquire all the input parameters to the model in real time while driving. The parameters to model the lateral force are especially hard to obtain. These parameters are the slip angle and the lateral tire stiffness. Since these are so hard to calculate only a longitudinal force model is used. The main dynamic parameters of this tire force model include the slip ratio, normal force, and the tire/road friction coefficient, $ \mu $:
+The characteristic of a tire is very complex, which makes the actual force generated to the vehicle difficult to obtain. As was shown in the theory part (\ref{sec:tire_models}) there are several tire models that can be used, everyone of them with different properties.
+
+A tire can generate both longitudinal and lateral force. It's quite easy to create a tire model that considers both these forces, the hard part is to acquire all the input parameters to the model in real time while driving. The parameters to model the lateral force are especially hard to obtain. These parameters are the slip angle and the lateral tire stiffness. Since these are so hard to calculate only the longitudinal part of a force model is used. The main dynamic parameters of a longitudinal tire force model (except Magic formula) includes the slip ratio, normal force, and the tire/road friction coefficient. A fourth, less dynamic parameter is the longitudinal tire stiffness. 
 \begin{equation}
 F_{tire, longitudinal} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
-The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in equation $ \ref{eq:longslip} $, the normal force from the weigh of the vehicle and the changing weight distribution derived (IN PREVIOUS CHAPTER), and the tire stiffness as explained in (IN PREVIOUS CHAPTER). Thereafter, the only dynamic parameter of the tire force equation becomes the friction coefficient. By choosing the correct $ \mu $, the force from the tire model will equal the force from the vehicle model. This calculation is done in a feedback manner, meaning that the tire force depends on the friction coefficient derived in the previous iteration.
+The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in equation $ \ref{eq:longslip} $, the normal force from the weight of the vehicle and the changing weight distribution derived in \ref{normal_force}, and the tire stiffness as explained in \ref{sec:tire_stiffness}. Thereafter, the only dynamic parameter of the tire force equation becomes the friction coefficient. By choosing the correct $ \mu $, the force from the tire model will equal the force from the vehicle model. This calculation is done in a feedback manner, meaning that the tire force depends on the friction coefficient derived in the previous iteration.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Pictures/slipkraft_olika_mue}
-	\caption {Normalized tire model force per slip ratio for different mue values.}
-	\label{different_mue}
-\end{figure}
+\subsection{Choosing a tire model}
+Four models where described in the theory part. Brush model, Dugoff model, Magic formula and a tire model created by Ola Nockhammar at Borg Warner AB, further on called Ola's model.
 
+The magic formula was ruled out almost immediately since it's a too complicated model to be adaptive enough. It's great for simulating a specific tire in a lab for example but using it in a real time car environment won't work. It's just too many parameters to estimate when switching from summer to winter tires for example. \todo{hmm?}
 
-\subsection{Tire stiffness}
+The other three models are more simple with fewer input parameters and above all it's parameters that are more easily available, like slip ratio and normal force. The Brush model and the Dugoff model are even too simple. The only available parameter to change the characteristics of the slip/force curve is the longitudinal tire stiffness. Ola's model on the other hand contains two degrees of freedom by introducing a second parameter to affect the inclination of the slip/force curve. Hence, it's easier to model a tire correctly with this model. Another positive aspect is the fact that the model is made for longitudinal force estimation only. Thus, it doesn't need to be modified for longitudinal use only like the Brush and Dugoff models. \todo{is this true?}
+
+All in all, Ola's model was the obvious choice for this work.
+
+\subsection{Tire model parameters}
+\subsubsection{Tire stiffness}
 
 The tire stiffness is obtained by deriving the tire force generated per slip for values around zero, e.i. the gradient of the slip/force curve at zero slip. The slip force curve for two different tire stiffness's can be seen in \ref{different_cx}. The interpretation from this figure is that a tires stiffness is an essential parameter to have in order to model the tire force correctly. 
 
@@ -264,7 +268,7 @@ Unfortunately, a tire characteristics is further complex, and cannot be explaine
 
 The tire stiffness for a certain tire should theoretically be the same for different road surfaces. Nevertheless, testing has shown that the actual inclination of the slip/force curve for small slips can differ for different road surfaces. The tire stiffness therefore has to be compensated accordingly depending on the roads friction coefficient.
 
-\subsection{Slip ratio}
+\subsubsection{Slip ratio}
 
 As seen in most slip/force figures, the maximum force will be generated at a specific slip and will thereafter decrease with an increasing slip ratio. If the tire model doesn't capture this force peak at the correct slip ratio value, it will become very difficult to match the tire model force with the calculated vehicle force. The slip ratio value during a real driving sequence is usually rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that a small variances in the slip ratio calculations will have a large impact on the resulting force.
 
@@ -282,7 +286,7 @@ Another concrete problem that arises when calculating the slip ratio, is that th
 
 \todo{Skriva något fint om kraften med slip angle} The force/slip should be smaller when the slip angle is larger. In other words, when we have more lateral force, the longitudinal force will be smaller.
 
-\subsection{Normal force}
+\subsubsection{Normal force}
 
 The amount of both longitudinal and lateral force generated from tire depends on the normal force acting on the tire. The force generated by a tire is linearly proportional to the normal force on the tire
 \begin{equation}
@@ -295,6 +299,15 @@ Where the normalized force $ \mu_{0} $, never can exceed the friction between th
 It is therefore important to know the loaded weight on each tire in every instant. This is done by the dynamic weight distribution calculations explained in section \ref{normal_force}. These calculations are rather simplified, where the difference in chassis stiffness between front and back is not considered. These chassis stiffness's are vehicle specific and hard to estimate. 
 
 This means that the maximum longitudinal force obtained by either the vehicle model or the tire force model, can never be larger than the normal force multiplied by the tire/road friction coefficient, which can be helpful when unreasonable values are obtained. 
+
+\subsubsection{Friction coefficient}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/slipkraft_olika_mue}
+	\caption {Normalized tire model force per slip ratio for different mue values.}
+	\label{different_mue}
+\end{figure}
 
 \section{Estimating the friction coefficient}
 
