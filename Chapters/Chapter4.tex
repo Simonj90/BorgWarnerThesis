@@ -299,7 +299,6 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 
 \subsubsection{Friction coefficient}
 
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Pictures/slipkraft_olika_mue}
@@ -310,6 +309,62 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 \todo{add more}
 
 \section{Estimating the friction coefficient}
+The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient in order for the two different force models to be equal to each other. Purely theoretical, this means that the friction coefficient can be obtained at every instance for when a new CAN packages are available. Instead of approximating a new friction coefficient at every moment, a least square fitting method is used to find the friction coefficient over a certain amount of time. 
+
+\subsection{Least square fitting}
+The general idea of a least square fitting method is to minimize the sum of the squares between a theoretical model and observed data. 
+\begin{equation} 
+	y(k) = \phi(k)\cdot\theta + v
+	\label{eq:least_square}
+\end{equation}
+Where $ y $ is the observed data, $ \phi(k)\cdot\theta $ the theoretical model and $ v $ the error. The cost function that should be minimized becomes the following:
+\begin{equation}
+	V(\hat{\theta}, k) = \dfrac{1}{2}*\sum_{i=1}^{k} \lambda^{k-i}\Big(y(i) - \phi(i)\cdot\hat\theta \Big)^2
+\end{equation}
+Due to the fact that new data is acquired continuously, these least square would need to be executed at every time step. Hence, a modification of the least square fitting is used which recursively takes older values into account. 
+
+\subsection{Recursive least square fitting}
+
+The recursive least square (RLS) fitting method is defined as:
+
+\begin{equation}
+	\hat \theta (k) = \hat \theta (k-1) + L(k) \cdot v(k)
+\end{equation}
+\begin{equation}
+	L(k) =\dfrac{ P(k-1)\phi (k)}{\lambda + \phi (k) P(k-1)\phi(k)} 
+\end{equation}
+\begin{equation}
+	P(k) = \Big( I - L(k)\phi (k) \Big) \dfrac{1}{\lambda} P(k-1)
+\end{equation}
+Where the error 
+\begin{equation}
+v(k) = \Big(y(k) - \phi (k) \hat \theta (k-1)\Big)
+\end{equation}
+
+However, this method can only be applied to linear system, and a tire is not linearly. It is linearized and assumed that the derivative of the force as a function of $ \mu $
+\begin{equation}
+	\dfrac{\partial F}{\partial \mu}
+\end{equation}
+
+\begin{equation}
+	F_{vehicle} = \dfrac{\partial F}{\partial \mu} * \mu
+\end{equation}
+
+The least square fitting method can thereafter be used as in \ref{eq:least_square}.
+The RLS :
+
+
+\begin{equation}
+	L(k) =\dfrac{ P(k-1)\phi (k)}{\lambda + \phi (k) P(k-1)\phi(k)} 
+\end{equation}
+\begin{equation}
+	P(k) = \Big( I - L(k)\phi (k) \Big) \dfrac{1}{\lambda} P(k-1)
+\end{equation}
+
+
+
+
+\subsection{Limiting the RLS}
 
 \section{Other methods}
 
