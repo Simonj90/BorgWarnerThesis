@@ -46,7 +46,7 @@ In figure \ref{filter_and_no}, the filtered and unfiltered values can be seen fo
 
 The amplitude and frequency of the noise will differ for various signals and could therefore  be filtered with different cutoff frequencies to get the most correct value. For example, the engine torque signal, seen in $ \ref{filter_and_no} $ subplot 2, could be filtered with a higher cutoff frequency than the wheel speed, seen in $ \ref{filter_and_no} $ subplot 1, to capture its faster changing characteristic better. However, an important aspect to consider during filtering, is the duration of the delay that will affect the signal. Signals that are run through filters with different cutoff frequencies, will also have differing delay durations. In the extent, this could lead to computations that should equal one another will differ greatly due to their different parameter dependencies. 
 
-In figure $ \ref{different_filter_val} $, two different force models, that should be equal to each other, are dependant on different parameter values. In subplot one, a signal that affects the tire model is filtered with a cutoff frequency significantly lower than the cutoff frequency for the parameters affecting the vehicle model. In the extent, the force calculated from the tire model becomes delayed compared to the computed vehicle force. In subplot 2 however, the signals are filtered with the same cutoff frequency, hence resulting in a better match between the two models. The conclusion from this is that the low pass filters should not only be designed to get the best possible accuracy for that specific parameter, but the succeeding effects also need to be considered.
+In figure $ \ref{different_filter_val} $, two different force models, that should be equal to each other, are dependent on different parameter values. In subplot one, a signal that affects the tire model is filtered with a cutoff frequency significantly lower than the cutoff frequency for the parameters affecting the vehicle model. In the extent, the force calculated from the tire model becomes delayed compared to the computed vehicle force. In subplot 2 however, the signals are filtered with the same cutoff frequency, hence resulting in a better match between the two models. The conclusion from this is that the low pass filters should not only be designed to get the best possible accuracy for that specific parameter, but the succeeding effects also need to be considered.
 
 \begin{figure}[h]
 	\centering
@@ -56,6 +56,8 @@ In figure $ \ref{different_filter_val} $, two different force models, that shoul
 \end{figure}
 
 \subsection{Static parameter impact}
+
+Even if a model can recreate a driving sequence perfectly, there will always be an uncertainty due to car specific parameters that are used. Some of these parameters include the position of the center of gravity, the radius of the wheels and the mass of the vehicle. These values are usually considered to be static during calculation, but can of course change with time and between different driving sequences. The position of the center of gravity will affect the lengths from the center of gravity to the two axles, denoted $ l_{f} $ and $ l_{r} $ respectively, 
 
 Massa, radie på hjulen, CGO height, osv..
 
@@ -247,7 +249,7 @@ All in all, Ola's model was the obvious choice for this work.
 \subsection{Tire model parameters}
 \subsubsection{Tire stiffness}
 
-The tire stiffness is obtained by deriving the tire force generated per slip for values around zero, e.i. the gradient of the slip/force curve at zero slip. The slip force curve for two different tire stiffness's can be seen in \ref{different_cx}. The interpretation from this figure is that a tires stiffness is an essential parameter to have in order to model the tire force correctly. 
+The tire stiffness is obtained by deriving the tire force generated per slip for values around zero, e.i. the gradient of the slip/force curve at zero slip. The slip force curve for two different tire stiffnesses can be seen in \ref{different_cx}. The interpretation from this figure is that a tires stiffness is an essential parameter to have in order to model the tire force correctly. 
 
 \begin{figure}[h]
 	\centering
@@ -272,7 +274,7 @@ The tire stiffness for a certain tire should theoretically be the same for diffe
 
 As seen in most slip/force figures, the maximum force will be generated at a specific slip and will thereafter decrease with an increasing slip ratio. If the tire model doesn't capture this force peak at the correct slip ratio value, it will become very difficult to match the tire model force with the calculated vehicle force. The slip ratio value during a real driving sequence is usually rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that a small variances in the slip ratio calculations will have a large impact on the resulting force.
 
-In order to calculate the slip ratios of the two front wheels, the four wheel speeds are gathered from the vehicles CAN bus. These signals generally include quite a lot of measurement and/or process noisy which thereafter leads to a noisy slip ratio calculation, as can be seen in the first row of figure \ref{wheel_speed_and_slip}. In order to overcome this noise and capture the actual value, the signals are run through a low pass filter. The wheel speeds will, even after filtering, have an oscillating attribute. When theses oscillations from the front and its respective rear wheel are not synchronized and with different magnitude, the calculated slip ratio will have rather large variation compared to its real value. This can be seen in the second row of figure \ref{wheel_speed_and_slip}, where the wheel speeds are run trough a relatively slow low pass filter, e.i. a low pass filter with a high cutoff frequency. Most of the measure and/or process noise is removed, but due to the characteristics of the wheel speed sensor and its design, the signal will still oscillate with a frequency that is proportional to its angular velocity. To minimize the error from the oscillations, the wheel speeds are filtered with a lower cutoff frequency, which can be seen in the third row of figure \ref{wheel_speed_and_slip}. 
+In order to calculate the slip ratios of the two front wheels, the four wheel speeds are gathered from the vehicles CAN bus. These signals generally include quite a lot of measurement and/or process noisy which thereafter leads to a noisy slip ratio calculation, as can be seen in the first row of figure \ref{wheel_speed_and_slip}. In order to overcome this noise and capture the actual value, the signals are run through a low pass filter. The wheel speeds will, even after filtering, have an oscillating attribute. When theses oscillations from the front and its respective rear wheel are not synchronized and with different magnitude, the calculated slip ratio will have rather large variation compared to its real value. This can be seen in the second row of figure \ref{wheel_speed_and_slip}, where the wheel speeds are run trough a relatively slow low pass filter, i.e. a low pass filter with a high cutoff frequency. Most of the measure and/or process noise is removed, but due to the characteristics of the wheel speed sensor and its design, the signal will still oscillate with a frequency that is proportional to its angular velocity. To minimize the error from the oscillations, the wheel speeds are filtered with a lower cutoff frequency, which can be seen in the third row of figure \ref{wheel_speed_and_slip}. 
 
 \begin{figure}[h]
 	\centering
@@ -296,7 +298,7 @@ Where the normalized force $ \mu_{0} $, never can exceed the friction between th
 \begin{equation}
 	\mu_{0} \leq \mu
 \end{equation}
-It is therefore important to know the loaded weight on each tire in every instant. This is done by the dynamic weight distribution calculations explained in section \ref{normal_force}. These calculations are rather simplified, where the difference in chassis stiffness between front and back is not considered. These chassis stiffness's are vehicle specific and hard to estimate. 
+It is therefore important to know the loaded weight on each tire in every instant. This is done by the dynamic weight distribution calculations explained in section \ref{normal_force}. These calculations are rather simplified, where the difference in chassis stiffness between front and back is not considered. These chassis stiffnesses are vehicle specific and hard to estimate. 
 
 This means that the maximum longitudinal force obtained by either the vehicle model or the tire force model, can never be larger than the normal force multiplied by the tire/road friction coefficient, which can be helpful when unreasonable values are obtained. 
 
