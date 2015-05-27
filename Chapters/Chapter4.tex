@@ -56,16 +56,14 @@ In figure $ \ref{different_filter_val} $, two different force models, that shoul
 \end{figure}
 
 \subsection{Static parameter impact} 
+Even if a model can recreate a driving sequence correctly, there will always be an uncertainty due to vehicle specific parameters that are used. Some of these parameters include the position of the CoG, the radius of the wheels and the mass of the vehicle. The position of the CoG will affect the lengths from the CoG to the two axles, denoted $ l_{f} $ and $ l_{r} $ respectively, and also the CoG height from the ground. The position of the CoG will change depending on how the vehicle is loaded. The radius of the wheels can change slightly over time as the tire pressures changes, and can also be different from each tire. The radius of the wheel is used to calculate the velocity of the wheel and also to convert axle torque to force generated at the edge. The mass of the vehicle can change between different driving sequences, depending on how many persons that are seated within the car and also on additional weight. The vehicles mass and CoG height is used to calculate the weigh distribution and therefore also the amount of downward force generated at each tire. 
 
-Even if a model can recreate a driving sequence perfectly, there will always be an uncertainty due to car specific parameters that are used. Some of these parameters include the position of the CoGcenter of gravity, the radius of the wheels and the mass of the vehicle. The position of the CoG will affect the lengths from the CoGse values are usually considered to the two axles, denoted $ l_{f} $ and $ l_{r} $ respectively, and also the CoG height from the ground. The radius of the wheels will change slightly over time as the tire pressures becomes lower. These pressure drops can also be different from each tire. The mass of the vehiclebe static during calculation, but can of course change with time and between different driving sequences. The position of the center of gravity will diaffer depending on how many persons that are seated and  These values are usually consideredct the lengths from the center of gravity to the two be static during calculation, but will in fact change over time and between multiple driving sequences.axles, denoted $ l_{f} $ and $ l_{r} $ respectively,
-
-
-Massa, radie på hjulen, CGO height, osv..
+To get an understanding of how much these parameters affect the result, the force generated from two models with differing parameter values are seen in figure \ref{force_diff_re_mass}. In the first subplot, the longitudinal force is calculated from a vehicle model that approximates the torque applied to the two driving shafts and thereafter the force generated to the ground by using two different radii. A radius difference of $ 3 $ cm would be very large if considering a tire pressure drop, but could be possible when changing between wheels. In the second subplot, the longitudinal force calculated from a tire model is presented. The two different masses correspond to a vehicle with merely a driver respectively a vehicle with 5 persons. 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Pictures/force_diff_re_mass}
-	\caption {Forces for different wheel radius and masses.}
+	\caption {Forces for different wheel radii and masses.}
 	\label{force_diff_re_mass}
 \end{figure}
 
@@ -300,6 +298,7 @@ It is therefore important to know the loaded weight on each tire at every instan
 This means that the maximum longitudinal force obtained by either the vehicle model or the tire force model, can never be larger than the normal force multiplied by the tire/road friction coefficient, which can be helpful to rule out unreasonable values. 
 
 \subsubsection{Friction coefficient}
+
 
 \begin{figure}[h]
 	\centering
