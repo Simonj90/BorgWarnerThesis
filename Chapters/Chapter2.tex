@@ -98,15 +98,18 @@ The longitudinal and lateral forces that act on the tires are dependent on the n
 	\caption{Normal force on the car seen from the front.}
 	\label{normal_force_lateral}
 \end{figure}
-Without any lateral acceleration, the normal forces on the right and left hand side of the car, as seen in Figure  \ref{normal_force_lateral}, can simply be described as
+Without any lateral acceleration, the normal forces on the right and left hand side of the car, as seen in Figure  \ref{normal_force_lateral}, can simply be described as:
 \begin{equation} \label{eq:normal}
 	F_{zL} + F_{zR} = mg
 \end{equation}
-With lateral acceleration affecting the car, a torque will occur that changes the normal forces on the two sides. 
+With lateral acceleration affecting the car, a torque will occur that changes the normal forces on the two sides: 
 \begin{equation} \label{eq:normal_with_lat_acc}
 	F_{zR}*T_{w} = mg*\frac{T_{w}}{2} + m*a_{y}*CGH
 \end{equation}
-where $ T_{w} $ is the track width, or distance between the wheels, $ a_{z} $ the lateral acceleration and $ CGH $ the height from the ground to the center of gravity. The torque that is an effect of the lateral acceleration in Equation \ref{eq:normal_with_lat_acc}, does not take account for that the center of gravity height will change during driving.
+\begin{equation} \label{eq:normal_with_lat_acc_left}
+F_{zL}*T_{w} = mg*\frac{T_{w}}{2} - m*a_{y}*CGH
+\end{equation}
+$ T_{w} $ is the track width, or distance between the wheels, $ a_{z} $ the lateral acceleration and $ CGH $ the height from the ground to the center of gravity. The torque that is an effect of the lateral acceleration in Equation \ref{eq:normal_with_lat_acc}, does not take into account that the center of gravity height will change during driving.
 
 When taking a corner, there will also be load transfer from the inner to the outer wheel, which will depend on the centripetal force, $ F_{c} = ma_{y} $, and the load transfer coefficient $ \sigma_{i} $.
 \begin{equation}
