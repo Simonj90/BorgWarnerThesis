@@ -106,7 +106,7 @@ With lateral acceleration affecting the car, a torque will occur that changes th
 	F_{zL} = \frac{mg}{2} - \frac{m\cdot a_{y}\cdot CGH}{T_{w}}
 \end{split}
 \end{equation}
-where $ T_{w} $ is the track width (distance between the left and right wheels), $ a_{z} $ the lateral acceleration and $ CGH $ the height from the ground to the center of gravity. The torque that is an effect of the lateral acceleration in Equation \ref{eq:normal_with_lat_acc}, does not take into account that the center of gravity height will change during driving.
+where $ T_{w} $ is the track width (distance between the left and right wheels), $ a_{y} $ the lateral acceleration and $ CGH $ the height from the ground to the center of gravity. The torque that is an effect of the lateral acceleration in Equation \ref{eq:normal_with_lat_acc}, does not take into account that the center of gravity height will change during driving.
 
 Using Equation \ref{eq:normal_with_lat_acc} will result in a large stationary error because unsprung mass isn't considered. Unsprung mass is the weight of the wheel, the wheel carrier and half the suspension weight. This mass won't be a part of the load transfer because it's fixed relative to the ground. In other words, this mass can't affect the normal force acting on the other three wheels. The corrected equations:
 \begin{equation} \label{eq:normal_with_lat_acc_unsprung}
@@ -188,7 +188,7 @@ This leads to the following slip relationships:
 Locked: \omega = 0 \Rightarrow \kappa = -1
 \end{equation}
 \begin{equation}
-Free rolling: \omega = \frac{V}{R_{e}} \Rightarrow \kappa = 0
+Free\: rolling: \omega = \frac{V}{R_{e}} \Rightarrow \kappa = 0
 \end{equation}
 \begin{equation}
 Spinning: \omega = 2\frac{V}{R_{e}} \Rightarrow \kappa = 1
@@ -259,7 +259,7 @@ F_{y} = C_{\alpha}*\alpha
 
 Once again it should be stressed that this is only valid in the linear region of the force/slip curves. Thus the theoretical definition of the tire stiffness is the gradient of the force per slip around the origin. 
 
-Different tires can have very different tire stiffness, which of course will have a great impact on the tires performance. Snow tires are much softer than summer tires and are therefore less stiff. Generally, this also means that snow tires reach their maximum generated force at a larger slip than summer tires. In the same way an extra stiff racing tire will reach its maximum force at a smaller slip. The tire stiffness should not have to be set beforehand (meaning that the driver would have to specify if he/she changes tires) and therefore need to be estimated for an accurate friction estimation.
+Different tires can have very different tire stiffness, which of course will have a great impact on the tires performance. Winter tires are much softer than summer tires and are therefore less stiff. Generally, this also means that snow tires reach their maximum generated force at a larger slip than summer tires. In the same way an extra stiff racing tire will reach its maximum force at a smaller slip. The tire stiffness should not have to be set beforehand (meaning that the driver would have to specify if he/she changes tires) and therefore need to be estimated for an accurate friction estimation.
 
 
 \section{Tire models}
