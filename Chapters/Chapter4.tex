@@ -307,6 +307,7 @@ It is therefore important to know the loaded weight on each tire at every instan
 This means that the maximum longitudinal force obtained by either the vehicle model or the tire force model, can never be larger than the normal force multiplied by the tire/road friction coefficient, which can be helpful to rule out unreasonable values. 
 
 \subsubsection{Friction coefficient}
+\label{section_friction coefficient}
 
 \begin{figure}[h]
 	\centering
@@ -350,7 +351,7 @@ The recursive least square (RLS) fitting method is defined as:
 \hat \theta (k) = \hat \theta (k-1) + L(k) \cdot v(k)
 \label{eq:RLS3}
 \end{equation}
-Where the error 
+Where the error is:
 \begin{equation}
 	v(k) = y(k) - \phi (k) \hat \theta (k-1)
 	\label{eq:RLS4}
@@ -377,13 +378,10 @@ This function now has the same form as \ref{eq:least_square}, which means that t
 \end{equation}
 The friction coefficient value is updated every step and depends on its own value, the error between the vehicle and tire model, and the number L describing how much to rely on the error. $ \dfrac{\partial F_{tire}}{\partial \mu} $ becomes larger for slips close to the peak force, which means that larger changes of $ \mu $ is possible at that point. The forgetting factor, $ \lambda $, is usually a value in the region $ [0.9, 1) $, where a larger forgetting factor means that older values are considered more, resulting in slower changes of $ \mu $.
 
-
 \subsection{When to estimate the friction coefficient}
+In a perfect world, it would be desired to be able to estimate the friction coefficient during every driving situation in order to capture any sudden change of grip between the tire and the road that can be present. Unfortunately there exist many challenges during most driving sequences that have to be considered. During some situations, either the vehicle or the tire model are shown to capture the occurrence far from its reality. These situations need to be identified so that the RLS fitting method does not update the estimated friction coefficient value at these period of times. This means that the friction coefficient value will no be continuously updated throughout every driving sequence and that sudden changes of the tire/road friction can be missed.
 
-The RLS 
-
-\subsubsection{Slip ratio limitations}
-
+\subsubsection{Limitations due to slip ratio }
 There are a couple of driving sequences that affect the slip ratio in such a way that the forces cannot be modeled correctly. When braking, the slip ratio should be close to zero assuming braking forces on all tires, meaning that tire forces cannot be modeled. During cornering, the front wheels will be turned creating a lateral force and a yaw rate. The rear, which doesn't have any positive cornering effect, will follow the front wheels but in a smaller radius, leading to a lower velocity. This difference in velocity between the front and rear wheels will result in a slip ratio that is non proportional to the amount of force generated at the tires. This phenomena will be larger when cornering at low speeds, due to the fact that a smaller lateral force is acting, and therefore not pushing the rear axle to a larger radius. This large slip ratio due to cornering can be seen in figure \ref{turning_slow_Vx}. At around $ 20 $ s and after $ 30 $ s, the vehicle is turning at a low speed. This results in a large slip ratio seen in the first subplot, which exists without adding a positive longitudinal force.
 
 \begin{figure}[h]
@@ -393,11 +391,33 @@ There are a couple of driving sequences that affect the slip ratio in such a way
 	\label{turning_slow_Vx}
 \end{figure}
 
+Another driving scenario that creates a misleading slip ratio is during acceleration from standing still, which can be seen in figure \ref{slipratio_from_still}, at around $ 2 $ s and $ 24 $ s. When the accelerate begins, the front wheels will start to turn slightly ahead compared to the rear wheels. The percentage difference between the two wheels will become large due to the low velocity, leading to an unreasonable high slip ratio. The same phenomena can also be seen in figure \ref{slipratio_from_still} right before the vehicle comes to a stop, at around $ 22 $ s. 
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/slipratio_from_still}
+	\caption {Large slip values are seen when a vehicle begins an acceleration from standing still.}
+	\label{slipratio_from_still}
+\end{figure}
 
-\subsubsection{Gear changes}
+Limitations has to be set so that the RLS fitting method does not update the estimated friction coefficient at these presented scenarios when the calculated slip ratio gives an unreliable result.
 
-\subsubsection{Low forces}
+\subsubsection{Limitations due to gear changes}
+When a vehicle engages the clutch prior to a gear change, there will be no torque transfered from the engine out to the wheels. Due to filtering and differences between various signals, the force losses in the different models will be different. This can be seen in figure \ref{gear_change}, where gear changes appear at around $ 54.5 $ s and $ 57 $ s.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/gear_change}
+	\caption {Vehicle and tire forces when changing gear.}
+	\label{gear_change}
+\end{figure}
+
+Due to this disturbance during the gear change, the RLS fitting method should not be updated during a certain amount of time after a gear change occurs. A new friction coefficient can therefore not be calculated during this period. 
+
+\subsubsection{Limitations due to low forces}
+Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total forces acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason to this is that the force from the tire model changes less when low forces acting. This can also be seen in figure \ref{different_mue} in section \ref{section_friction coefficient}. It can be seen that amount of force generated for a certain friction coefficient varies very little for the lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of the friction coefficient which is undesired. 
+
+The RLS should, due to the reasoning above, not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient. This means that the friction coefficient will be updated rarely during calmer driving sequences, which becomes a trade-off to getting a more stable friction coefficient estimator. 
 
 \section{Other methods}
 
