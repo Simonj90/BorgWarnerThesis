@@ -318,7 +318,11 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 \todo{add more}
 
 \section{Estimating the friction coefficient}
-The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient in order for the two different force models to be equal to each other. Purely theoretical, this means that the friction coefficient can be obtained at every instance for when a new CAN packages are available. Instead of approximating a new friction coefficient at every moment, a least square fitting method is used to find the friction coefficient over a certain amount of time. 
+The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other worlds, choose the $ \mu $ that enables:
+\begin{equation}
+	F_{vehicle} = F_{tire}
+\end{equation}
+This relation, and therefore also a friction coefficient, could theoretically be obtained at every instance when new CAN packages are available. This would lead to a rapid changing friction coefficient which wouldn't reflect the actual tire/road friction. Instead of approximating a new friction coefficient at every moment, a least square fitting method is used to find the friction coefficient. The goal of such a method is to find the friction coefficient that provides the smallest error between the two models over a certain amount of time. 
 
 \subsection{Least square fitting}
 The general idea of a least square fitting method is to minimize the sum of the squares between a theoretical model and observed data. 
@@ -328,9 +332,9 @@ The general idea of a least square fitting method is to minimize the sum of the 
 \end{equation}
 Where $ y $ is the observed data, $ \phi(k)\cdot\theta $ the theoretical model and $ v $ the error. The cost function that should be minimized becomes the following:
 \begin{equation}
-	V(\hat{\theta}, k) = \dfrac{1}{2}*\sum_{i=1}^{k} \lambda^{k-i}\Big(y(i) - \phi(i)\cdot\hat\theta \Big)^2
+	V(\hat{\theta}, k) = \dfrac{1}{2} \sum_{i=1}^{k} \lambda^{k-i}\Big(y(i) - \phi(i)\cdot\hat\theta \Big)^2
 \end{equation}
-Due to the fact that new data is acquired continuously, these least square would need to be executed at every time step. Hence, a modification of the least square fitting is used which recursively takes older values into account. 
+Due to the fact that new data is acquired continuously, these least square approximations would need to be executed at every time step, creating unreasonable amount of computations. Hence, a modification of the least square fitting is used which recursively takes previous results into account.
 
 \subsection{Recursive least square fitting}
 The recursive least square (RLS) fitting method is defined as:
@@ -374,8 +378,26 @@ This function now has the same form as \ref{eq:least_square}, which means that t
 The friction coefficient value is updated every step and depends on its own value, the error between the vehicle and tire model, and the number L describing how much to rely on the error. $ \dfrac{\partial F_{tire}}{\partial \mu} $ becomes larger for slips close to the peak force, which means that larger changes of $ \mu $ is possible at that point. The forgetting factor, $ \lambda $, is usually a value in the region $ [0.9, 1) $, where a larger forgetting factor means that older values are considered more, resulting in slower changes of $ \mu $.
 
 
-\subsection{Limiting the RLS}
-Tänkte skriva något om att RLS bara går in och arbetar när vollkoer i if-satsen är uppfyllda. Men detta ksnek inte borde vara här?! Är mer resultat typ?
+\subsection{When to estimate the friction coefficient}
+
+The RLS 
+
+\subsubsection{Slip ratio limitations}
+
+There are a couple of driving sequences that affect the slip ratio in such a way that the forces cannot be modeled correctly. When braking, the slip ratio should be close to zero assuming braking forces on all tires, meaning that tire forces cannot be modeled. During cornering, the front wheels will be turned creating a lateral force and a yaw rate. The rear, which doesn't have any positive cornering effect, will follow the front wheels but in a smaller radius, leading to a lower velocity. This difference in velocity between the front and rear wheels will result in a slip ratio that is non proportional to the amount of force generated at the tires. This phenomena will be larger when cornering at low speeds, due to the fact that a smaller lateral force is acting, and therefore not pushing the rear axle to a larger radius. This large slip ratio due to cornering can be seen in figure \ref{turning_slow_Vx}. At around $ 20 $ s and after $ 30 $ s, the vehicle is turning at a low speed. This results in a large slip ratio seen in the first subplot, which exists without adding a positive longitudinal force.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/turning_slow_Vx}
+	\caption {Large slip values are seen when cornering at a low velocity.}
+	\label{turning_slow_Vx}
+\end{figure}
+
+
+
+\subsubsection{Gear changes}
+
+\subsubsection{Low forces}
 
 \section{Other methods}
 
