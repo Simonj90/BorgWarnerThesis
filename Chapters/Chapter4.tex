@@ -324,47 +324,49 @@ Where $ y $ is the observed data, $ \phi(k)\cdot\theta $ the theoretical model a
 Due to the fact that new data is acquired continuously, these least square would need to be executed at every time step. Hence, a modification of the least square fitting is used which recursively takes older values into account. 
 
 \subsection{Recursive least square fitting}
-
 The recursive least square (RLS) fitting method is defined as:
-
-\begin{equation}
-	\hat \theta (k) = \hat \theta (k-1) + L(k) \cdot v(k)
-\end{equation}
 \begin{equation}
 	L(k) =\dfrac{ P(k-1)\phi (k)}{\lambda + \phi (k) P(k-1)\phi(k)} 
+\label{eq:RLS1}
 \end{equation}
 \begin{equation}
-	P(k) = \Big( I - L(k)\phi (k) \Big) \dfrac{1}{\lambda} P(k-1)
+	P(k) = \Big( 1 - L(k)\phi (k) \Big) \dfrac{1}{\lambda} P(k-1)
+\label{eq:RLS2}
+\end{equation}
+\begin{equation}
+\hat \theta (k) = \hat \theta (k-1) + L(k) \cdot v(k)
+\label{eq:RLS3}
 \end{equation}
 Where the error 
 \begin{equation}
-v(k) = \Big(y(k) - \phi (k) \hat \theta (k-1)\Big)
+	v(k) = y(k) - \phi (k) \hat \theta (k-1)
+	\label{eq:RLS4}
 \end{equation}
+L and P define how much the next $ \theta $ update should rely on the error. A larger L takes the error into account more, while a smaller number makes the update rely on the old $ \theta $ value more. The forgetting factor, $ \lambda $, is defined by the user and basically describes how many previous values to consider when calculating a new $ \theta $.
 
-However, this method can only be applied to linear system, and a tire is not linearly. It is linearized and assumed that the derivative of the force as a function of $ \mu $
+However, this method can only be applied to linear system, and a tire force, $F=f(\kappa, Fz, \mu, C_{x})$, is not linear. To able to use the RLS, the function has to be linearized. To accomplish this, the derivative of the force as a function of $ \mu $ is defined as:
 \begin{equation}
-	\dfrac{\partial F}{\partial \mu}
+	\dfrac{\partial F}{\partial \mu} = \dfrac{\partial f(\kappa, Fz, \mu, C_{x})}{\partial \mu}
 \end{equation}
-
+Which describes how much the force will increase dependent on $ \mu $. The force in that linearized region thereafter becomes:
 \begin{equation}
-	F_{vehicle} = \dfrac{\partial F}{\partial \mu} * \mu
+	F_{vehicle} = \dfrac{\partial F_{tire}}{\partial \mu} \cdot \mu
 \end{equation}
-
-The least square fitting method can thereafter be used as in \ref{eq:least_square}.
-The RLS :
-
-
+This function now has the same form as \ref{eq:least_square}, which means that the RLS method in \ref{eq:RLS1}-\ref{eq:RLS4} can be used. The RLS with its proper parameters is:
 \begin{equation}
-	L(k) =\dfrac{ P(k-1)\phi (k)}{\lambda + \phi (k) P(k-1)\phi(k)} 
+	L(k) =\dfrac{ P(k-1) \dfrac{\partial F_{tire}(k)}{\partial \mu}}{\lambda + \dfrac{\partial F_{tire}(k)}{\partial \mu} P(k-1) \dfrac{\partial F_{tire}(k)}{\partial \mu}} 
 \end{equation}
 \begin{equation}
-	P(k) = \Big( I - L(k)\phi (k) \Big) \dfrac{1}{\lambda} P(k-1)
+	P(k) = \Bigg( 1 - L(k) \dfrac{\partial F_{tire}(k)}{\partial \mu} \Bigg) \dfrac{1}{\lambda} P(k-1)
 \end{equation}
-
-
+\begin{equation}
+	\mu (k) = \mu (k-1) + L(k) \Big( F_{vehicle} (k) - F_{tire} (k) \Big)
+\end{equation}
+The friction coefficient value is updated every step and depends on its own value, the error between the vehicle and tire model, and the number L describing how much to rely on the error. $ \dfrac{\partial F_{tire}}{\partial \mu} $ becomes larger for slips close to the peak force, which means that larger changes of $ \mu $ is possible at that point. The forgetting factor, $ \lambda $, is usually a value in the region $ [0.9, 1) $, where a larger forgetting factor means that older values are considered more, resulting in slower changes of $ \mu $.
 
 
 \subsection{Limiting the RLS}
+Tänkte skriva något om att RLS bara går in och arbetar när vollkoer i if-satsen är uppfyllda. Men detta ksnek inte borde vara här?! Är mer resultat typ?
 
 \section{Other methods}
 
