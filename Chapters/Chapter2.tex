@@ -143,20 +143,20 @@ where $ l_{f} $ and $ l_{r} $ are the distances from the front and rear axles to
 The unsprung mass will affect the longitudinal load transfer in the same way as it affected the lateral load transfer. The modified equations thus becomes: 
 \begin{equation} \label{eq:normal_with_long_acc_unsprung}
 \begin{split}
-F_{zF} = (m_{sprung+m_{unsprung}})\cdot g\cdot \frac{l_{f}}{l_{f}+l_{r}} - \frac{m_{sprung}\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\
-F_{zR} = (m_{sprung+m_{unsprung}})\cdot g\cdot \frac{l_{r}}{l_{f}+l_{r}} + \frac{m_{sprung}\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\	
+F_{zF} &= (m_{sprung}+m_{unsprung})\cdot g\cdot \frac{l_{f}}{l_{f}+l_{r}} - \frac{m_{sprung}\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\
+F_{zR} &= (m_{sprung}+m_{unsprung})\cdot g\cdot \frac{l_{r}}{l_{f}+l_{r}} + \frac{m_{sprung}\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\	
 \end{split}
 \end{equation}
 
 \subsubsection{Longitudinal and lateral load transfer combined}
 To be able to determine the normal force acting on a single wheel the longitudinal and lateral load transfer needs to be combined since both of them affect each wheel in some way. By calculating how many percent of the total normal force that's acting on the left side and how many percent of the total normal force that's acting on the front axle and then multiplying these factors the amount of the total normal force acting on the front left wheel will be given in percent.
 \begin{equation} \label{eq:normal_percent}
-\begin{split}
-	\%F_{zFront}\cdot \%F_{zLeft} = \%F_{zFrontLeft} \\
-	F_{zR} = mg\cdot \frac{l_{r}}{l_{f}+l_{r}} + \frac{m\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\
-	F_{zR} = mg\cdot \frac{l_{r}}{l_{f}+l_{r}} + \frac{m\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\	
-\end{split}
+	\%F_{zFrontLeft} = \%F_{zFront}\cdot \%F_{zLeft}
 \end{equation}
+\begin{equation} \label{eq:normal_percent_final}
+	F_{zFrontLeft} = \%F_{zFrontLeft}\cdot (m_{sprung}+m_{unsprung})\cdot g
+\end{equation}
+The same analogy is true for the other three wheels.
 	 
 \section{Tire dynamics}
 A gas inflated tire that is non loaded will have a radius called unloaded radius. When a tire is loaded, and therefore have a normal force acting on it from the road, it will deform against the road creating a contact area. The contact area is proportional to the load, more load gives a larger contact area. The deformation of the tire will lead to a shorter distance between the center of the tire and the road, this is the loaded radius. 
@@ -181,7 +181,7 @@ F_{rr} = fF_{z}
 	\caption{Normal force acting on the tire. \cite{rajamani}}
 	\label{rolling_resistance}
 \end{figure}
-Applying torque on the tire will generate longitudinal force moving the tire forwards or backwards. Doing so will always generate a longitudinal slip, called \textit{slip ratio}. This is a ratio of the difference between the angular velocity of the tire and the angular velocity of the corresponding (left or right) undriven wheel. The slip ratio is defined as: 
+Applying torque on the tire will generate longitudinal force moving the tire forwards or backwards. Doing so will always generate a longitudinal slip, called slip ratio. This is a ratio of the difference between the angular velocity of the tire and the angular velocity of the corresponding (left or right) undriven wheel. The slip ratio is defined as: 
 \begin{equation}
 \kappa = \dfrac{R_{e}\omega-V_{x}}{V_{x}}
 \label{eq:longslip}
@@ -213,7 +213,7 @@ The generated longitudinal force depends on the longitudinal slip. In Figure \re
 The longitudinal force is normalized against the normal force, hence it's the friction coefficient shown on the y-axis. By looking at the graph the characteristics of a tires longitudinal force generation can be seen. For low slips the force curve is linear, at a specific slip a maximum is reached and after that it slowly decays. Different road conditions have different coefficients of friction which is reflected by the different curves maximum values.
 
 \subsection{Lateral forces}
-Lateral forces will be generated when the vehicle is turning, more specifically when there is a difference in the angles of the front tires relative the angle of the vehicle. When turned, the tire won't travel in the direction of its orientation, there will be a slip between the tires orientation and the velocity vector. This lateral slip is called \textit{slip angle} since it can be expressed as an angle.
+Lateral forces will be generated when the vehicle is turning, more specifically when there is a difference in the angles of the front tires relative the angle of the vehicle. When turned, the tire won't travel in the direction of its orientation, there will be a slip between the tires orientation and the velocity vector. This lateral slip is called slip angle since it can be expressed as an angle.
 
 As can be seen in Figure \ref{slipangle_latforce} the lateral force is proportional to the slip angle for small slip angles. For larger slip angles the lateral force converges. In difference to the longitudinal force the lateral force won't decrease for very large slip. This doesn't mean that max steering wheel angle always generates maximum lateral force. In many situations a too large steering wheel angle will over turn the wheel and start decreasing the slip angle hence generating less lateral force.
 \begin{figure}[h]
@@ -287,7 +287,7 @@ In Figure \ref{tire_modeling} some modeling characteristics and how they behave 
 \subsection{Brush model}
 \label{sec:brush}
 \todo{insert formula}
-The \textit{brush model} is a highly used \textit{simple physical model}. The idea is to model the tire surface as a row of elastic bristles that deflects in different directions depending on how the tire is loaded. This model is illustrated to the left in Figure \ref{brush1}.
+The brush model is a highly used simple physical model. The idea is to model the tire surface as a row of elastic bristles that deflects in different directions depending on how the tire is loaded. This model is illustrated to the left in Figure \ref{brush1}.
 
 \begin{figure}[h]
 	\centering
@@ -307,8 +307,24 @@ For pure side slip the bristles will deflect in the direction of the y-axis, thi
 
 In Figure \ref{brush2} it can be seen how different slip angles affects the tire. Small slip angles gives a large adhesion area (flat part) and a small sliding area (curved part). As the slip angle increases a larger number of bristles reaches their maximum deflection, hence increasing the sliding area. At a certain slip angle all bristles have reached their maximum deflection and this results in full sliding. 
 
-\subsection{The Magic Formula tire model}
+The longitudinal force described by the Brush model \cite{pacejka}:
+\begin{equation}
+	F_{x} = \frac{C_{x}(\frac{\kappa}{1+\kappa})}{f_{i}}F_{i}
+\end{equation}
+where:
+\begin{equation}
+F_{i}= 
+\begin{cases}
+f_{i}-\frac{1}{3\mu F_{z}}f_{i}^{2}+\frac{1}{27\mu^{2}F_{z}^{2}}f_{i}^{3}, & \text{if } f_{i} \leq 3\mu F_{z} 1\\
+\mu F_{z}, & \text{otherwise}
+\end{cases}
+\end{equation}
+and:
+\begin{equation}
+	f_{i} = C_{x}\frac{\kappa}{1+\kappa}
+\end{equation}
 
+\subsection{The Magic Formula tire model}
 The magic formula is a series of tire design models developed by H. Pacejka \cite{pacejka} in collaboration with Volvo. The formula is a well known empirical model which has been given its name due to no physical basis for the structure of the equation. It models the fact that different tires has various characteristics which influence the final force generated from the contact patch to the ground. The formula is very complex, where numerous parameters for each tire can be used to calculate lateral and longitudinal forces and also self aligning torque depending on the slip angle or slip ratio. In this report, the magic formula is kept fairly simple to show the idea behind the model, rather than getting a profound understanding behind the development of the model.
 
 
@@ -364,21 +380,24 @@ The longitudinal force described by the Dugoff tire model is defined as:
 \begin{equation}
 F_{x} = f_{i}*\frac{C_{x} \cdot \kappa}{1-\kappa}
 \end{equation}
-Where:
+where:
 \begin{equation}
-\;\;\;\;\;\;\, f_{i} = \lambda*(2-\lambda) \;\;\;\;\;\;\;\;\; \text{if } \lambda < 1
+f_{i}=
+\begin{cases}
+	\lambda*(2-\lambda), & \text{if } \lambda < 1 \\
+	1, & \text{otherwise} \\
+\end{cases}
 \end{equation}
+and:
 \begin{equation}
-f_{i} = 1 \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; \text{else}
-\end{equation}
-\begin{equation}
- \lambda = \mu \cdot F_{z} * \frac{(1-\kappa)}{2 \cdot C_{x} \cdot \kappa}
+	\lambda = \mu \cdot F_{z} * \frac{(1-\kappa)}{2 \cdot C_{x} \cdot \kappa} \\
 \end{equation}
 The model depends on four parameters; the slip ratio, the longitudinal tire stiffness, the normal force and the tire/road friction coefficient. Assuming that the slip ratio is the only dynamic parameter during driving, means that $ \lambda $ will be smaller than 1 when the slip ratio is small enough. When $ f_{i} = 1 $ the force will only depend on the longitudinal tire stiffness and the slip ratio, meaning that the friction coefficient and normal force has no impact. 
 
-\subsection{Tire model by Ola}
+\subsection{Tire model by Ola Nockhammar at Borg Warner AB}
+This tire model is more complex than the Brush model and the Dugoff model but still simple to use. Instead of just having the tire stiffness as a parameter to alter the behavior of a tire, a second parameter, $ \xi $, is introduced. $ \xi $ will alter the inclination of the slip/force curve. This results in a tire model with two degrees of freedom instead of just one like the Brush and Dugoff models. A higher degree of freedom makes it easier to adjust the model for different kinds of tires which a great advantage.
 
-Three different regions. Three parameters describing the curve: max force slip (at $ \mu = 1$), curvation $ Xsi $ and slope at zero slip $ C_{x} $. \todo{fixa}
+Due to confidential reasons this model can't be explained in any greater detail.   
 
 \section{Differentials}
 When driving in a straight line on a road with equal friction for all wheels, both driven wheels will have equal torque and velocity. In this situation a differential wouldn't even be necessary. The differential is needed when the vehicle is cornering. In this situation the different wheels will have different turning radii, thus requiring different angular velocities. This is the general idea behind a differential, to be able to have different angular velocities of the driven wheels. Without a differential it would be very hard to turn the vehicle, especially at low speeds, since equal speed of the wheels prevents the rotating movement happening while turning.
