@@ -226,7 +226,7 @@ The main issue with this method is the overall uncertainty of it. For example, t
 
 This method won't work during shifting because the link between the engine shaft and the drive shafts will be lost or affected while the clutch and transmission are working to shift gear. To avoid this trouble the vehicle force estimation simply needs to paused as soon as the start of a gear shift is detected.
 
-\subsection{Verification}
+\subsubsection{Verification}
 Since the reliability of the method is uncertain is needs to be verified in some way. This was done with test data from a driving session where the vehicle was equipped with torque sensors mounted on the drive shafts. By comparing the results from the calculated torque values to the measured values the functionality of the method can be verified. Further on some basic tuning of the efficiency coefficients can be made. In Figure \ref{torque_ver} the verification can be seen.
 
 \begin{figure}[h]
@@ -235,6 +235,9 @@ Since the reliability of the method is uncertain is needs to be verified in some
 	\caption{Measured and calculated torque on the left drive shaft from a vehicle equipped with torque sensors on the drive shafts.}
 	\label{torque_ver}
 \end{figure}
+
+\subsection{Choosing vehicle model}
+\todo{explain what model we use and why}
 
 \section{Tire forces}
 The characteristic of a tire is very complex, which makes the actual force generated to the vehicle difficult to obtain. As was shown in the theory part (\ref{sec:tire_models}) there are several tire models that can be used, everyone of them with different properties.
@@ -254,8 +257,8 @@ The other three models are more simple with fewer input parameters and above all
 
 All in all, Ola's model was the obvious choice for this work.
 
-\subsection{Tire model parameters}
-In this section the four model parameters mentioned above will be explained in more detail.
+\subsection{Tire model parameters for Ola's tire model}
+In this section the four model parameters that affects Ola's tire model will be explained in more detail.
 
 \subsubsection{Tire stiffness}
 The tire stiffness is obtained by deriving the tire force generated per slip for values around zero, i.e. the gradient of the slip/force curve at zero slip. The slip force curve for two different tire stiffnesses can be seen in \ref{different_cx}. The interpretation from this figure is that a tires stiffness is an essential parameter to have in order to model the tire force correctly. 
@@ -317,6 +320,8 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 \end{figure}
 
 \todo{add more}
+
+\section{Fitting the tire model}
 
 \section{Estimating the friction coefficient}
 The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other worlds, choose the $ \mu $ that enables:
