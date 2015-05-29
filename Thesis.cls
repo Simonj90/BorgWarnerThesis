@@ -248,7 +248,7 @@
     \bigskip
     {\normalsize\bf \@title \par}
     \medskip
-    {\normalsize by \authornames \par}
+    {\normalsize by \linebreak \authornames \par}
     \bigskip
   \end{center}
 }
