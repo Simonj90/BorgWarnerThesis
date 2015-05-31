@@ -371,22 +371,68 @@ Due to the difficulties to estimate the tire stiffness, experimentations has bee
 It was also found during testing that the tire stiffness for the same set of tires changes depending on friction coefficient between the tire and the road. The tire stiffness will therefore be interpolated between two different tested tire stiffness values depending on the friction coefficient.
 
 \subsection{Winter tires}
-Test driving has been done with a set of winter tires on both asphalt and ice/snow. In figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. The tire model that was fitted to this data has the parameters $ C_{x} = 24 $ and $ \xi = 0.9 $.
+Test driving has been done with a set of winter tires on both asphalt and ice/snow. In figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. The tire model parameters that was fitted to the data and the friction coefficient became:
+\begin{equation}
+\label{winter_asphalt}
+\begin{split}
+	C_{x} = 24 \\
+	\xi = 0.9 \\
+	\mu = 1.0 \\
+\end{split}
+\end{equation}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Pictures/slip_kraft_ljungby}
-	\caption {Simple flow chart of the friction estimator.}
+	\caption {Normalized force per slip ratio for acceleration in a straight line with winter tires on asphalt.}
 	\label{slip_kraft_ljungby}
 \end{figure}
 
-In figure \ref{slip_kraft_is} the force per slip can be seen during a driving sequence on ice/snow. This driving sequence was made on a track and not during merely acceleration on a straight path. The effect of this is more variance in the result compared to the result seen in figure \ref{slip_kraft_ljungby}. The parameters for the fitted tire model during  ice driving is $ C_{x} = 9.5 $ and $ \xi = 0.9 $. 
+In figure \ref{slip_kraft_is} the force per slip can be seen during a driving sequence on ice/snow. This driving sequence was made on a track and not merely an acceleration in a straight line. The effect of this is more variance in the vehicle force calculation compared to the result in figure \ref{slip_kraft_ljungby}. The parameters for the fitted tire model and the friction coefficient for the ice driving sequence became:
+\begin{equation}
+\label{winter_ice}
+\begin{split}
+	C_{x} = 9.5 \\
+	\xi = 0.9 \\
+	\mu = 0.4 \\
+\end{split}
+\end{equation}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Pictures/slip_kraft_is}
-	\caption {Simple flow chart of the friction estimator.}
+	\caption {Normalized force per slip ratio for a track run on ice/snow with winter tires.}
 	\label{slip_kraft_is}
+\end{figure}
+
+To get the correct tire stiffness for different friction coefficient, a straight line was fitted between $ C_{x} $ and $ \mu $ in \ref{winter_asphalt} and \ref{winter_ice}. This first degree fitting results in:
+\begin{equation}
+	C_{x} = 25\mu - 1
+\end{equation}
+
+\subsection{Summer tires}
+Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in figure \ref{slip_kraft_bb_torr}. The data acquired from this driving sequence does not include any slips above the force peak. Assuming that 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/slip_kraft_bb_torr}
+	\caption {Normalized force per slip ratio for acceleration in a straight line with summer tires on asphalt.}
+	\label{slip_kraft_bb_torr}
+\end{figure}
+
+\subsection{Lateral acceleration compensation}
+The force per slip curves seen in \ref{slip_kraft_ljungby} and \ref{slip_kraft_bb_torr} are derived from data acquired from merely accelerations done on a straight line. This means that no lateral forces are acting on the tires, which is very unlikely during real driving sequences. When a vehicle has lateral forces acting, it will most likely have a slip angle between the tires heading and pointing direction. When slip angle is present, the amount of force actually generated per slip ratio will becomes less, see the curves for different slip angles in \ref{combined}. Slip angle is a parameter which is very hard to approximate, and therefore assumed not to be known in this report. A paramater that is correlated to slip angle is the lateral acceleration. It is most likely that a lateral acceleration is present due to a tire slip angle. 
+
+The new slip ratio that is to be used is calculated from:
+\begin{equation}
+	\kappa_{a_{y} compensated} = \dfrac{\kappa}{1 + a_{y}\cdot \beta}
+\end{equation}
+Where $ \beta $ represent how much the lateral acceleration should be compensated for. In figure
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/latacc_compensated}
+	\caption {Normalized force per slip ratio when slip ratio is compensated due to lateral acceleration.}
+	\label{latacc_compensated}
 \end{figure}
 
 \section{Estimating the friction coefficient}
