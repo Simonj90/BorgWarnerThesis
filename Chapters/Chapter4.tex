@@ -237,9 +237,41 @@ Since the reliability of the method is uncertain is needs to be verified in some
 \end{figure}
 
 \subsection{Choosing vehicle model}
-Two different models for estimating the vehicle force have been presented. 
+Two different models for estimating the vehicle force have been presented. One is based on calculating the force using Newtons second law. This model can be divided into two sub models since the vehicle acceleration can be calculated by derivation of the undriven wheel speed or measured with an accelerometer. The other model uses the engine torque to calculate the vehicle force. Thus, the vehicle force can be acquired in three different ways and it's of course desired to use the most accurate model. When driving in a straight line on a flat road these three models will result in almost the same force, as can be seen in Figure \ref{vehicle_model_comp_olikaacc}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{Pictures/vehicle_model_comp_olikaacc}
+	\caption{The vehicle force for the three different models while driving in a straight line on a flat road.}
+	\label{vehicle_model_comp_olikaacc}
+\end{figure}
+
+The models will differ more when cornering is considered, as can be seen in Figure \ref{vehicle_model_comp_race}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{Pictures/vehicle_model_comp_race}
+	\caption{The vehicle force for the three different models while driving along a track with several corners.}
+	\label{vehicle_model_comp_race}
+\end{figure}
+
+Neither the acceleration calculated from the undriven wheel speed or the measured acceleration from the accelerometer will be true while cornering. This is because both solutions for acquiring the vehicle acceleration is for longitudinal acceleration only. The undriven wheels is in this case the rear wheels and since these can't turn only the longitudinal acceleration is represented. The same goes for the accelerometer, only the longitudinal part of the acceleration is measured. The actual acceleration of the vehicle while cornering is a combination of longitudinal and lateral acceleration. The result of all this is that the force from the acceleration based vehicle models gets to low when cornering. 
+
+A solution to this could be to measure both the longitudinal and lateral accelerations with accelerometers and calculate the total acceleration of the vehicle. Unfortunately it's not that easy. When using both longitudinal and lateral acceleration of the vehicle the tire models must be able to account for both longitudinal and lateral force which is hard to model. More on this in Section \ref{tire_forces}.
+
+It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{Pictures/vehicle_model_comp_mm2}
+	\caption{The vehicle force for the three different models while driving along a track with several corners and hills.}
+	\label{vehicle_model_comp_mm2}
+\end{figure}
+
+While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown in Figure \ref{vehicle_model_comp_mm2} is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. 
 
 \section{Tire forces}
+\label{tire_forces}
 The characteristic of a tire is very complex, which makes the actual force generated to the vehicle difficult to obtain. As was shown in the theory part (\ref{sec:tire_models}) there are several tire models that can be used, everyone of them with different properties.
 
 A tire can generate both longitudinal and lateral force. It's quite easy to create a tire model that considers both these forces, the hard part is to acquire all the input parameters to the model in real time while driving. The parameters to model the lateral force are especially hard to obtain. These parameters are the slip angle and the lateral tire stiffness. Since these are so hard to calculate only the longitudinal part of a force model is used. The main dynamic parameters of a longitudinal tire force model (except Magic formula) includes the slip ratio, normal force, and the tire/road friction coefficient. A fourth, less dynamic parameter is the longitudinal tire stiffness. 
