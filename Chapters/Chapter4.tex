@@ -189,6 +189,8 @@ On newer cars it's not very uncommon to find what gear is active at the moment a
 	\label{gear_ratio}
 \end{figure}
 
+\cite{mason}
+
 \subsubsection{Transfer losses}
 There are several factors that affect how much of the engine torque that actually becomes available on the drive shafts. There are several losses in a drive line. Friction and rotating masses within the drive line are the main contributors. Some torque are also lost accelerating the mass of the wheel itself.
 \begin{equation}
@@ -196,7 +198,7 @@ T_{driveshaft} = T_{driveshaftwithoutlosses}\cdot\eta_{friction}\cdot\eta_{rotat
 \end{equation}
 $ \eta_{friction} $ is just a scalar factor. The frictional losses are very dependent on the design of the drive line. This means that the losses will differ between vehicles and that this factor needs to be calculated for each specific car model. Since this factor is easy to change it will also include other losses in the drive line such as acceleration of the drive shafts. \todo{can we say this?}
 
-$ \eta_{rotating mass} $ is modeled as \cite{mason}:
+$ \eta_{rotating mass} $ is modeled as:
 \begin{equation}
 \eta_{rotating mass} = \frac{1}{1 + factor(0.0025?)\cdot gearratio^2}
 \end{equation}\\
@@ -269,6 +271,7 @@ It get's even worse when driving on a road that's hilly, as can be seen in Figur
 \end{figure}
 
 While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown in Figure \ref{vehicle_model_comp_mm2} is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. 
+
 
 \section{Tire forces}
 \label{tire_forces}
@@ -354,11 +357,21 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 \todo{add more}
 
 \section{Fitting the tire model}
-Lite text om hur vi gör med Cx. typ.
+It is, as seen in the previous section (\ref{choosing_vehicle_model}), very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $. These tire stiffness variations for different driving scenarios makes it very hard to approximate the tire stiffness in a correct manner.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/slip_kraft_sma_slip}
+	\caption {Force per slip for lower slip ratio values can be used to estimate the tire stiffness.}
+	\label{slip_kraft_sma_slip}
+\end{figure}
+
+Due to the difficulties to estimate the tire stiffness, experimentations has been made to fit tire model parameters during test driving. The problem with this solution is that static tire model parameters would be chosen for a certain driving sequence instead of having a dynamic solution that works for every kind of tire. 
+
+It was also found during testing that the tire stiffness for the same set of tires changes depending on friction coefficient between the tire and the road. The tire stiffness will therefore be interpolated between two different tested tire stiffness values depending on the friction coefficient.
 
 \subsection{Winter tires}
-
-\subsubsection{Asphalt}
+Test driving has been done with a set of winter tires on both asphalt and ice/snow. In figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. The tire model that was fitted to this data has the parameters $ C_{x} = 24 $ and $ \xi = 0.9 $.
 
 \begin{figure}[h]
 	\centering
@@ -367,7 +380,7 @@ Lite text om hur vi gör med Cx. typ.
 	\label{slip_kraft_ljungby}
 \end{figure}
 
-\subsubsection{Ice}
+In figure \ref{slip_kraft_is} the force per slip can be seen during a driving sequence on ice/snow. This driving sequence was made on a track and not during merely acceleration on a straight path. The effect of this is more variance in the result compared to the result seen in figure \ref{slip_kraft_ljungby}. The parameters for the fitted tire model during  ice driving is $ C_{x} = 9.5 $ and $ \xi = 0.9 $. 
 
 \begin{figure}[h]
 	\centering
