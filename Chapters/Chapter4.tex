@@ -345,7 +345,9 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 
 \subsubsection{Friction coefficient}
 \label{section_friction coefficient}
-The final dynamic parameter that affect the tire force model is the friction coefficient between the tire and the road. The friction coefficient decides the limit of the normalized force that can be generated through the tires, and therefore in the 
+The final dynamic parameter that affect the tire force model is the friction coefficient between the tire and the road. The friction coefficient limits the normalized force that can be generated through the tires, which means that the friction coefficient and the normal force, $ F_{z}\mu $, limits the amount of longitudinal force possible to acquire. The normalized force per slip ratio for five different friction coefficient with the same tire stiffness can be seen in Figure \ref{different_mue}. For a certain slip ratio value, different normalized force values will be acquired for the variant friction coefficient. It should also be noted in the figure that the derived force will not differ greatly depending on the friction coefficient at low slip ratio values. It is therefore desired to have a somewhat larger slip ratio value before the estimating the friction coefficient value. In other words, the normalized force should be closer to the frictional limit in order to acquire a more correct friction coefficient. 
+
+\todo{Vette fan hur bra Friction coefficient är nu..}
 
 \begin{figure}[h]
 	\centering
@@ -353,8 +355,6 @@ The final dynamic parameter that affect the tire force model is the friction coe
 	\caption {Normalized tire model force per slip ratio for different mue values.}
 	\label{different_mue}
 \end{figure}
-
-\todo{add more}
 
 \section{Fitting the tire model}
 It is, as seen in the previous section (\ref{tire_forces}), very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $. These tire stiffness variations for different driving scenarios makes it very hard to approximate the tire stiffness in a correct manner.
@@ -371,6 +371,7 @@ Due to the difficulties to estimate the tire stiffness, experimentations has bee
 It was also found during testing that the tire stiffness for the same set of tires changes depending on friction coefficient between the tire and the road. The tire stiffness will therefore be interpolated between two different tested tire stiffness values depending on the friction coefficient.
 
 \subsection{Winter tires}
+\label{winter_tire}
 Test driving has been done with a set of winter tires on both asphalt and ice/snow. In figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. The tire model parameters that was fitted to the data and the friction coefficient became:
 \begin{equation}
 \label{winter_asphalt}
@@ -411,6 +412,7 @@ To get the correct tire stiffness for different friction coefficient, a straight
 \end{equation}
 
 \subsection{Summer tires}
+\label{summer_tire}]
 Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in figure \ref{slip_kraft_bb_torr}. The data acquired from this driving sequence does not include any slips above the force peak. Assuming that blah blah blah blah!
 \begin{figure}[h]
 	\centering
@@ -435,8 +437,12 @@ Where $ \beta $ represent how much the lateral acceleration should be considered
 	\label{latacc_compensated}
 \end{figure}
 
+\subsection{Tire mode selector}
+
+The two different fitted tire models presented in \ref{winter_tire} and \ref{summer_tire} can result in very differing forces at the same slip ratio value. The tires that are used therefore need to be known in order for the system to work. It should also not be a necessity for the driver to specify what kind of tires that are used. The tire mode selector consist of an algorithm that finds the set of tire model parameters that matches the force from the vehicle model with the smallest error. The algorithm calculates the force difference between the respective set of tire parameters and the vehicle model and thereafter low pass filters the result with a slowly acting filter, so that sudden noisy changes are not considered. 
+
 \section{Estimating the friction coefficient}
-The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other worlds, choose the $ \mu $ that enables:
+The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other words, choose the $ \mu $ that enables:
 \begin{equation}
 	F_{vehicle} = F_{tire}
 \end{equation}
