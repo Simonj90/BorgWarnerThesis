@@ -259,7 +259,9 @@ The models will differ more when cornering, as can be seen in Figure \ref{vehicl
 
 A solution to this could be to measure both the longitudinal and lateral accelerations with accelerometers and calculate the total acceleration of the vehicle. Unfortunately it's not that easy. When using both longitudinal and lateral acceleration of the vehicle the tire models must be able to account for both longitudinal and lateral force which is hard to model. More on this in Section \ref{tire_forces}.
 
-It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the car, although, it won't be right. 
+It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the car, although, it won't be right.
+
+The acceleration based vehicle models have been discussed a lot so far. The model based on engine torque hasn't been mentioned much at all and it has even been implied that this one is correct when the acceleration based models are falling behind. This is because it really is a good model that fills it purpose. 
 
 \begin{figure}[h]
 	\centering
@@ -358,7 +360,7 @@ The final dynamic parameter that affect the tire force model is the friction coe
 It is, as seen in the previous section (\ref{tire_forces}), very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $. These tire stiffness variations for different driving scenarios makes it very hard to approximate the tire stiffness in a correct manner.
 
 \begin{figure}[h]
-	\centering
+	\centering                
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_sma_slip}
 	\caption {Force per slip for lower slip ratio values can be used to estimate the tire stiffness.}
 	\label{slip_kraft_sma_slip}
@@ -380,7 +382,7 @@ Test driving has been done with a set of winter tires on both asphalt and ice/sn
 \end{equation}
 
 \begin{figure}[h]
-	\centering
+	\centering                
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_ljungby}
 	\caption {Normalized force per slip ratio for acceleration in a straight line with winter tires on asphalt.}
 	\label{slip_kraft_ljungby}
@@ -397,7 +399,7 @@ In figure \ref{slip_kraft_is} the force per slip can be seen during a driving se
 \end{equation}
 
 \begin{figure}[h]
-	\centering
+	\centering                
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_is}
 	\caption {Normalized force per slip ratio for a track run on ice/snow with winter tires.}
 	\label{slip_kraft_is}
@@ -411,7 +413,7 @@ To get the correct tire stiffness for different friction coefficient, a straight
 \subsection{Summer tires}
 Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in figure \ref{slip_kraft_bb_torr}. The data acquired from this driving sequence does not include any slips above the force peak. Assuming that blah blah blah blah!
 \begin{figure}[h]
-	\centering
+	\centering                
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_bb_torr}
 	\caption {Normalized force per slip ratio for acceleration in a straight line with summer tires on asphalt.}
 	\label{slip_kraft_bb_torr}
@@ -419,11 +421,11 @@ Test driving has also been made with a set of summer tires on asphalt. The tires
 
 \subsection{Lateral acceleration compensation}
 The force per slip curves seen in \ref{slip_kraft_ljungby} and \ref{slip_kraft_bb_torr}, where the tire model parameters are fitted, are derived from data acquired from merely accelerations done on a straight line. This means that no lateral forces are acting on the tires, which is very ideal conditions and unlikely during real driving sequences. When a vehicle is turning, it will also have a slip angle between the tires heading and pointing direction. When slip angle is present, the amount of longitudinal force actually generated per slip ratio will becomes less, see the curves for different slip angles in \ref{combined}. However, slip angle is a parameter which is hard to approximate, and assumed to be unknown in this report. A parameter that is correlated to slip angle is the lateral acceleration., which means that it is most likely that lateral acceleration is present when a slip angle is. 
-
+ 
 An approximation for the new slip ratio that is to be used is derived by:
 \begin{equation}
-	\label{slip_ratio_compensation}
-	\kappa_{a_{y} compensated} = \dfrac{\kappa}{1 + a_{y}\cdot \beta}
+\label{slip_ratio_compensation}
+\kappa_{a_{y} compensated} = \dfrac{\kappa}{1 + a_{y}\cdot \beta}
 \end{equation}
 Where $ \beta $ represent how much the lateral acceleration should be considered. In Figure \ref{latacc_compensated}, two different force per slip ratio curves can be seen for a driving sequence which include cornering at high speeds, meaning that slip angle as well as lateral acceleration is present. The data is taken from a driving sequence using the same winter tires as seen in Figure \ref{slip_kraft_ljungby}, and therefore also using its fitted tire model parameters from Equation \ref{winter_asphalt}. In the first subplot of Figure \ref{latacc_compensated}, no compensation for lateral acceleration is considered, while the data in the second subplot uses the new approximated slip ratio derived by Equation \ref{slip_ratio_compensation} using $ \beta = 0.15 $. 
 \begin{figure}[h]
