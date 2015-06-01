@@ -239,7 +239,7 @@ Since the reliability of the method is uncertain is needs to be verified in some
 \end{figure}
 
 \subsection{Choosing vehicle model}
-Two different models for estimating the vehicle force have been presented. One is based on calculating the force using Newtons second law. This model can be divided into two sub models since the vehicle acceleration can be calculated by derivation of the undriven wheel speed or measured with an accelerometer. The other model uses the engine torque to calculate the vehicle force. Thus, the vehicle force can be acquired in three different ways and it's of course desired to use the most accurate model. When driving in a straight line on a flat road these three models will result in almost the same force, as can be seen in Figure \ref{vehicle_model_comp_olikaacc}.
+Two different models for estimating the vehicle force have been presented. One is based on calculating the force using Newtons second law. This model can be divided into two sub models since the vehicle acceleration can be calculated by derivation of the undriven wheel speed or measured with an accelerometer. The other model uses the engine torque to calculate the vehicle force. Thus, the vehicle force can be acquired in three different ways and it's of course desired to use the most accurate model. When driving in a straight line on a flat road these three models will result in almost the same force, as can be seen in Figure \ref{vehicle_model_comp_olikaacc}. The engine torque model will drop below the other models while shifting gear since the engine is disconnected from the wheels while doing so. This is something that has to be considered, more on this in Section \ref{sec:gearchange}. 
 
 \begin{figure}[h]
 	\centering
@@ -248,7 +248,7 @@ Two different models for estimating the vehicle force have been presented. One i
 	\label{vehicle_model_comp_olikaacc}
 \end{figure}
 
-The models will differ more when cornering is considered, as can be seen in Figure \ref{vehicle_model_comp_race}.
+The models will differ more when cornering, as can be seen in Figure \ref{vehicle_model_comp_race}. Neither the acceleration calculated from the undriven wheel speed or the measured acceleration from the accelerometer will be true while cornering. This is because both solutions for acquiring the vehicle acceleration is for longitudinal acceleration only. The undriven wheels is in this case the rear wheels and since these can't turn only the longitudinal acceleration is represented. The same goes for the accelerometer, only the longitudinal part of the acceleration is measured. The actual acceleration of the vehicle while cornering is a combination of longitudinal and lateral acceleration. The result of all this is that the force from the acceleration based vehicle models gets to low when cornering. 
 
 \begin{figure}[h]
 	\centering
@@ -257,11 +257,9 @@ The models will differ more when cornering is considered, as can be seen in Figu
 	\label{vehicle_model_comp_race}
 \end{figure}
 
-Neither the acceleration calculated from the undriven wheel speed or the measured acceleration from the accelerometer will be true while cornering. This is because both solutions for acquiring the vehicle acceleration is for longitudinal acceleration only. The undriven wheels is in this case the rear wheels and since these can't turn only the longitudinal acceleration is represented. The same goes for the accelerometer, only the longitudinal part of the acceleration is measured. The actual acceleration of the vehicle while cornering is a combination of longitudinal and lateral acceleration. The result of all this is that the force from the acceleration based vehicle models gets to low when cornering. 
-
 A solution to this could be to measure both the longitudinal and lateral accelerations with accelerometers and calculate the total acceleration of the vehicle. Unfortunately it's not that easy. When using both longitudinal and lateral acceleration of the vehicle the tire models must be able to account for both longitudinal and lateral force which is hard to model. More on this in Section \ref{tire_forces}.
 
-It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}.
+It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the car, although, it won't be right. 
 
 \begin{figure}[h]
 	\centering
@@ -270,7 +268,6 @@ It get's even worse when driving on a road that's hilly, as can be seen in Figur
 	\label{vehicle_model_comp_mm2}
 \end{figure}
 
-While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown in Figure \ref{vehicle_model_comp_mm2} is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. 
 
 
 \section{Tire forces}
@@ -520,6 +517,7 @@ Another driving scenario that creates a misleading slip ratio is during accelera
 Limitations has to be set so that the RLS fitting method does not update the estimated friction coefficient at these presented scenarios when the calculated slip ratio gives an unreliable result.
 
 \subsubsection{Limitations due to gear changes}
+\label{sec:gearchange}
 When a vehicle engages the clutch prior to a gear change, there will be no torque transfered from the engine out to the wheels. Due to filtering and differences between various signals, the force losses in the different models will be different. This can be seen in figure \ref{gear_change}, where gear changes appear at around $ 54.5 $ s and $ 57 $ s.
 
 \begin{figure}[h]
