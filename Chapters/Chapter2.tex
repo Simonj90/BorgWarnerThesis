@@ -4,7 +4,7 @@ Before describing the work on friction estimation it is important to have some k
 
 \section{Vehicle dynamics and models}
 
-When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these include the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. Some variables can be measured directly and some of them needs to be calculated or modeled. The characteristics of a whole car is very complex and the exact behavior of a car is therefore impossible to model in every situation. There exists many different car models that try to describe the characteristics of a car as adequate as possible. All the calculations for these models are to be done on a cars on board computer, which means that the model has to be simple enough to not reach the computers limited computing capacity.
+When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these includes the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. Some variables can be measured directly and some of them needs to be calculated or modeled. The characteristics of a whole car is very complex and the exact behavior of a car is therefore impossible to model in every situation. There exists many different car models that try to describe the characteristics of a car as adequate as possible. All the calculations for these models are to be done on a cars on board computer, which means that the model has to be simple enough to not reach the computers limited computing capacity.
 
 \subsection{The bicycle model}
 
@@ -55,7 +55,7 @@ When looking at the bicycle model, the assumption is that the longitudinal force
 \begin{equation} \label{eq:wheel_slip_rear}
 \alpha _{R} = -arctan(\dfrac{v_{y} - \dot \psi  \cdot b}{v_{x}})
 \end{equation}
-This angle is defined to be the angle between the direction of the tire and the direction of the velocity of the wheel. A number of interpretations can be made from these formulas. One is that the steering angle only directly influences the slip angles of the front wheels. Another is that if the numerator in \ref{eq:wheel_slip_front} goes to zero, which means that the lateral velocity plus the yaw rate is zero, the slip angle of the front wheel is equal to the front wheel steering angle. This means that the vehicle is gliding straight forward regardless of the steering angle. Another conclusion is that if $ \dot \psi *b $ is larger than $ v_{y} $, in \ref{eq:wheel_slip_rear}, the numerator will become less then zero and slip angle of the rear wheel will move to the other side on the x-axis. This happens when a vehicle takes a corner more aggressively, which means higher longitudinal velocity compared to the radius of the corner, leading to higher yaw rate as can be seen earlier in \ref{eq:yaw_rate}.
+This angle is defined to be the angle between the direction of the tire and the direction of the velocity of the wheel. A number of interpretations can be made from these formulas. One is that the steering angle only directly influences the slip angles of the front wheels. Another is that if the numerator in Equation \ref{eq:wheel_slip_front} goes to zero, which means that the lateral velocity plus the yaw rate is zero, the slip angle of the front wheel is equal to the front wheel steering angle. This means that the vehicle is gliding straight forward regardless of the steering angle. Another conclusion is that if $ \dot \psi *b $ is larger than $ v_{y} $, in Equation \ref{eq:wheel_slip_rear}, the numerator will become less then zero and slip angle of the rear wheel will move to the other side on the x-axis. This happens when a vehicle takes a corner more aggressively, which means higher longitudinal velocity compared to the radius of the corner, leading to higher yaw rate as can be seen earlier in Equation \ref{eq:yaw_rate}.
 
 The lateral forces acting on the front and rear wheels can also be described as: 
 \begin{equation}
@@ -75,7 +75,7 @@ If $ B $ is 0, we have equal amount of lateral force on the front and rear wheel
 
 \subsection{Two track vehicle model}
 
-The bicycle model described earlier is a simplified car model that only captures the main characteristics well in many situations. The fact that it is modeled by only one wheel per axis means that the forces on the two wheels on the same axis will be modeled exactly the same. In reality, there will of course exist factors that affect the two wheels different, e.g. when cornering, the normal force will be transfered from the inner to the outer wheel. If a car uses an FXD, the active differential will in certain situations transfer torque from one shaft to the other. The effect that the FXD contributes with will be described further on in a later section of the paper. A model that is slightly more complicated than the bicycle model,  that tries to capture these lateral differences, is the two track model seen in \ref{two_track_model}. 
+The bicycle model described earlier is a simplified car model that only captures the main characteristics well in many situations. The fact that it is modeled by only one wheel per axis means that the forces on the two wheels on the same axis will be modeled exactly the same. In reality, there will of course exist factors that affect the two wheels different, e.g. when cornering, the normal force will be transfered from the inner to the outer wheel. If a car uses an FXD, the active differential will in certain situations transfer torque from one shaft to the other. The effect that the FXD contributes with will be described further on in a later section of the paper. A model that is slightly more complicated than the bicycle model,  that tries to capture these lateral differences, is the two track model seen in Equation \ref{two_track_model}. 
 
 \begin{figure}[h]
 	\centering
@@ -138,7 +138,7 @@ Note that $ F_{zR} $ denotes the normal force of the rear and not the right hand
 	F_{zR} = mg\cdot \frac{l_{r}}{l_{f}+l_{r}} + \frac{m\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\	
 \end{split}
 \end{equation}
-where $ l_{f} $ and $ l_{r} $ are the distances from the front and rear axles to the center of gravity. As can be seen in equation \ref{eq:normal_with_long_acc}, he normal force on the front axle will decrease with positive longitudinal acceleration. This is a negative effect for FWD vehicles.
+where $ l_{f} $ and $ l_{r} $ are the distances from the front and rear axles to the center of gravity. As can be seen in Equation \ref{eq:normal_with_long_acc}, he normal force on the front axle will decrease with positive longitudinal acceleration. This is a negative effect for FWD vehicles.
 
 The unsprung mass will affect the longitudinal load transfer in the same way as it affected the lateral load transfer. The modified equations thus becomes: 
 \begin{equation} \label{eq:normal_with_long_acc_unsprung}
@@ -393,7 +393,7 @@ and:
 \end{equation}
 The model depends on four parameters; the slip ratio, the longitudinal tire stiffness, the normal force and the tire/road friction coefficient. Assuming that the slip ratio is the only dynamic parameter during driving, means that $ \lambda $ will be smaller than 1 when the slip ratio is small enough. When $ f_{i} = 1 $ the force will only depend on the longitudinal tire stiffness and the slip ratio, meaning that the friction coefficient and normal force has no impact. 
 
-\subsection{Tire model by Ola Nockhammar at Borg Warner AB}
+\subsection{Tire model by Ola Nockhammar at BorgWarner AB}
 This tire model is more complex than the Brush model and the Dugoff model but still simple to use. Instead of just having the tire stiffness as a parameter to alter the behavior of a tire, a second parameter, $ \xi $, is introduced. $ \xi $ will alter the inclination of the slip/force curve. This results in a tire model with two degrees of freedom instead of just one like the Brush and Dugoff models. A higher degree of freedom makes it easier to adjust the model for different kinds of tires which a great advantage.
 
 Due to confidential reasons this model can't be explained in any greater detail.   
@@ -432,7 +432,7 @@ There are different types of LSDs, they can be divided in two main categories, p
 Active differentials are controlled from the outside. The amount of torque transfered from one shaft to the other can be freely controlled and this gives much more power over the cars behavior.
 
 \subsection{FXD}
-The FXD is an active limited slip differential made by BorgWarner AB for FWD cars. It uses the same clutch technology as their four wheel drive systems. Instead of using the clutch to transfer torque between front and rear it's used to transfer torque between the left and right front wheels. The fact that the clutch is actuated from the outside is what makes the FXD an active limited slip differential, the torque transfered between the wheels is freely controlled.
+The FXD is an electronic limited slip differential made by BorgWarner AB for FWD cars. It uses the same clutch technology as their four wheel drive systems. Instead of using the clutch to transfer torque between front and rear it's used to transfer torque between the left and right front wheels. The fact that the clutch is actuated from the outside is what makes the FXD an active limited slip differential, the torque transfered between the wheels is freely controlled.
 
 \subsubsection{The clutch}
 The clutch is based on BorgWarner's Gen5 clutch. This is an electro-hydraulic basket clutch. The clutch is engaged by building a hydraulic pressure in the clutch forcing the clutch plates together resulting in a torque transfer. The pressure is built up by a hydraulic pump operated by an electric DC motor. A the quick and exact control nature of the DC motor results in the clutch being very accurate. The amount of torque transfered through the clutch is easily managed with a rather simple electric signal and above all changed can be made very quick. This is positive when used in cars because things happens very fast.
