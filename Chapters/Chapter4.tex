@@ -345,7 +345,7 @@ The final dynamic parameter that affect the tire force model is the friction coe
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Pictures/slipkraft_olika_mue}
+	\includegraphics[width=0.8\textwidth]{Pictures/slipkraft_olika_mue}
 	\caption {Normalized tire model force per slip ratio for different mue values.}
 	\label{different_mue}
 \end{figure}
@@ -366,15 +366,7 @@ It was also found during testing that the tire stiffness for the same set of tir
 
 \subsection{Winter tires}
 \label{winter_tire}
-Test driving has been done with a set of winter tires on both asphalt and ice/snow. In figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. The tire model parameters that was fitted to the data and the friction coefficient became:
-\begin{equation}
-\label{winter_asphalt}
-\begin{split}
-	C_{x} = 24 \\
-	\xi = 0.9 \\
-	\mu = 1.0 \\
-\end{split}
-\end{equation}
+Test driving has been done with a set of winter tires on both asphalt and ice/snow. In figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. 
 
 \begin{figure}[h]
 	\centering
@@ -383,15 +375,16 @@ Test driving has been done with a set of winter tires on both asphalt and ice/sn
 	\label{slip_kraft_ljungby}
 \end{figure}
 
-In figure \ref{slip_kraft_is} the force per slip can be seen during a driving sequence on ice/snow. This driving sequence was made on a track and not merely an acceleration in a straight line. The effect of this is more variance in the vehicle force calculation compared to the result in figure \ref{slip_kraft_ljungby}. The parameters for the fitted tire model and the friction coefficient for the ice driving sequence became:
+The tire model parameters that was fitted to the data and the friction coefficient became:
 \begin{equation}
-\label{winter_ice}
+\label{winter_asphalt}
 \begin{split}
-	C_{x} = 9.5 \\
-	\xi = 0.9 \\
-	\mu = 0.4 \\
+C_{x} = 24 \\
+\xi = 0.9 \\
+\mu = 1.0 \\
 \end{split}
 \end{equation}
+In figure \ref{slip_kraft_is} the force per slip can be seen during a driving sequence on ice/snow. This driving sequence was made on a track and not merely an acceleration in a straight line. The effect of this is more variance in the vehicle force calculation compared to the result in figure \ref{slip_kraft_ljungby}. 
 
 \begin{figure}[h]
 	\centering
@@ -400,19 +393,40 @@ In figure \ref{slip_kraft_is} the force per slip can be seen during a driving se
 	\label{slip_kraft_is}
 \end{figure}
 
+The parameters for the fitted tire model and the friction coefficient for the ice driving sequence became:
+\begin{equation}
+\label{winter_ice}
+\begin{split}
+C_{x} = 9.5 \\
+\xi = 0.9 \\
+\mu = 0.4 \\
+\end{split}
+\end{equation}
+
 To get the correct tire stiffness for different friction coefficient, a straight line was fitted between $ C_{x} $ and $ \mu $ in \ref{winter_asphalt} and \ref{winter_ice}. This first degree fitting results in:
 \begin{equation}
 	C_{x} = 25\mu - 1
 \end{equation}
 
 \subsection{Summer tires}
-\label{summer_tire}]
-Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in figure \ref{slip_kraft_bb_torr}. The data acquired from this driving sequence does not include any slips above the force peak. Assuming that blah blah blah blah!
+\label{summer_tire}
+Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in figure \ref{slip_kraft_lk_sport}. The data acquired from this driving sequence does not include a lot of slip around the peak slip ratio, much due to the high stiffness and good grip from the low profile tires. It is only in the first gear that the slip ratio actually exceeds this peak in force which is assumed to be at slip ratio $ ~ 6 \% $.
+
+The parameters for the fitted tire model and the friction coefficient for this asphalt driving sequence became:
+\begin{equation}
+\label{summer_lk}
+\begin{split}
+C_{x} = 38 \\
+\xi = 0.7 \\
+\mu = 1.15 \\
+\end{split}
+\end{equation}
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_bb_torr}
+	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_lk_sport}
 	\caption {Normalized force per slip ratio for acceleration in a straight line with summer tires on asphalt.}
-	\label{slip_kraft_bb_torr}
+	\label{slip_kraft_lk_sport}
 \end{figure}
 
 \subsection{Lateral acceleration compensation}
@@ -433,8 +447,7 @@ Where $ \beta $ represent how much the lateral acceleration should be considered
 \end{figure}
 
 \subsection{Tire mode selector}
-
-The two different fitted tire models presented in \ref{winter_tire} and \ref{summer_tire} can result in very differing forces at the same slip ratio value. The tires that are used therefore need to be known in order for the system to work. It should also not be a necessity for the driver to specify what kind of tires that are used. The tire mode selector consist of an algorithm that finds the set of tire model parameters that matches the force from the vehicle model with the smallest error. The algorithm calculates the force difference between the respective set of tire parameters and the vehicle model and thereafter low pass filters the result with a slowly acting filter, so that sudden noisy changes are not considered. 
+The two different fitted tire models presented in \ref{winter_tire} and \ref{summer_tire} can result in very differing forces at the same slip ratio value. The tires that are used therefore need to be known in order for the system to work. It should also not be a necessity for the driver to specify what kind of tires that are used. The tire mode selector consist of an algorithm that finds the set of tire model parameters that matches the force from the vehicle model with the smallest error. The algorithm calculates the force difference between the respective set of tire parameters and the vehicle model and thereafter low pass filters the result with a slowly acting filter, so that sudden changes does not affect what tire parameters to use. 
 
 \section{Estimating the friction coefficient}
 The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other words, choose the $ \mu $ that enables:
