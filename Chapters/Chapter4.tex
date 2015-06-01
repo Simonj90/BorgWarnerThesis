@@ -431,7 +431,7 @@ C_{x} = 38 \\
 
 \subsection{Lateral acceleration compensation}
 \label{sec:latacccomp}
-The force per slip curves seen in \ref{slip_kraft_ljungby} and \ref{slip_kraft_bb_torr}, where the tire model parameters are fitted, are derived from data acquired from merely accelerations done on a straight line. This means that no lateral forces are acting on the tires, which is very ideal conditions and unlikely during real driving sequences. When a vehicle is turning, it will also have a slip angle between the tires heading and pointing direction. When slip angle is present, the amount of longitudinal force actually generated per slip ratio will becomes less, see the curves for different slip angles in \ref{combined}. However, slip angle is a parameter which is hard to approximate, and assumed to be unknown in this report. A parameter that is correlated to slip angle is the lateral acceleration., which means that it is most likely that lateral acceleration is present when a slip angle is. 
+The force per slip curves seen in \ref{slip_kraft_ljungby} and \ref{slip_kraft_lk_sport}, where the tire model parameters are fitted, are derived from data acquired from merely accelerations done on a straight line. This means that no lateral forces are acting on the tires, which is very ideal conditions and unlikely during real driving sequences. When a vehicle is turning, it will also have a slip angle between the tires heading and pointing direction. When slip angle is present, the amount of longitudinal force actually generated per slip ratio will becomes less, see the curves for different slip angles in \ref{combined}. However, slip angle is a parameter which is hard to approximate, and assumed to be unknown in this report. A parameter that is correlated to slip angle is the lateral acceleration., which means that it is most likely that lateral acceleration is present when a slip angle is. 
  
 An approximation for the new slip ratio that is to be used is derived by:
 \begin{equation}
@@ -447,7 +447,14 @@ Where $ \beta $ represent how much the lateral acceleration should be considered
 \end{figure}
 
 \subsection{Tire mode selector}
-The two different fitted tire models presented in \ref{winter_tire} and \ref{summer_tire} can result in very differing forces at the same slip ratio value. The tires that are used therefore need to be known in order for the system to work. It should also not be a necessity for the driver to specify what kind of tires that are used. The tire mode selector consist of an algorithm that finds the set of tire model parameters that matches the force from the vehicle model with the smallest error. The algorithm calculates the force difference between the respective set of tire parameters and the vehicle model and thereafter low pass filters the result with a slowly acting filter, so that sudden changes does not affect what tire parameters to use. 
+The two different fitted tire models presented in \ref{winter_tire} and \ref{summer_tire} can result in very differing forces at the same slip ratio value. The tires that are used therefore need to be known in order for the system to work. It should also not be a necessity for the driver to specify what kind of tires that are used. The tire mode selector consist of an algorithm that finds the set of tire model parameters that matches the force from the vehicle model with the smallest error. The algorithm calculates the force difference between the respective set of tire parameters and the vehicle model. It is low pass filtered to eliminate sudden changes that shouldn't affect the choice of tire parameter set. The filtered result can be seen in Figure \ref{force_difference}. Winter tires are used in the first subplot, whereas the difference between the summer tires and vehicle model is seen to increase over time. In the second subplot, summer tires are used instead, and the difference between the winter tire and vehicle model is seen to decrease as time goes. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Pictures/force_difference}
+	\caption {The force difference between two sets of tire model parameters compared to the vehicle model force respectively. The low pass filtered result is shown.}
+	\label{force_difference}
+\end{figure}
 
 \section{Estimating the friction coefficient}
 The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other words, choose the $ \mu $ that enables:
