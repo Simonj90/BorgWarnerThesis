@@ -239,7 +239,7 @@ Since the reliability of the method is uncertain is needs to be verified in some
 \end{figure}
 
 \subsection{Choosing vehicle model}
-Two different models for estimating the vehicle force have been presented. One is based on calculating the force using Newtons second law. This model can be divided into two sub models since the vehicle acceleration can be calculated by derivation of the undriven wheel speed or measured with an accelerometer. The other model uses the engine torque to calculate the vehicle force. Thus, the vehicle force can be acquired in three different ways and it's of course desired to use the most accurate model. When driving in a straight line on a flat road these three models will result in almost the same force, as can be seen in Figure \ref{vehicle_model_comp_olikaacc}. The engine torque model will drop below the other models while shifting gear since the engine is disconnected from the wheels while doing so. This is something that has to be considered, more on this in Section \ref{sec:gearchange}. 
+Two different models for estimating the vehicle force have been presented. One is based on calculating the force using Newtons second law. This model can be divided into two sub models since the vehicle acceleration can be calculated by derivation of the undriven wheel speed or measured with an accelerometer. The other model uses the engine torque to calculate the vehicle force. Thus, the vehicle force can be acquired in three different ways and it's of course desired to use the most accurate model. When driving in a straight line on a flat road these three models will result in almost the same force, as can be seen in Figure \ref{vehicle_model_comp_olikaacc}. The engine torque model will drop below the other models while shifting gear since the engine is disconnected from the wheels while doing so. This is something that has to be considered, more on this in Section \ref{sec:gearchange}.
 
 \begin{figure}[h]
 	\centering
@@ -261,7 +261,9 @@ A solution to this could be to measure both the longitudinal and lateral acceler
 
 It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the car, although, it won't be right.
 
-The acceleration based vehicle models have been discussed a lot so far. The model based on engine torque hasn't been mentioned much at all and it has even been implied that this one is correct when the acceleration based models are falling behind. This is because it really is a good model that fills it purpose. 
+The acceleration based vehicle models have been discussed a lot so far. The model based on engine torque hasn't been mentioned much at all and it has even been implied that this one is correct when the acceleration based models are falling behind. This is because it really is a good model that fills it purpose. It's not affected by hills and it's not as severely affected by cornering as the acceleration based models are. The force will always be applied in the longitudinal direction of the tire, hence it works good to match this with a longitudinal tire model. The main problem is the fact that the slip calculation will be a bit off while cornering since lateral velocity isn't considered but this is solved later on in Section \ref{sec:latacccomp}.  
+
+All in all, the obvious choice is the engine torque based vehicle model.
 
 \begin{figure}[h]
 	\centering
@@ -269,8 +271,6 @@ The acceleration based vehicle models have been discussed a lot so far. The mode
 	\caption{The vehicle force for the three different models while driving along a track with several corners and hills.}
 	\label{vehicle_model_comp_mm2}
 \end{figure}
-
-
 
 \section{Tire forces}
 \label{tire_forces}
@@ -345,7 +345,7 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 
 \subsubsection{Friction coefficient}
 \label{section_friction coefficient}
-The final dynamic parameter that affect the tire force model is the friction coefficient between the tire and the road. The friction coefficient decides the limit of the normalized force that can be generated through the tires, and therefore in the 
+The final dynamic parameter that affect the tire force model is the friction coefficient between the tire and the road. The friction coefficient decides the limit of the normalized force that can be generated through the tires. A coefficient of friction equal to $ 1 $ means that all normal force can be transformed into longitudinal or lateral force. A coefficient of friction equal to $ 0.5 $ means that $ 50 \% $ of the normal force can be utilized. How different $ \mu $ affects the force/slip curve for Ola's tire model can be seen in Figure \ref{different_mue}. 
 
 \begin{figure}[h]
 	\centering
@@ -420,6 +420,7 @@ Test driving has also been made with a set of summer tires on asphalt. The tires
 \end{figure}
 
 \subsection{Lateral acceleration compensation}
+\label{sec:latacccomp}
 The force per slip curves seen in \ref{slip_kraft_ljungby} and \ref{slip_kraft_bb_torr}, where the tire model parameters are fitted, are derived from data acquired from merely accelerations done on a straight line. This means that no lateral forces are acting on the tires, which is very ideal conditions and unlikely during real driving sequences. When a vehicle is turning, it will also have a slip angle between the tires heading and pointing direction. When slip angle is present, the amount of longitudinal force actually generated per slip ratio will becomes less, see the curves for different slip angles in \ref{combined}. However, slip angle is a parameter which is hard to approximate, and assumed to be unknown in this report. A parameter that is correlated to slip angle is the lateral acceleration., which means that it is most likely that lateral acceleration is present when a slip angle is. 
  
 An approximation for the new slip ratio that is to be used is derived by:
