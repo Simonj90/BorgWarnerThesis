@@ -53,7 +53,7 @@ In figure \ref{filter_and_no}, the filtered and unfiltered values can be seen fo
 	\label{filter_and_no}
 \end{figure}
 
-The amplitude and frequency of the noise will differ for various signals and could therefore  be filtered with different cutoff frequencies to get the most correct value. For example, the engine torque signal, seen in $ \ref{filter_and_no} $ subplot 2, could be filtered with a higher cutoff frequency than the wheel speed, seen in $ \ref{filter_and_no} $ subplot 1, to capture its faster changing characteristic better. However, an important aspect to consider during filtering, is the duration of the delay that will affect the signal. Signals that are run through filters with different cutoff frequencies, will also have differing delay durations. In the extent, this could lead to computations that should equal one another will differ greatly due to their different parameter dependencies. 
+The amplitude and frequency of the noise will differ for various signals and could therefore be filtered with different cutoff frequencies to get the most correct value. For example, the engine torque signal, seen in $ \ref{filter_and_no} $ subplot 2, could be filtered with a higher cutoff frequency than the wheel speed, seen in $ \ref{filter_and_no} $ subplot 1, to capture its faster changing characteristic better. However, an important aspect to consider during filtering, is the duration of the delay that will affect the signal. Signals that are run through filters with different cutoff frequencies, will also have differing delay durations. In the extent, this could lead to computations that should equal one another will differ greatly due to their different parameter dependencies. 
 
 In figure $ \ref{different_filter_val} $, two different force models, that should be equal to each other, are dependent on different parameter values. In subplot one, a signal that affects the tire model is filtered with a cutoff frequency significantly lower than the cutoff frequency for the parameters affecting the vehicle model. In the extent, the force calculated from the tire model becomes delayed compared to the computed vehicle force. In subplot 2 however, the signals are filtered with the same cutoff frequency, hence resulting in a better match between the two models. The conclusion from this is that the low pass filters should not only be designed to get the best possible accuracy for that specific parameter, but the succeeding effects also need to be considered.
 
@@ -360,7 +360,7 @@ The final dynamic parameter that affect the tire force model is the friction coe
 It is, as seen in the previous section (\ref{tire_forces}), very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $. These tire stiffness variations for different driving scenarios makes it very hard to approximate the tire stiffness in a correct manner.
 
 \begin{figure}[h]
-	\centering                
+	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_sma_slip}
 	\caption {Force per slip for lower slip ratio values can be used to estimate the tire stiffness.}
 	\label{slip_kraft_sma_slip}
@@ -382,7 +382,7 @@ Test driving has been done with a set of winter tires on both asphalt and ice/sn
 \end{equation}
 
 \begin{figure}[h]
-	\centering                
+	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_ljungby}
 	\caption {Normalized force per slip ratio for acceleration in a straight line with winter tires on asphalt.}
 	\label{slip_kraft_ljungby}
@@ -399,7 +399,7 @@ In figure \ref{slip_kraft_is} the force per slip can be seen during a driving se
 \end{equation}
 
 \begin{figure}[h]
-	\centering                
+	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_is}
 	\caption {Normalized force per slip ratio for a track run on ice/snow with winter tires.}
 	\label{slip_kraft_is}
@@ -413,7 +413,7 @@ To get the correct tire stiffness for different friction coefficient, a straight
 \subsection{Summer tires}
 Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in figure \ref{slip_kraft_bb_torr}. The data acquired from this driving sequence does not include any slips above the force peak. Assuming that blah blah blah blah!
 \begin{figure}[h]
-	\centering                
+	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_bb_torr}
 	\caption {Normalized force per slip ratio for acceleration in a straight line with summer tires on asphalt.}
 	\label{slip_kraft_bb_torr}
