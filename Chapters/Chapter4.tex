@@ -351,7 +351,7 @@ The final dynamic parameter that affect the tire force model is the friction coe
 \end{figure}
 
 \section{Fitting the tire model}
-It is, as seen in the previous section (\ref{tire_forces}), very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $. These tire stiffness variations for different driving scenarios makes it very hard to approximate the tire stiffness in a correct manner.
+It is, as seen Section \ref{tire_forces}, very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in Figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $. These tire stiffness variations for different driving scenarios makes it very hard to approximate the tire stiffness in a correct manner.
 
 \begin{figure}[h]
 	\centering
@@ -366,7 +366,7 @@ It was also found during testing that the tire stiffness for the same set of tir
 
 \subsection{Winter tires}
 \label{winter_tire}
-Test driving has been done with a set of winter tires on both asphalt and ice/snow. In figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. 
+Test driving has been done with a set of winter tires on both asphalt and ice/snow. In Figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. 
 
 \begin{figure}[h]
 	\centering
@@ -384,7 +384,7 @@ C_{x} = 24 \\
 \mu = 1.0 \\
 \end{split}
 \end{equation}
-In figure \ref{slip_kraft_is} the force per slip can be seen during a driving sequence on ice/snow. This driving sequence was made on a track and not merely an acceleration in a straight line. The effect of this is more variance in the vehicle force calculation compared to the result in figure \ref{slip_kraft_ljungby}. 
+In Figure \ref{slip_kraft_is} the force per slip can be seen during a driving sequence on ice/snow. This driving sequence was made on a track and not merely an acceleration in a straight line. The effect of this is more variance in the vehicle force calculation compared to the result in Figure \ref{slip_kraft_ljungby}. 
 
 \begin{figure}[h]
 	\centering
@@ -403,14 +403,14 @@ C_{x} = 9.5 \\
 \end{split}
 \end{equation}
 
-To get the correct tire stiffness for different friction coefficient, a straight line was fitted between $ C_{x} $ and $ \mu $ in \ref{winter_asphalt} and \ref{winter_ice}. This first degree fitting results in:
+To get the correct tire stiffness for different friction coefficient, a straight line was fitted between $ C_{x} $ and $ \mu $ in Figure \ref{winter_asphalt} and \ref{winter_ice}. This first degree fitting results in:
 \begin{equation}
 	C_{x} = 25\mu - 1
 \end{equation}
 
 \subsection{Summer tires}
 \label{summer_tire}
-Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in figure \ref{slip_kraft_lk_sport}. The data acquired from this driving sequence does not include a lot of slip around the peak slip ratio, much due to the high stiffness and good grip from the low profile tires. It is only in the first gear that the slip ratio actually exceeds this peak in force which is assumed to be at slip ratio $ ~ 6 \% $.
+Test driving has also been made with a set of summer tires on asphalt. The tires used were low profile tires which generally means high stiffness, i.e. low slip ratio values are needed to acquire the same longitudinal force, which can be seen in Figure \ref{slip_kraft_lk_sport}. The data acquired from this driving sequence does not include a lot of slip around the peak slip ratio, much due to the high stiffness and good grip from the low profile tires. It is only in the first gear that the slip ratio actually exceeds this peak in force which is assumed to be at slip ratio $ ~ 6 \% $.
 
 The parameters for the fitted tire model and the friction coefficient for this asphalt driving sequence became:
 \begin{equation}
@@ -431,7 +431,7 @@ C_{x} = 38 \\
 
 \subsection{Lateral acceleration compensation}
 \label{sec:latacccomp}
-The force per slip curves seen in \ref{slip_kraft_ljungby} and \ref{slip_kraft_bb_torr}, where the tire model parameters are fitted, are derived from data acquired from merely accelerations done on a straight line. This means that no lateral forces are acting on the tires, which is very ideal conditions and unlikely during real driving sequences. When a vehicle is turning, it will also have a slip angle between the tires heading and pointing direction. When slip angle is present, the amount of longitudinal force actually generated per slip ratio will becomes less, see the curves for different slip angles in \ref{combined}. However, slip angle is a parameter which is hard to approximate, and assumed to be unknown in this report. A parameter that is correlated to slip angle is the lateral acceleration., which means that it is most likely that lateral acceleration is present when a slip angle is. 
+The force per slip curves seen in Figure \ref{slip_kraft_ljungby} and \ref{slip_kraft_bb_torr}, where the tire model parameters are fitted, are derived from data acquired from merely accelerations done on a straight line. This means that no lateral forces are acting on the tires, which is very ideal conditions and unlikely during real driving sequences. When a vehicle is turning, it will also have a slip angle between the tires heading and pointing direction. When slip angle is present, the amount of longitudinal force actually generated per slip ratio will becomes less, see the curves for different slip angles in Figure \ref{combined}. However, slip angle is a parameter which is hard to approximate, and assumed to be unknown in this report. A parameter that is correlated to slip angle is the lateral acceleration., which means that it is most likely that lateral acceleration is present when a slip angle is. 
  
 An approximation for the new slip ratio that is to be used is derived by:
 \begin{equation}
@@ -497,7 +497,7 @@ Which describes how much the force will increase dependent on $ \mu $. The force
 \begin{equation}
 	F_{vehicle} = \dfrac{\partial F_{tire}}{\partial \mu} \cdot \mu
 \end{equation}
-This function now has the same form as \ref{eq:least_square}, which means that the RLS method in \ref{eq:RLS1}-\ref{eq:RLS4} can be used. The RLS with its proper parameters is:
+This function now has the same form as Equation \ref{eq:least_square}, which means that the RLS method in Equations \ref{eq:RLS1}-\ref{eq:RLS4} can be used. The RLS with its proper parameters is:
 \begin{equation}
 	L(k) =\dfrac{ P(k-1) \dfrac{\partial F_{tire}(k)}{\partial \mu}}{\lambda + \dfrac{\partial F_{tire}(k)}{\partial \mu} P(k-1) \dfrac{\partial F_{tire}(k)}{\partial \mu}} 
 \end{equation}
@@ -513,7 +513,7 @@ The friction coefficient value is updated every step and depends on its own valu
 In a perfect world, it would be desired to be able to estimate the friction coefficient during every driving situation in order to capture any sudden change of grip between the tire and the road that can be present. Unfortunately there exist many challenges during most driving sequences that have to be considered. During some situations, either the vehicle or the tire model are shown to capture the occurrence far from its reality. These situations need to be identified so that the RLS fitting method does not update the estimated friction coefficient value at these period of times. This means that the friction coefficient value will no be continuously updated throughout every driving sequence and that sudden changes of the tire/road friction can be missed.
 
 \subsubsection{Limitations due to slip ratio }
-There are a couple of driving sequences that affect the slip ratio in such a way that the forces cannot be modeled correctly. When braking, the slip ratio should be close to zero assuming braking forces on all tires, meaning that tire forces cannot be modeled. During cornering, the front wheels will be turned creating a lateral force and a yaw rate. The rear, which doesn't have any positive cornering effect, will follow the front wheels but in a smaller radius, leading to a lower velocity. This difference in velocity between the front and rear wheels will result in a slip ratio that is non proportional to the amount of force generated at the tires. This phenomena will be larger when cornering at low speeds, due to the fact that a smaller lateral force is acting, and therefore not pushing the rear axle to a larger radius. This large slip ratio due to cornering can be seen in figure \ref{turning_slow_Vx}. At around $ 20 $ s and after $ 30 $ s, the vehicle is turning at a low speed. This results in a large slip ratio seen in the first subplot, which exists without adding a positive longitudinal force.
+There are a couple of driving sequences that affect the slip ratio in such a way that the forces cannot be modeled correctly. When braking, the slip ratio should be close to zero assuming braking forces on all tires, meaning that tire forces cannot be modeled. During cornering, the front wheels will be turned creating a lateral force and a yaw rate. The rear, which doesn't have any positive cornering effect, will follow the front wheels but in a smaller radius, leading to a lower velocity. This difference in velocity between the front and rear wheels will result in a slip ratio that is non proportional to the amount of force generated at the tires. This phenomena will be larger when cornering at low speeds, due to the fact that a smaller lateral force is acting, and therefore not pushing the rear axle to a larger radius. This large slip ratio due to cornering can be seen in Figure \ref{turning_slow_Vx}. At around $ 20 $ s and after $ 30 $ s, the vehicle is turning at a low speed. This results in a large slip ratio seen in the first subplot, which exists without adding a positive longitudinal force.
 
 \begin{figure}[h]
 	\centering
@@ -522,7 +522,7 @@ There are a couple of driving sequences that affect the slip ratio in such a way
 	\label{turning_slow_Vx}
 \end{figure}
 
-Another driving scenario that creates a misleading slip ratio is during acceleration from standing still, which can be seen in figure \ref{slipratio_from_still}, at around $ 2 $ s and $ 24 $ s. When the accelerate begins, the front wheels will start to turn slightly ahead compared to the rear wheels. The percentage difference between the two wheels will become large due to the low velocity, leading to an unreasonable high slip ratio. The same phenomena can also be seen in figure \ref{slipratio_from_still} right before the vehicle comes to a stop, at around $ 22 $ s. 
+Another driving scenario that creates a misleading slip ratio is during acceleration from standing still, which can be seen in Figure \ref{slipratio_from_still}, at around $ 2 $ s and $ 24 $ s. When the accelerate begins, the front wheels will start to turn slightly ahead compared to the rear wheels. The percentage difference between the two wheels will become large due to the low velocity, leading to an unreasonable high slip ratio. The same phenomena can also be seen in Figure \ref{slipratio_from_still} right before the vehicle comes to a stop, at around $ 22 $ s. 
 
 \begin{figure}[h]
 	\centering
@@ -535,7 +535,7 @@ Limitations has to be set so that the RLS fitting method does not update the est
 
 \subsubsection{Limitations due to gear changes}
 \label{sec:gearchange}
-When a vehicle engages the clutch prior to a gear change, there will be no torque transfered from the engine out to the wheels. Due to filtering and differences between various signals, the force losses in the different models will be different. This can be seen in figure \ref{gear_change}, where gear changes appear at around $ 54.5 $ s and $ 57 $ s.
+When a vehicle engages the clutch prior to a gear change, there will be no torque transfered from the engine out to the wheels. Due to filtering and differences between various signals, the force losses in the different models will be different. This can be seen in Figure \ref{gear_change}, where gear changes appear at around $ 54.5 $ s and $ 57 $ s.
 
 \begin{figure}[h]
 	\centering
@@ -547,7 +547,7 @@ When a vehicle engages the clutch prior to a gear change, there will be no torqu
 Due to this disturbance during the gear change, the RLS fitting method should not be updated during a certain amount of time after a gear change occurs. A new friction coefficient can therefore not be calculated during this period. 
 
 \subsubsection{Limitations due to low forces}
-Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total forces acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason to this is that the force from the tire model changes less when low forces acting. This can also be seen in figure \ref{different_mue} in section \ref{section_friction coefficient}. It can be seen that amount of force generated for a certain friction coefficient varies very little for the lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of the friction coefficient which is undesired. 
+Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total forces acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason to this is that the force from the tire model changes less when low forces acting. This can also be seen in Figure \ref{different_mue} in Section \ref{section_friction coefficient}. It can be seen that amount of force generated for a certain friction coefficient varies very little for the lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of the friction coefficient which is undesired. 
 
 The RLS should, due to the reasoning above, not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient. This means that the friction coefficient will be updated rarely during calmer driving sequences, which becomes a trade-off to getting a more stable friction coefficient estimator. 
 
