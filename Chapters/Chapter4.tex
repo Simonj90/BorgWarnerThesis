@@ -342,12 +342,12 @@ The final dynamic parameter that affect the tire force model is the friction coe
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/slipkraft_olika_mue}
-	\caption {Normalized tire model force per slip ratio for different mue values.}
+	\caption {Normalized tire model force per slip ratio for different $ \mu $ values.}
 	\label{different_mue}
 \end{figure}
 
 \section{Fitting the tire model}
-It is, as seen Section \ref{tire_forces}, very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in Figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $. These tire stiffness variations for different driving scenarios makes it very hard to approximate the tire stiffness in a correct manner.
+It is, as seen Section \ref{tire_forces}, very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in Figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $, which would make a dynamic tire stiffness estimator unreliable.
 
 \begin{figure}[h]
 	\centering
@@ -545,11 +545,11 @@ Another driving scenario that creates a misleading slip ratio is during accelera
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Pictures/slipratio_from_still}
-	\caption {Large slip values are seen when a vehicle begins an acceleration from standing still.}
+	\caption {Large erroneous slip values are seen when a vehicle acceleration begins as well as when the vehicle comes to a halt.}
 	\label{slipratio_from_still}
 \end{figure}
 
-Limitations has to be set so that the RLS fitting method does not update the estimated friction coefficient at these presented scenarios when the calculated slip ratio gives an unreliable result.
+Limitations has to be set so that the RLS fitting method does not update the friction coefficient during these scenarios when the calculated slip ratio gives an unreliable result.
 
 \subsubsection{Limitations due to gear changes}
 \label{sec:gearchange}
@@ -565,6 +565,12 @@ When a vehicle engages the clutch prior to a gear change, there will be no torqu
 Due to this disturbance during the gear change, the RLS fitting method should not be updated during a certain amount of time after a gear change occurs. A new friction coefficient can therefore not be calculated during this period. 
 
 \subsubsection{Limitations due to low forces}
-Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total forces acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason to this is that the force from the tire model changes less when low forces acting. This can also be seen in Figure \ref{different_mue} in Section \ref{section_friction coefficient}. It can be seen that amount of force generated for a certain friction coefficient varies very little for the lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of the friction coefficient which is undesired. 
+Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total forces acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason to this is that the force from the tire model changes less per $ \mu $ when low forces acting, which can also be seen in Figure \ref{different_mue} in Section \ref{section_friction coefficient}. The amount of force generated for a certain friction coefficient varies very little between the curves at lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of friction coefficient which is undesired. 
 
-The RLS should not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient. This means that the friction coefficient will be updated rarely during calmer driving sequences, which becomes a trade-off to getting a more stable friction coefficient estimator.
+The RLS should not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient. 
+\begin{equation}
+	\mu_{0} \geq \tau \cdot \mu
+\end{equation}
+Where $ \tau $ is the percentage of the frictional limit that the normalized force has to exceed. This means that the friction coefficient will be updated rarely during calmer driving sequences, which becomes a trade-off to getting a more stable friction coefficient estimator. 
+
+
