@@ -119,11 +119,11 @@ F_{vehicle} = m \cdot a + F_{drag} + F_{rolling resistance}
 \subsubsection{Complications}
 The main issue with this method is that it's based on longitudinal acceleration and longitudinal losses only, hence it can only be used to estimate the vehicle forces when accelerating in a straight line. Although this is a big restriction it might be enough since acceleration in a straight line happens pretty often while driving.
 
-A major hardship is to obtain a proper value for the longitudinal acceleration. If the vehicle doesn't have an accelerometer the acceleration calculated from the wheel speeds needs to be used. This immediately causes problems when the vehicle is accelerating on a gradient road. During an uphill acceleration, the actual force to accelerate the vehicle will be higher than the force calculated from Newtons second law. Driving downhill, the force will be lower. This is because the earths gravity isn't considered in the formula. When climbing a hill the vehicle force needs to include the force of the earths gravitational pull as well. The same goes for then driving downhill, but now the force will instead help accelerating the vehicle. The force of the gravitational pull can be calculated if the angle of the vehicle relative the earths horizontal plane is known but this angle is hard to measure or estimate. \todo{is it really?} Measuring it with an accelerometer won't work either. The accelerometer will give a better result since the force of gravity is affecting it in some way. This is because it's changing inclination together with the car but it still won't give an acceleration that corresponds to the actual force acting on the car. A solution to this would be to have another accelerometer measuring vertical acceleration of the vehicle but this is extremely uncommon.
+A major hardship is to obtain a proper value for the longitudinal acceleration. If the vehicle doesn't have an accelerometer the acceleration calculated from the wheel speeds needs to be used. This immediately causes problems when the vehicle is accelerating on a gradient road. During an uphill acceleration, the actual force to accelerate the vehicle will be higher than the force calculated from Newtons second law. Driving downhill, the force will be lower. This is because the earths gravity isn't considered in the formula. When climbing a hill the vehicle force needs to include the force of the earths gravitational pull as well. The same goes for then driving downhill, but now the force will instead help accelerating the vehicle. The force of the gravitational pull can be calculated if the angle of the vehicle relative the earths horizontal plane is known but this angle is hard to measure or estimate. Measuring it with an accelerometer won't work either. The accelerometer will give a better result since the force of gravity is affecting it in some way. This is because it's changing inclination together with the car but it still won't give an acceleration that corresponds to the actual force acting on the car. A solution to this would be to have another accelerometer measuring vertical acceleration of the vehicle but this is extremely uncommon.
 
 The second parameter of Newtons second law is the mass which also is hard to estimate. The mass of the vehicle can vary several hundreds of kilos depending on passengers and load in the trunk. A Golf GTi has a curb weight of about 1350 kg. Hence, the varying weight of several hundreds of kilos will have a great impact on the force calculations. To counter this problem some kind of load detection needs to be available to set a new mass every time the car is driven. This isn't something that is very common on cars today and thus a static mass of the vehicle needs to be set resulting in errors in the force calculations way too often.
 
-Suppose that the force calculation from Newtons second law is correct. Still there are losses to be accounted for. They need to be calculated properly to be able to compare the vehicle force to the tire force. Looking at Equation \ref{eq:newton}, two different losses are compensated for. The rolling resistance is straight forward if the rolling resistance coefficient is known. The drag is a bit more complicated but should prove to be fairly accurate as well if the parameters is known. All in all, the results of these calculations won't be perfect and there are several more losses that can't be calculated in any good way. \todo{are there really?}
+Suppose that the force calculation from Newtons second law is correct. Still there are losses to be accounted for. They need to be calculated properly to be able to compare the vehicle force to the tire force. Looking at Equation \ref{eq:newton}, two different losses are compensated for. The rolling resistance is straight forward if the rolling resistance coefficient is known. The drag is a bit more complicated but should prove to be fairly accurate as well if the parameters is known. All in all, the results of these calculations won't be perfect and there are several more losses that can't be calculated in any good way.
 
 
 \subsection{Vehicle force calculated from engine torque}
@@ -192,14 +192,13 @@ There are several factors that affect how much of the engine torque that actuall
 \begin{equation}
 T_{driveshaft} = T_{driveshaftwithoutlosses}\cdot\eta_{friction}\cdot\eta_{rotating mass} - T_{wheelacceleration}
 \end{equation}
-$ \eta_{friction} $ is just a scalar factor. The frictional losses are very dependent on the design of the drive line. This means that the losses will differ between vehicles and that this factor needs to be calculated for each specific car model. Since this factor is easy to change it will also include other losses in the drive line such as acceleration of the drive shafts. \todo{can we say this?}
+$ \eta_{friction} $ is just a scalar factor. The frictional losses are very dependent on the design of the drive line. This means that the losses will differ between vehicles and that this factor needs to be calculated for each specific car model. Since this factor is easy to change it will also include other losses in the drive line such as acceleration of the drive shafts. 
 
-$ \eta_{rotating mass} $ is modeled as:
-\begin{equation}
-\eta_{rotating mass} = \frac{1}{1 + factor(0.0025?)\cdot gearratio^2}
-\end{equation}\\
-\todo{choose factor}
-The efficiency gets worse as the gear ratio gets higher since there will be more rotating mass in low gears. \todo{is this true?} Just as the frictional losses this loss is also dependent on the design of the drive line. Thus the factor multiplied with the gear ratio needs to be decided for each specific car model.
+$ \eta_{rotating mass} $ is modeled as \cite{mason}:
+\begin{equation} \label{eq:rotatingmass}
+	\eta_{rotating mass} = \frac{1}{1 + x\cdot gearratio^2}
+\end{equation}
+The efficiency gets worse as the gear ratio gets higher since there will be more rotating mass in low gears. The variable $ x $ in Equation \ref{eq:rotatingmass} models how much of an impact the gear ratio should have on the efficiency. Just as the frictional losses this loss is also dependent on the design of the drive line. Thus the factor multiplied with the gear ratio needs to be decided for each specific car model.
 
 To calculate $ T_{wheelacceleration} $ requires some more steps. Each wheel connected to a driven shaft has its own moment of inertia which will be accelerated if enough torque is applied. The amount of torque needed to accelerate the wheel depends on its moment of inertia and the angular acceleration:
 \begin{equation}
@@ -213,13 +212,12 @@ Assuming that a wheel has the shape of a solid cylinder with equal amount of den
 \begin{equation}
 	I = \dfrac{r^2 \cdot m}{2} 
 \end{equation}
-In the same manner, this applies for the actual drive shafts as well but as was said earlier this loss is included in the scalar factor describing the frictional losses. \todo{again, can we say this?}
+In the same manner, this applies for the actual drive shafts as well but as was said earlier this loss is included in the scalar factor describing the frictional losses.
 
 The angular acceleration is calculated in the same manner as in Section \ref{longaccest} but now for the front left and right wheel separately.
 
 
 \subsubsection{Complications}
-\todo{this part needs more work}
 The main issue with this method is the overall uncertainty of it. For example, the engine torque obtained from the CAN bus isn't measured with a torque sensor on the crankshaft but rather is a calculated value from the engine control unit. The engine control unit calculates the torque with the help several engine parameters and even if it's close most of the times there are moments when it isn't quite right. When doing a sudden acceleration that's aggressive enough to make the vehicle shift down some gears, a so called kickdown, the torque reading will be faulty. 
 
 This method won't work during shifting because the link between the engine shaft and the drive shafts will be lost or affected while the clutch and transmission are working to shift gear. To avoid this trouble the vehicle force estimation simply needs to paused as soon as the start of a gear shift is detected.
@@ -255,7 +253,7 @@ The models will differ more when cornering, as can be seen in Figure \ref{vehicl
 
 A solution to this could be to measure both the longitudinal and lateral accelerations with accelerometers and calculate the total acceleration of the vehicle. Unfortunately it's not that easy. When using both longitudinal and lateral acceleration of the vehicle the tire models must be able to account for both longitudinal and lateral force which is hard to model. More on this in Section \ref{tire_forces}.
 
-It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. \todo{still no sure of this} The drive session shown is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the car, although, it won't be right.
+It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. The drive session shown is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the car, although, it won't be right.
 
 The acceleration based vehicle models have been discussed a lot so far. The model based on engine torque hasn't been mentioned much at all and it has even been implied that this one is correct when the acceleration based models are falling behind. This is because it really is a good model that fills it purpose. It's not affected by hills and it's not as severely affected by cornering as the acceleration based models are. The force will always be applied in the longitudinal direction of the tire, hence it works good to match this with a longitudinal tire model. The main problem is the fact that the slip calculation will be a bit off while cornering since lateral velocity isn't considered but this is solved later on in Section \ref{sec:latacccomp}. 
 
@@ -281,9 +279,9 @@ The slip ratio is calculated from the wheels difference in angular and forward v
 \subsection{Choosing a tire model}
 Four models where described in the theory part. Brush model, Dugoff model, Magic formula and a tire model created by Ola Nockhammar at Borg Warner AB, further on called Ola's model.
 
-The magic formula was ruled out almost immediately since it's a too complicated model to be adaptive enough. It's great for simulating a specific tire in a lab for example but using it in a real time car environment won't work. It's just too many parameters to estimate when switching from summer to winter tires for example. \todo{hmm?}
+The magic formula was ruled out almost immediately since it's a too complicated model to be adaptive enough. It's great for simulating a specific tire in a lab for example but using it in a real time car environment won't work. It's just too many parameters to estimate when switching from summer to winter tires for example.
 
-The other three models are more simple with fewer input parameters and above all it's parameters that are more easily available, like slip ratio and normal force. The Brush model and the Dugoff model are even too simple. The only available parameter to change the characteristics of the slip/force curve is the longitudinal tire stiffness. Ola's model on the other hand contains two degrees of freedom by introducing a second parameter to affect the inclination of the slip/force curve. Hence, it's easier to model a tire correctly with this model. Another positive aspect is the fact that the model is made for longitudinal force estimation only. Thus, it doesn't need to be modified for longitudinal use only like the Brush and Dugoff models. \todo{is this true?}
+The other three models are more simple with fewer input parameters and above all it's parameters that are more easily available, like slip ratio and normal force. The Brush model and the Dugoff model are even too simple. The only available parameter to change the characteristics of the slip/force curve is the longitudinal tire stiffness. Ola's model on the other hand contains two degrees of freedom by introducing a second parameter to affect the inclination of the slip/force curve. Hence, it's easier to model a tire correctly with this model. Another positive aspect is the fact that the model is made for longitudinal force estimation only. Thus, it doesn't need to be modified for longitudinal use only like the Brush and Dugoff models.
 
 All in all, Ola's model was the obvious choice for this work.
 
@@ -300,7 +298,7 @@ The tire stiffness is obtained by deriving the tire force generated per slip for
 	\label{different_cx}
 \end{figure}
 
-Unfortunately, a tires characteristics is further complex, and cannot be explained by the tire stiffness as a parameter alone. Two different tires can have the same tire stiffness, but differing characteristics at larger slip ratio values. An example of this can be seen in Figure \ref{different_xsi}. Generally, tires with lower tire stiffness value have higher $ \xi $, hence resulting in even lower forces for higher slip values.\todo{is this true?} Once again this is a good reason to use Ola's tire model since $ \xi $ can be modified in this model.
+Unfortunately, a tires characteristics is further complex, and cannot be explained by the tire stiffness as a parameter alone. Two different tires can have the same tire stiffness, but differing characteristics at larger slip ratio values. An example of this can be seen in Figure \ref{different_xsi}. Generally, tires with lower tire stiffness value have higher $ \xi $, hence resulting in even lower forces for higher slip values. Once again this is a good reason to use Ola's tire model since $ \xi $ can be modified in this model.
 
 \begin{figure}[h]
 	\centering
@@ -310,7 +308,7 @@ Unfortunately, a tires characteristics is further complex, and cannot be explain
 	\label{different_xsi}
 \end{figure}
 
-The tire stiffness for a certain tire should theoretically be the same for different road surfaces. Nevertheless, testing has shown that the actual inclination of the slip/force curve for small slips can differ for different road surfaces. The tire stiffness therefore has to be compensated accordingly depending on the roads friction coefficient. \todo{this needs to be exaplained in more detail}
+The tire stiffness for a certain tire should theoretically be the same for different road surfaces. Nevertheless, testing has shown that the actual inclination of the slip/force curve for small slips can differ for different road surfaces. The tire stiffness therefore has to be compensated accordingly depending on the roads friction coefficient.
 
 \subsubsection{Slip ratio}
 As seen most slip/force figures, the maximum force will be generated at a specific slip and will thereafter decrease with an increasing slip ratio. If the tire model doesn't capture this force peak at the correct slip ratio value, it will become very difficult to match the tire model force with the calculated vehicle force. The slip ratio value during a real driving sequence is usually rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that a small variances in the slip ratio calculations will have a large impact on the resulting force.
@@ -322,9 +320,7 @@ In order to calculate the slip ratios of the two front wheels, the four wheel sp
 	\caption {Wheel speeds and slips for different filters.}
 	\label{wheel_speed_and_slip}
 \end{figure}
-Another concrete problem that arises when calculating the slip ratio, is that the radius for each wheel on a vehicle can be different, e.g. when the air pressure of a tire drops slightly over time. The wheel speed from the CAN bus will in this case be wrong, leading to a offset in the slip ratio calculations. \todo{explain more}
-
-\todo{Skriva något fint om kraften med slip angle} The force/slip should be smaller when the slip angle is larger. In other words, when we have more lateral force, the longitudinal force will be smaller.
+Another concrete problem that arises when calculating the slip ratio, is that the radius for each wheel on a vehicle can be different, e.g. when the air pressure of a tire drops slightly over time. The wheel speed from the CAN bus will in this case be wrong, leading to an offset in the slip ratio calculations. Methods to calculate difference in wheel radii already exists, therefore the wheel radii are assumed to be known at all times.
 
 \subsubsection{Normal force}
 The amount of longitudinal force (neglecting lateral forces) generated from a tire depends on the normal force acting on the tire. The force generated by a tire is linearly proportional to the normal force on the tire:
@@ -466,7 +462,13 @@ The two different fitted tire models presented in \ref{winter_tire} and \ref{sum
 \end{figure}
 
 \section{Estimating the friction coefficient}
-The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other words, choose the $ \mu $ that enables:
+\begin{figure}[!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Pictures/friction_estimator_ext}
+	\caption {The extended friction estimator with tire model selector and adaptive longitudinal tire stiffness coefficient.}
+	\label{friction_estimator_ext}
+\end{figure}
+The extended friction estimator with tire model selector and adaptive longitudinal tire stiffness coefficient can be seen in Figure \ref{friction_estimator_ext}. The aim om the friction estimation is, as mentioned earlier, to choose the correct friction coefficient so that the forces from the two different models become alike. In other words, choose the $ \mu $ that enables:
 \begin{equation}
 	F_{vehicle} = F_{tire}
 \end{equation}
@@ -565,14 +567,4 @@ Due to this disturbance during the gear change, the RLS fitting method should no
 \subsubsection{Limitations due to low forces}
 Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total forces acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason to this is that the force from the tire model changes less when low forces acting. This can also be seen in Figure \ref{different_mue} in Section \ref{section_friction coefficient}. It can be seen that amount of force generated for a certain friction coefficient varies very little for the lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of the friction coefficient which is undesired. 
 
-The RLS should not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient. This means that the friction coefficient will be updated rarely during calmer driving sequences, which becomes a trade-off to getting a more stable friction coefficient estimator. 
-
-\section{Other methods}
-
-\subsection{Slip-slope friction model}
-
-One friction model that is frequently used and referred to in research papers is the so called slip-slope friction model. The models general idea is that the maximum tire/road friction available can be decided due to its dependency on the slope from the slip-force curve in the linear region. This slip-force curve has the same characteristics as the slip-friction coefficient curve seen in Figure \ref{fric_slip}. 
-\begin{equation}
-\dfrac{F_{x}}{F_{z}} = k \cdot \kappa
-\end{equation}
-Where $ F_{x} $ and $ F_{z} $ is the estimated longitudinal and normal force acting on a tire depending on input values. The slip-slope can be estimated with for example recursive least square fitting.
+The RLS should not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient. This means that the friction coefficient will be updated rarely during calmer driving sequences, which becomes a trade-off to getting a more stable friction coefficient estimator.
