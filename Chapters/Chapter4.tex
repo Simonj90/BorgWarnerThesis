@@ -580,7 +580,13 @@ Another limitation that adds to the restrictions when the friction coefficient s
 The RLS should not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient. 
 \begin{equation}
 	\mu_{0} \geq \tau \cdot \mu
+	\label{eq:mu0_geq_mu}
 \end{equation}
 Where $ \tau $ is the percentage of the frictional limit that the normalized force has to exceed. This means that the friction coefficient will be updated rarely during calmer driving sequences, which becomes a trade-off to getting a more stable friction coefficient estimator. 
 
+When this restriction due to low forces is applied, another problem is introduced. During a situation where the actual tire/road friction drops rapidly, the maximum forces from the vehicle model will drop proportionally. If the system still believes that tire/road friction is high, the Equation \ref{eq:mu0_geq_mu} will never be true and the friction coefficient will not be updated within the system. To overcome this, a condition that allows the friction coefficient to be updated when the tire force model is much greater than the vehicle force model. 
+\begin{equation}
+	F_{tire} \gg F_{vehicle}
+\end{equation}
+Logically, this should only happen when the friction estimation is too high. 
 
