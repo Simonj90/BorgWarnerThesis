@@ -347,7 +347,7 @@ The final dynamic parameter that affect the tire force model is the friction coe
 \end{figure}
 
 \section{Fitting the tire model}
-It is, as seen Section \ref{tire_forces}, very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ and $ 2 $ can be seen in Figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $, which would make a dynamic tire stiffness estimator unreliable.
+It is, as seen Section \ref{tire_forces}, very important to know the parameters that affect the force derived from the tire model. Slip ratio and the normal force is derived by using CAN signals from the vehicle and the friction coefficient is the parameter that should be approximated. The tire stiffness on the other hand is harder to approximate with good accuracy. The definition is, as mentioned earlier, the gradient of the slip/force curve around zero slip ratio, which means that the tire stiffness should preferably be approximated at small slip ratio values, where the gradient is relatively constant. The force per slip ratios between $ 0 $ \% and $ 2 $ \% can be seen in Figure \ref{slip_kraft_sma_slip}. The figure shows that the variance of the force per slips ratio is rather large around the approximated line at $ C_{x} = 24 $, which would make a dynamic tire stiffness estimator unreliable.
 
 \begin{figure}[h]
 	\centering
@@ -356,18 +356,27 @@ It is, as seen Section \ref{tire_forces}, very important to know the parameters 
 	\label{slip_kraft_sma_slip}
 \end{figure}
 
-Due to the difficulties to estimate the tire stiffness, experimentations has been made to fit tire model parameters during test driving. The problem with this solution is that static tire model parameters would be chosen for a certain driving sequence instead of having a dynamic solution that works for every kind of tire. 
+Due to the difficulties to estimate the tire stiffness some experimenting have been made to fit tire model parameters during test driving. The problem with this solution is that static tire model parameters would be chosen for a certain driving sequence instead of having a dynamic solution that works for all kinds of tires. 
 
-It was also found during testing that the tire stiffness for the same set of tires changes depending on friction coefficient between the tire and the road. The tire stiffness will therefore be interpolated between two different tested tire stiffness values depending on the friction coefficient.
+It was also found during testing that the tire stiffness for the same set of tires changes depending on the friction coefficient between the tire and the road. The tire stiffness will therefore be interpolated between two different tested tire stiffness values. This interpolated formula will depend on the tire/road friction coefficient. 
 
 \subsection{Winter tires}
 \label{winter_tire}
-Test driving has been done with a set of winter tires on both asphalt and ice/snow. In Figure \ref{slip_kraft_ljungby} the force per slip can be seen during a simple acceleration run on asphalt. It should be noted that only values for when the actual friction estimation is active is used. 
+Test driving has been done with a set of winter tires on both asphalt and ice/snow. In Figure \ref{slip_kraft_ljungby_all} the force per slip ratio can be seen during a simple acceleration run on asphalt. Here all data points for the drive session are displayed which results in several faults. For example the data points with high force at zero slips is when launch control is activated, i.e. the engine generates torque but the vehicle stands still. These data points can't be used when estimating the friction coefficient and those together with many other are removed when the estimator is active. More on this in Section \ref{when_to_estimate}.   
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Pictures/temp}
+	\caption {Normalized force per slip ratio for acceleration in a straight line with winter tires on asphalt for all measured values.}
+	\label{slip_kraft_ljungby_all}
+\end{figure}
+
+For now we assume that only valid data points are displayed. The same drive session with faulty data points removed can be seen in Figure \ref{slip_kraft_ljungby}. Fitting a tire model to these data points are a much easier task and the \todo{fortsätt}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/slip_kraft_ljungby}
-	\caption {Normalized force per slip ratio for acceleration in a straight line with winter tires on asphalt.}
+	\caption {Normalized force per slip ratio for acceleration in a straight line with winter tires on asphalt, only good values.}
 	\label{slip_kraft_ljungby}
 \end{figure}
 
@@ -528,6 +537,7 @@ This function now has the same form as Equation \ref{eq:least_square}, which mea
 The friction coefficient value is updated every step and depends on its own value, the error between the vehicle and tire model, and the number L describing how much to rely on the error. $ \dfrac{\partial F_{tire}}{\partial \mu} $ becomes larger for slips close to the peak force, which means that larger changes of $ \mu $ is possible at that point. The forgetting factor, $ \lambda $, is usually a value in the region $ [0.9, 1) $, where a larger forgetting factor means that older values are considered more, resulting in slower changes of $ \mu $. The choice of $ \lambda $ affects the changing friction coefficient greatly. A value very close to $ 1 $ will generate a much stable value for $ \mu $, while a slightly smaller number reacts faster to a changing friction coefficient.
 
 \subsection{When to estimate the friction coefficient}
+\label{when_to_estimate}
 In a perfect world, it would be desired to be able to estimate the friction coefficient during every driving situation in order to capture any sudden change of grip between the tire and the road that can be present. Unfortunately there exist many challenges during most driving sequences that have to be considered. During some situations, either the vehicle or the tire model are shown to capture the occurrence far from its reality. These situations need to be identified so that the RLS fitting method does not update the estimated friction coefficient value at these period of times. This means that the friction coefficient value will no be continuously updated throughout every driving sequence and that sudden changes of the tire/road friction can be missed.
 
 \subsubsection{Limitations due to slip ratio }
