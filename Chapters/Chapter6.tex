@@ -10,7 +10,7 @@ The tire model created by Ola at BorgWarner AB that was used was much simpler bu
 
 
 \section{Losses}
-Try to describe the losses better. Driveline losses, how good are they?
+Losses are generally hard to model correctly.
 
 \section{Slip ratio}
 The main problem regarding the slip ratio calculations is the approximation of the vehicles velocity. What's needed for a good slip ratio calculation is the wheels velocity relative the road in the exact same direction as the wheel in pointing. Thus, calculating the slip ratio based on the undriven wheel velocity only works good when driving in a straight line. Turning will make it much harder to calculate the slip ratio. To calculate the velocity in the pointing direction is hard without for example an optical sensor that actually "reads" the road in real time. The biggest improvement would be to consider the lateral speed of the vehicle as well. The estimate lateral speed was outside the scope of this work but there already exist methods to do so. By combining longitudinal and lateral speed, yaw rate and the wheel angle the wheels actual velocity relative the ground could be calculated, enabling a much better slip ratio estimation.
