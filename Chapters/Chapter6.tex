@@ -4,12 +4,16 @@
 More testing with different tires need to be done. Test driving have only been done with two different sets of tires in this work which of course restricts the possibilities to create a friction coefficient estimator that works for all tires. Although, it's believed that the tire selector that has been developed can easily be extended to handle all kinds of tires but this requires a lot more test data.
 
 \section{Tire model parameters}
-One of the greatest challenges in this work was to model a tire correctly. Even a normal road tire, nothing fancy at all, is an extremely complex structure to model mathematically. 
+One of the greatest challenges in this work was to model a tire correctly. Even a normal road tire, nothing fancy at all, is an extremely complex structure to model mathematically. The most accurate tire model of today is Pacejka's Magic Formula \cite{pacejka}. The reason for the accuracy is simply that it's a semi empirical model that's actually not connected to a tires physical properties at all. It's (extremely) simply put just a customizable polynomial that can be adjusted to fit a tires force per slip ratio curve very well. This is really good in a laboratory environment for example where one specific tire needs to be modeled for a series of tests. It's also not very intuitive to change the parameters to change the model behavior. Instead of a couple of simple inputs like tire stiffness and normal force the formula requires several parameters which are hard or even impossible to obtain. Needless to say, for a real time application in a vehicle there are better options.
+
+The tire model created by Ola at BorgWarner AB that was used was much simpler but still not as simple as the Dugoff or Brush models.  
+
+
 \section{Losses}
 Try to describe the losses better. Driveline losses, how good are they?
 
 \section{Slip ratio}
-Should be calculated from the difference between angular and forward velocity. Not the angular velocity of the fron and rear wheels. 
+The main problem regarding the slip ratio calculations is the approximation of the vehicles velocity. What's needed for a good slip ratio calculation is the wheels velocity relative the road in the exact same direction as the wheel in pointing. Thus, calculating the slip ratio based on the undriven wheel velocity only works good when driving in a straight line. Turning will make it much harder to calculate the slip ratio. To calculate the velocity in the pointing direction is hard without for example an optical sensor that actually "reads" the road in real time. The biggest improvement would be to consider the lateral speed of the vehicle as well. The estimate lateral speed was outside the scope of this work but there already exist methods to do so. By combining longitudinal and lateral speed, yaw rate and the wheel angle the wheels actual velocity relative the ground could be calculated, enabling a much better slip ratio estimation.
 
 
 \section{Weight transfer}
