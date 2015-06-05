@@ -1,20 +1,20 @@
 \chapter{Conclusion}
-
-The work done in this report has focused as much as possible on having a solution that works in real life situations, rather than having a model that works perfectly during simulated testing. 
-
-\section{Tire model parameters}
+\section{Model parameters}
 One of the larger insights acquire was that the difference between tire sets had a much bigger impact than what was expected. It was first believed that most tires had the force peak at similar slip ratio values, but after extensive testing this was found not to be true. Therefore the tire model needed to be extended to handle both different tires and road conditions. However, test driving have only been performed with two different sets of tires which of course restricts the possibilities to create a friction coefficient estimator that works for all tires. It's believed that the tire selector that has been developed can easily be extended to handle all kinds of tires but this requires a lot more test data from test driving with different kinds of tires and road conditions.
 
 The estimator in whole could also be extended with several modules to enable better estimation of the friction coefficient. Methods to estimate $ V_{y} $ (lateral velocity) and $ \alpha $ (slip angle) could greatly improve estimation of the vehicle states. This would further on improve the reliability of vehicle and tire models.
 
 \section{CAN signals used}
-A goal with this report was to use signals that exist on most new vehicles of today, rather than using parameters that need new sensors or are hard to approximate. The CAN signals used in this report to approximate the friction was:
+A goal with this thesis was to use signals that are easily available on most new vehicles of today, rather than using parameters that need new sensors or are hard to approximate. The CAN signals used by the estimator to estimate the tire/road friction coefficient was:
 \begin{itemize}
-	\item wheel speed x4
+	\item the four wheel speeds
 	\item engine torque
 	\item lateral acceleration
-	\item gear
+	\item current gear
 	\item steering wheel angle
 	\item FXD-moment
 \end{itemize}
-Besides this, static parameters associated with the Golf GTI was used.  
+Besides this, static parameters associated with the Golf GTI was used which of course can be replaced by the static parameters for another car.  
+
+\section{Final words}
+The work done in this report has focused as much as possible on having a solution that works in real life situations, rather than having a model that works perfectly during simulated testing. All in all this goal was reached and the developed friction estimator works really well for some driving sequences. Above all it's a great start for future development within this area.
