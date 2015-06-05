@@ -75,9 +75,9 @@ The normalized force per slip ratio curve for the combined sequence can be seen 
 \end{figure}
 
 \subsection{Summer tires on asphalt}
-A fast track lap was also run with the summer tires on asphalt. These tires were, as mentioned before, relatively stiff and with the peak force located at a relative small slip ratio value. This resulted in a tougher tire force modeling where smaller variances gave larger errors. 
+A fast track lap was also run with the summer tires on asphalt. These tires were, as mentioned before, relatively stiff and with the peak force located at a relative small slip ratio value. This attribute results in a tougher tire fore modeling where smaller variance generates larger errors.
 
-The result from this fast track run can be seen in Figure \ref{force_mue_race_bb}. The two first curves, \textit{vehicle model} and \textit{tire model, used value}, are the same calculations as seen earlier in the result, where \textit{tire model, used value} are only calculated when the conditions are met in Section \ref{when_to_estimate}. These conditions are not met at any longer times, as the figure shows, even though the forces acting are relatively high at numerous times. Therefore the curve \textit{tire model, all value} is shown to demonstrate why the conditions for the friction estimation algorithm are not met.
+The result from this fast track run can be seen in Figure \ref{force_mue_race_bb}. The two first curves, \textit{vehicle model} and \textit{tire model, used value}, are the same calculations as seen earlier in the result, and \textit{tire model, all values} is an additional plot that shows the tire force even when the conditions are not met from Section \ref{when_to_estimate}. The conditions are unfortunately not met at any longer period of times, as the figure shows, even though the forces acting on the vehicle are relatively high at numerous occasions. Hence the curve \textit{tire model, all value} is shown to demonstrate the reasons that the conditions for the friction estimation algorithm are not met.
 
 \begin{figure}[h]
 	\centering
@@ -87,7 +87,7 @@ The result from this fast track run can be seen in Figure \ref{force_mue_race_bb
 \end{figure}
 
 \subsection{Summer tires on wet asphalt}
-A similar fast track lap was done with the summer tires on wet asphalt, to test the algorithm's behavior on the same road surface but with different driving conditions. The result from this driving sequence can be seen in Figure \ref{force_mue_race_bb}. It can be seen that the resulting $ \mu $ does not drop much lower than the $ \mu = 1.17 $ that calculated on the dry acceleration run. 
+A similar fast track lap was done with the summer tires on wet asphalt, to test the algorithm's behavior on the similar road surface but with different driving conditions. The result from this driving sequence can be seen in Figure \ref{force_mue_blot_race_bb}. It can be seen that the resulting $ \mu $ does not drop much lower than the $ \mu = 1.17 $ which was calculated during the dry acceleration run. 
 
 \begin{figure}[h]
 	\centering
@@ -96,7 +96,7 @@ A similar fast track lap was done with the summer tires on wet asphalt, to test 
 	\label{force_mue_blot_race_bb}
 \end{figure}
 
-In Figure \ref{slip_kraft_blot_och_torr} the normalized force for the two similar acceleration runs can be seen. The first subplot corresponds to dry asphalt and the second subplot corresponds to wet asphalt, where the dashed line in the two plots are described by exactly the same tire model parameters. The figure shows that the longitudinal force per slip ratio is not decreased when accelerating on wet asphalt. 
+The normalized force per slip ratio for the dry and wet acceleration runs respectively are seen in Figure \ref{slip_kraft_blot_och_torr}. The first subplot corresponds to dry asphalt and the second subplot to wet asphalt, where the dashed line in the two subplots are exactly the same tire model parameters. The figure shows that the longitudinal force per slip ratio does not decreased when accelerating is done on wet asphalt.
 
 \begin{figure}[h]
 	\centering
