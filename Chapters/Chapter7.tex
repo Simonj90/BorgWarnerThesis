@@ -7,4 +7,14 @@ One of the larger insights acquire was that the difference between tire sets had
 
 The estimator in whole could also be extended with several modules to enable better estimation of the friction coefficient. Methods to estimate $ V_{y} $ (lateral velocity) and $ \alpha $ (slip angle) could greatly improve estimation of the vehicle states. This would further on improve the reliability of vehicle and tire models.
 
-\todo{Lista vilka signaler vi faktiskt behöver!}
+\section{CAN signals used}
+A goal with this report was to use signals that exist on most new vehicles of today, rather than using parameters that need new sensors or are hard to approximate. The CAN signals used in this report to approximate the friction was:
+\begin{itemize}
+	\item wheel speed x4
+	\item engine torque
+	\item lateral acceleration
+	\item gear
+	\item steering wheel angle
+	\item FXD-moment
+\end{itemize}
+Besides this, static parameters associated with the Golf GTI was used.  
