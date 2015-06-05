@@ -1,11 +1,9 @@
 \chapter{Discussion}
 
-\section{Future work}
-More testing with different tires need to be done. Test driving have only been performed with two different sets of tires in this work which of course restricts the possibilities to create a friction coefficient estimator that works for all tires. Although, it's believed that the tire selector that has been developed can easily be extended to handle all kinds of tires but this requires a lot more test data.
+\section{Modeling the force}
+A vehicle and a tire are complex matters and therefor hard to describe with theoretical models. There are many factors that have been simplified and approximated in order to make appropriate calculations. Along the way, these simplifications and approximations do not always agree with reality, which makes the results unreliable. 
 
-The estimator could also be extended with several modules to enable better estimation of the friction coefficient. Methods to estimate $ V_{y} $ (lateral velocity) and $ \alpha $ (slip angle) could greatly improve estimations of the vehicles dynamics state. Which would further on improve the reliability of vehicle and tire models.
-
-\section{Tire model}
+\subsection{The complexity of a tire}
 One of the greatest challenges in this work was to model a tire correctly. Even a normal road tire, nothing fancy at all, is an extremely complex structure to model mathematically. One of the most accurate tire model of today is considered to be Pacejka's Magic Formula \cite{pacejka}. The reason for the accuracy is simply that it's a semi empirical model that's actually not connected to a tires physical properties at all. It's (extremely) simply put just a customizable polynomial that can be adjusted to fit a tires force per slip ratio curve very well. This is really good in a laboratory environment for example where one specific tire needs to be modeled for a series of tests. It's also not very intuitive to change the parameters to change the model behavior. Instead of a couple of simple inputs like tire stiffness and normal force the formula requires several parameters which are hard or even impossible to obtain. Needless to say, for a real time application in a vehicle there are better options.
 
 The tire model created by Ola at BorgWarner AB that was used, was much simpler but still not as simple as the Dugoff or Brush models. A positive aspect of a simpler tire model is that it's easier to understand and experiment with. The five input parameters (slip ratio, normal force, tire/road friction coefficient, tire stiffness and curve inclination factor) are affiliated with the real world in much simpler way than the Magic Formula is. It was fairly easy to implement it together with the tire mode selector, hence it could be used to model both winter and summer tires without any severe modifications. Another advantage is that it does not include very advanced calculations, making it suitable for use in simple micro controllers. 
@@ -13,19 +11,16 @@ The tire model created by Ola at BorgWarner AB that was used, was much simpler b
 The most surprising result of them all was the changing tire stiffness of a tire. In the beginning of this work it was believed that the tire stiffness was a static parameter for each tire. After some research it was showed that the tire stiffness actually depends heavily on the tire/road friction coefficient. It was impossible make a tire model behave as a tire on both asphalt and ice with a static tire stiffness. If the tire stiffness was modeled as a simple linear function depending on the friction coefficient the model worked much better. This is partly in agreement with \cite{gustafsson1997} which was an article that was read really early but the idea was discarded because it seemed too general. Looking now at the method that was developed, especially on the linear functions for the tire stiffness, it actually verifies Gustafsson's. The slip slope he describes is the same thing as the varying tire stiffness in this work.
 
 
-\section{Losses}
-Losses are generally hard to model correctly.
-
+\subsection{Approximating the losses}
 The formula for losses in the drive line where the gear ratio has an impact on the efficiency certainly is interesting. It was found on a private persons own web site. The person in question is named Steven Mason and has worked at the rotational machinery and controls laboratory at University of Virginia. Via e-mail contact it was learned that the formula came from lecture notes of T.C. Scott's course in Automotive Engineering and that he hadn't done any extensive tests of it. The formula works really well and since it did it was chosen to use even though the source isn't the best. Before the formula was found it was already shown that higher gear ratio appeared to lower the efficiency in the drive line which also strengthened the belief in the formula. 
 
-\section{Slip ratio}
+\subsection{Slip ratio calculations}
 The main problem regarding the slip ratio calculations is the approximation of the vehicles velocity. What's needed for a good slip ratio calculation is the wheels velocity relative the road in the exact same direction as the wheel in pointing. Thus, calculating the slip ratio based on the undriven wheel velocity only works good when driving in a straight line. Turning will make it much harder to calculate the true slip ratio value. Calculations of the velocity in the pointing direction is hard without for example an optical sensor that actually "reads" the road in real time. The biggest improvement would be to consider the lateral velocity of the vehicle as well. To estimate the lateral velocity was considered to be outside the scope of this work, but there already exist methods that could be used to approximate this. By combining longitudinal and lateral velocity, yaw rate and the wheel angle, the wheels actual heading velocity relative to the ground could be calculated, enabling a much better slip ratio estimation.
 
-\section{Weight transfer}
-Weight transfer should be effected by the curb stiffness. 
+\subsection{Weight load transfer}
+The weight transfer that actually affects the vehicle has a high impact on the used normal force for each tire, which has a high impact on the tire model force. The weight transfer function used in this work is rather simplified and a more correct way of calculating have unfortunately not been performed. A more accurate weight transfer model could make the tire force model more accurate.   
 
 \section{Evaluating the results}
-
 A further explanation of the results seen in Chapter \ref{chapter_five} will be presented in this section. The results are generally not revolutionizing with a quick and stable friction coefficient estimation, but rather show the results of real driving sequences. In some of the driving scenarios the friction coefficient is estimated fairly well, but in some cases the algorithm is shown to be insufficient. 
 
 \subsection{Using winter tires}
