@@ -2,9 +2,6 @@
 \label{chapter_five}
 
 \section{Tire/road friction for different driving sessions}
-\todo{Write something nice inledande shit!}
-
-\todo{Kanske även skriva vilka värden på löambda som användes osv... lambda = 0.997 och tau = 0.4}
 The most interesting result of all this work is of course the estimated tire/road friction coefficient. But, how the estimator works with the forces and when it actually estimates the friction is also interadasting. Most of the resulting plots consist of two subplot, the estimated friction but also the vehicle force and the tire force. The vehicle force is always calculated but the tire force is only estimated in accordance with Section \ref{when_to_estimate}. When these conditions aren't fulfilled the tire force is set to zero in the plots and the estimator is paused.
 
 To eliminate minor disturbances the combined forces for the two front tires are used rather than splitting it up into two different computations. This means that only one friction coefficient will be approximated rather than one for each tire respectively. It would be possible to calculate the friction coefficient for both sides of the vehicle in order to detect a split-$ \mu $ situation, but the trade off would in that case be a less stable estimation of the friction coefficient when both tires have the same friction to the road. A much more common situation.
