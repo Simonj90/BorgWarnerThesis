@@ -5,11 +5,9 @@
 \todo{Write something nice inledande shit!}
 
 \todo{Kanske även skriva vilka värden på löambda som användes osv... lambda = 0.997 och tau = 0.4}
+The most interesting result of all this work is of course the estimated tire/road friction coefficient. But, how the estimator works with the forces and when it actually estimates the friction is also interadasting. Most of the resulting plots consist of two subplot, the estimated friction but also the vehicle force and the tire force. The vehicle force is always calculated but the tire force is only estimated in accordance with Section \ref{when_to_estimate}. When these conditions aren't fulfilled the tire force is set to zero in the plots and the estimator is paused.
 
-
-To eliminate minor disturbances the combined force for the two front tires are used when calculating the force from the different models, rather than splitting it up into two different computations. This means that only one friction coefficient will be approximated rather than one for the respective sides. It would be preferable to be able to calculate the friction coefficient for both sides of the vehicle in order to detect a split-$ \mu $ situation, but the trade off would in that case be a less stable estimation of the friction.
-
-Note that the tire force curves in this section only include the values where the actual friction estimation is done. In other words, when the conditions mentioned in Section \ref{when_to_estimate} are not fulfilled, the tire force value is set to zero. 
+To eliminate minor disturbances the combined forces for the two front tires are used rather than splitting it up into two different computations. This means that only one friction coefficient will be approximated rather than one for each tire respectively. It would be possible to calculate the friction coefficient for both sides of the vehicle in order to detect a split-$ \mu $ situation, but the trade off would in that case be a less stable estimation of the friction coefficient when both tires have the same friction to the road. A much more common situation.
 
 \subsection{Winter tires on asphalt}
 The algorithm that approximates the friction coefficient was run on the straight line acceleration run, as used in Section \ref{winter_tire} to acquire the tire model parameters. The combined forces from the two front tires can be seen for the two respective force models in Figure \ref{force_mue_olika_acc}, subplot one. The corresponding friction coefficient can be seen in subplot two. 
