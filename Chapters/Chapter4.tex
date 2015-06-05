@@ -286,7 +286,7 @@ The other three models are more simple with fewer input parameters and above all
 All in all, the BW model was the obvious choice for this work.
 
 \subsection{Tire model parameters for the BW tire model}
-In this section the four model parameters that affects the BW tire model will be explained in more detail.
+In this section four of the model parameters that affects the BW tire model will be explained in more detail.
 
 \subsubsection{Tire stiffness}
 The tire stiffness is obtained by deriving the tire force generated per slip ratio for values around zero, i.e. the gradient of the force per slip ratio curve at zero slip ratio. The slip force curve for two different tire stiffnesses can be seen in Figure \ref{different_cx}. The interpretation from this figure is that a tire's stiffness is an essential parameter to have in order to model the tire force correctly. 
@@ -336,7 +336,7 @@ This means that the maximum longitudinal force obtained by either the vehicle mo
 
 \subsubsection{Friction coefficient}
 \label{section_friction coefficient}
-The final dynamic parameter that affect the tire force model is the friction coefficient between the tire and the road. The friction coefficient limits the normalized force that can be generated through the tires, which means that the friction coefficient and the normal force, $ F_{z}\mu $, limits the amount of longitudinal force possible to acquire. How different $ \mu $ affects the force/slip curve for the BW tire model can be seen in Figure \ref{different_mue}. For a certain slip ratio value, different normalized force values will be acquired for the variant friction coefficient. It should also be noted in the figure that the derived force will not differ greatly depending on the friction coefficient at low slip ratio values. It is therefore desired to have a somewhat larger slip ratio value before the estimating the friction coefficient value. In other words, the normalized force should be closer to the frictional limit in order to acquire a more correct friction coefficient. 
+The final dynamic parameter that affects the tire force model is the friction coefficient between the tire and the road. The friction coefficient limits the normalized force that can be generated through the tires, which means that the friction coefficient and the normal force, $ F_{z}\mu $, limits the amount of longitudinal force possible to acquire. How different $ \mu $ affects the force/slip curve for the BW tire model can be seen in Figure \ref{different_mue}. For a certain slip ratio value, different normalized force values will be acquired for the variant friction coefficient. It should also be noted in the figure that the derived force will not differ greatly depending on the friction coefficient at low slip ratio values. It is therefore desired to have a somewhat larger slip ratio value before the estimating the friction coefficient value. In other words, the normalized force should be closer to the frictional limit in order to acquire a more correct friction coefficient. 
 
 \begin{figure}[h]
 	\centering
