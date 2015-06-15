@@ -4,11 +4,11 @@ Before describing the work on friction estimation it is important to have some k
 
 \section{Vehicle dynamics and models}
 
-When looking at vehicle dynamics, there are many variables that are interesting to know. Some of these includes the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. Some variables can be measured directly and some of them needs to be calculated or modeled. The characteristics of a vehicle is very complex and the exact behavior of a car is therefore impossible to model in every situation. There exists many different vehicle models that try to describe the characteristics of a car as adequate as possible. All the calculations for these models are to be done on a vehicles on board computer, which means that the model has to be simple enough to not reach the computers limited computing capacity.
+When looking at vehicle dynamics, there are many variables of interest. Some of these includes the vehicles yaw rate, and the velocity and force generated in both lateral and longitudinal direction. Some variables can be measured directly and some of them need to be calculated or modeled. The characteristics of a vehicle is very complex and the exact behavior of a car is therefore impossible to model in every situation. There exist many different vehicle models that try to describe the characteristics of a car as adequate as possible. All the calculations for these models are to be done on a vehicles on board computer, which means that the model has to be simple enough to not reach the computers limited computing capacity.
 
 \subsection{The bicycle model}
 
-The bicycle model is a rather simple model that can be used to describe vehicle dynamics when turning, e.i. when we have a yaw rate and lateral forces that are affecting the vehicle. The models major simplifications are that the mass of the vehicle is seen as one center of gravity point and that the two front wheels and the two rear wheels are combined into one wheel respectively as can be seen in Figure \ref{bicycle_model}. These simplifications means that there is no difference in forces on the two sides, e.i. there will be no roll effect to the outside wheel when turning in a corner. There is also an assumption made that there will be no pitch effect on the vehicle, which means that there is no suspension system that is effecting it. The model also assumes that there is no driving torque generated to the wheels, and therefore only lateral forces on the vehicle.
+The bicycle model is a rather simple model that can be used to describe vehicle dynamics when turning, e.i. when we have a yaw rate and lateral forces that are affecting the vehicle. The model's major simplifications are that the mass of the vehicle is seen as one center of gravity point and that the two front wheels and the two rear wheels are combined into one wheel respectively as can be seen in Figure \ref{bicycle_model}. These simplifications means that there is no difference in forces on the two sides, e.i. there will be no roll effect to the outside wheel when turning in a corner. There is also an assumption made that there will be no pitch effect on the vehicle, which mean that there is no suspension system that is effecting it. The model also assumes that there is no driving torque generated to the wheels, and therefore only lateral forces on the vehicle.
 
 For most cornering situations, these assumptions work fine, and the model gives a good idea on how different parameters are affected. Despite this, one has to bare in mind that these assumptions could result in rather large errors during certain driving situations.
 
@@ -74,7 +74,7 @@ If $ B $ is 0, we have equal amount of lateral force on the front and rear wheel
 
 \subsection{Two track vehicle model}
 
-The bicycle model described earlier is a simplified vehicle model that only captures the main characteristics well in many situations. The fact that it is modeled by only one wheel per axis means that the forces on the two wheels on the same axis will be modeled exactly the same. In reality, there will of course exist factors that affect the two wheels different, e.g. when cornering, the normal force will be transfered from the inner to the outer wheel. If a car uses an FXD, the active differential will in certain situations transfer torque from one shaft to the other. The effect that the FXD contributes with will be described further on in a later section of the paper. A model that is slightly more complicated than the bicycle model,  that tries to capture these lateral differences, is the two track model seen in Equation \ref{two_track_model}. 
+The bicycle model described earlier is a simplified vehicle model that only captures the main characteristics well in most situations. The fact that it is modeled by only one wheel per axis means that the forces on the two wheels on the same axis will be modeled exactly the same. In reality, there will of course exist factors that affect the two wheels different, e.g. when cornering, the normal force will be transfered from the inner to the outer wheel. If a car uses an FXD, the active differential will in certain situations transfer torque from one shaft to the other. The effect that the FXD contributes with will be described further on in a later section of the paper. A model that is slightly more complicated than the bicycle model and tries to capture these lateral differences, is the two track model seen in Equation \ref{two_track_model}. 
 
 \begin{figure}[h]
 	\centering
@@ -97,7 +97,7 @@ The longitudinal and lateral forces generated by a tire are dependent on the nor
 	\caption{Normal force on the vehicle seen from the front.}
 	\label{normal_force_lateral}
 \end{figure}
-Without any lateral acceleration, the normal forces on the right and left hand side of the vehicle, as seen in Figure  \ref{normal_force_lateral}, can simply be described as:
+Without any lateral acceleration, the normal forces on the right and left hand side of the vehicle, as seen in Figure  \ref{normal_force_lateral}, can be described as:
 \begin{equation} \label{eq:normal}
 	F_{zL} + F_{zR} = mg
 \end{equation}
@@ -108,9 +108,9 @@ With lateral acceleration affecting the vehicle, a torque will occur that change
 	F_{zL} = \frac{mg}{2} - \frac{m\cdot a_{y}\cdot CGH}{T_{w}}
 \end{split}
 \end{equation}
-where $ T_{w} $ is the track width (distance between the left and right wheels), $ a_{y} $ the lateral acceleration and $ CGH $ the height from the ground to the center of gravity. The torque that is an effect of the lateral acceleration in Equation \ref{eq:normal_with_lat_acc}, does not take into account that the center of gravity height will change during driving.
+where $ T_{w} $ is the track width (distance between the left and right wheels), $ a_{y} $ is the lateral acceleration and $ CGH $ is the height from the ground to the center of gravity. The torque that is an effect of the lateral acceleration in Equation \ref{eq:normal_with_lat_acc}, does not take into account that the center of gravity height will change during driving.
 
-Using Equation \ref{eq:normal_with_lat_acc} will result in a large stationary error because unsprung mass isn't considered. Unsprung mass is the weight of the wheel, the wheel carrier and half the suspension weight. This mass won't be a part of the load transfer because it's fixed relative to the ground. In other words, this mass can't affect the normal force acting on the other three wheels. The corrected equations:
+Using Equation \ref{eq:normal_with_lat_acc} will result in a large stationary error because the unsprung mass isn't considered. The unsprung mass is the weight of the wheel, the wheel carrier and half the suspension weight. This mass won't be a part of the load transfer because it's fixed relative to the ground. In other words, this mass can't affect the normal force acting on the other three wheels. The corrected equations:
 \begin{equation} \label{eq:normal_with_lat_acc_unsprung}
 \begin{split}
 F_{zR} = \frac{(m_{sprung}+m_{unsprung})\cdot g}{2} + \frac{m_{sprung}\cdot a_{y}\cdot CGH}{T_{w}} \\
@@ -126,20 +126,20 @@ F_{zL} = \frac{(m_{sprung}+m_{unsprung})\cdot g}{2} - \frac{m_{sprung}\cdot a_{y
 	\caption{Normal force on the vehicle seen from the side.}
 	\label{normal_force_longitudinal}
 \end{figure}
-The normal forces on the front and rear for a vehicle without any acceleration, as seen in Figure \ref{eq:normal_with_long_acc}, is simply the gravitational force acting on the vehicle:
+The normal forces on the front and rear for a vehicle without any acceleration, as seen in Figure \ref{normal_force_longitudinal}, is simply the gravitational force acting on the vehicle:
 \begin{equation} \label{eq:normal_2}
 	F_{zF} + F_{zR} = mg
 \end{equation}
-Note that $ F_{zR} $ denotes the normal force of the rear and not the right hand side like in the previous section. With longitudinal acceleration, the normal forces on the on the front the rear respectively will change:
+Note that $ F_{zR} $ denotes the normal force of the rear and not the right hand side like in the previous section. With longitudinal acceleration, the normal forces on the front respectively the rear will change:
 \begin{equation} \label{eq:normal_with_long_acc}
 \begin{split}
 	F_{zF} = mg\cdot \frac{l_{f}}{l_{f}+l_{r}} - \frac{m\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\
 	F_{zR} = mg\cdot \frac{l_{r}}{l_{f}+l_{r}} + \frac{m\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\	
 \end{split}
 \end{equation}
-where $ l_{f} $ and $ l_{r} $ are the distances from the front and rear axles to the center of gravity. As can be seen in Equation \ref{eq:normal_with_long_acc}, he normal force on the front axle will decrease with positive longitudinal acceleration. This is a negative effect for FWD vehicles.
+where $ l_{f} $ and $ l_{r} $ are the distances from the front and rear axles to the center of gravity. As can be seen in Equation \ref{eq:normal_with_long_acc}, the normal force on the front axle will decrease with a positive longitudinal acceleration. This is a negative effect for FWD vehicles.
 
-The unsprung mass will affect the longitudinal load transfer in the same way as it affected the lateral load transfer. The modified equations thus becomes: 
+The unsprung mass will affect the longitudinal load transfer in the same way as it affected the lateral load transfer. The modified equations thus become: 
 \begin{equation} \label{eq:normal_with_long_acc_unsprung}
 \begin{split}
 F_{zF} &= (m_{sprung}+m_{unsprung})\cdot g\cdot \frac{l_{f}}{l_{f}+l_{r}} - \frac{m_{sprung}\cdot a_{x}\cdot CGH}{l_{f}+l_{r}} \\
@@ -148,7 +148,7 @@ F_{zR} &= (m_{sprung}+m_{unsprung})\cdot g\cdot \frac{l_{r}}{l_{f}+l_{r}} + \fra
 \end{equation}
 
 \subsubsection{Longitudinal and lateral load transfer combined}
-To be able to determine the normal force acting on a single wheel the longitudinal and lateral load transfer needs to be combined since both of them affect each wheel in some way. By calculating how many percent of the total normal force that's acting on the left side and how many percent of the total normal force that's acting on the front axle and then multiplying these factors the amount of the total normal force acting on the front left wheel will be given in percent.
+To be able to determine the normal forces acting on a single wheel the longitudinal and lateral load transfer need to be combined since both of them affect each wheel in some way. By calculating how many percent of the total normal force that's acting on the left side and how many percent of the total normal force that's acting on the front axle and then multiplying these factors with the amount of the total normal force acting on the front left wheel will be given in percent.
 \begin{equation} \label{eq:normal_percent}
 	\%F_{zFrontLeft} = \%F_{zFront}\cdot \%F_{zLeft}
 \end{equation}
@@ -185,7 +185,7 @@ Applying torque on the tire will generate longitudinal force moving the tire for
 \kappa = \dfrac{R_{e}\omega-V_{x}}{V_{x}}
 \label{eq:longslip}
 \end{equation}
-This leads to the following slip ratio relationships:
+Where $ V_{x} $ is the undriven wheel speed and $ R_{e}\omega $ is the angular velocity of the driving wheel. This leads to the following slip ratio relationships:
 \begin{equation}
 Locked: \omega = 0 \Rightarrow \kappa = -1
 \end{equation}
@@ -197,7 +197,7 @@ Spinning: \omega = 2\frac{V}{R_{e}} \Rightarrow \kappa = 1
 \end{equation}
 The amount of slip will be one of the factors that decide the ratio between adhesion area and slip area for the tires contact area. The more slip the bigger slip area. The slip area will grow with the slip from the backside of the contact area. When the sliding area is as big as the contact full tire spin occurs. When braking the sliding area will grow from the front and be as big as the contact area when the tire is completely locked. With the same analogy the adhesion area will be as big as the contact area when the tire is free rolling. 
 
-The maximum longitudinal force that can be generated is proportional to the normal force with the friction coefficient as proportionality constant:
+The maximum longitudinal force that can be generated is proportional to the normal force with the friction coefficient, $ \mu $, as proportionality constant:
 \begin{equation}
 F_{x,max} =  \mu F_{z}
 \label{eq:fxmufz}
@@ -212,7 +212,7 @@ The generated longitudinal force depends on the longitudinal slip ratio. In Figu
 The longitudinal force is normalized against the normal force, hence it's the friction coefficient shown on the y-axis. By looking at the graph the characteristics of a tires longitudinal force generation can be seen. For low slip ratios the force curve is linear, at a specific slip ratio a maximum is reached and after that it slowly decays. Different road conditions have different coefficients of friction which is reflected by the different curves maximum values.
 
 \subsection{Lateral forces}
-Lateral forces will be generated when the vehicle is turning, more specifically when there is a difference in the angles of the front tires relative the angle of the vehicle. When turned, the tire won't travel in the direction of its orientation, there will be a slip between the tires orientation and the velocity vector. This lateral slip is called slip angle since it can be expressed as an angle.
+Lateral forces will be generated when the vehicle is turning, or more specific when there is a difference in the angles of the front tires relative the angle of the vehicle. When turned, the tire won't travel in the direction of its orientation, there will be a slip between the tires orientation and the velocity vector. This lateral slip is called slip angle since it can be expressed as an angle.
 
 As can be seen in Figure \ref{slipangle_latforce} the lateral force is proportional to the slip angle for small slip angles. For larger slip angles the lateral force converges. In difference to the longitudinal force the lateral force won't decrease for very large slip angles. This doesn't mean that max steering wheel angle always generates maximum lateral force. In many situations a too large steering wheel angle will over turn the wheel and start decreasing the slip angle hence generating less lateral force.
 \begin{figure}[h]
@@ -259,7 +259,7 @@ F_{x} = C_{x}\cdot \kappa
 F_{y} = C_{\alpha}\cdot \alpha
 \end{equation}
 
-Once again it should be stressed that this is only valid in the linear region of the force per slip ratio curves. Thus the theoretical definition of the tire stiffness is the gradient of the force per slip ratio around the origin. 
+Once again it should be stressed that this is only valid in the linear region of the force per slip ratio curves. Thus, the theoretical definition of the tire stiffness is the gradient of the force per slip ratio around the origin. 
 
 Different tires can have very different tire stiffness, which of course will have a great impact on the tires performance. Winter tires are much softer than summer tires and are therefore less stiff. Generally, this also means that snow tires reach their maximum generated force at a larger slip ratio than summer tires. In the same way an extra stiff racing tire will reach its maximum force at a smaller slip ratio. The tire stiffness should not have to be set beforehand (meaning that the driver would have to specify if he/she changes tires) and therefore need to be estimated for an accurate friction estimation.
 
@@ -270,7 +270,7 @@ There are several models to describe a tire mathematically. These models can be 
 
 Empirical models describe tire characteristics that are acquired from measurements of the tire. To fit the curve according to measured data the parameters are assessed with methods like regression. A well-known empirical model is the Magic Formula \cite{pacejka}. This model provides good fit for $F_{x}$, $F_{y}$ and $M_{z}$ curves and have coefficients that's easy to interpret.
 
-Models using for example the similarity method are semi-empirical which means that some calculations are replaced by known or measured data. By distorting, rescaling and multiplying the result new relationships are acquired which can describe the tire in different situations. For example one can observe that that the pure slip ratio curves shape doesn't change much \cite{pacejka} when the tire runs on different conditions. By shifting the nominal curve these conditions can be described.
+Semi-empirical models can use a similarity method, which means that some calculations are replaced by known or measured data. By distorting, rescaling and multiplying the result, new relationships are acquired which can describe the tire in different situations. For example one can observe that that the pure slip ratio curves shape doesn't change much \cite{pacejka} when the tire runs on different conditions. By shifting the nominal curve these conditions can be described.
 
 The physical models are purely analytical and aims to describe the tire with the help of its physical characteristics. A simple physical model uses simple mechanical representation and can be calculated fairly easy by hand. This often results in pretty poor accuracy but sometimes that's enough. To get better accuracy a more complex model can be set up and simulated in a computer using aids like the finite element method. 
 
@@ -285,7 +285,7 @@ In Figure \ref{tire_modeling} some modeling characteristics and how they behave 
 
 \subsection{Brush model}
 \label{sec:brush}
-The brush model is a highly used simple physical model. The idea is to model the tire surface as a row of elastic bristles that deflects in different directions depending on how the tire is loaded. This model is illustrated to the left in Figure \ref{brush1}.
+The brush model is a highly used simple physical model. The idea is to model the tire surface as a row of elastic bristles that deflect in different directions depending on how the tire is loaded. This model is illustrated to the left in Figure \ref{brush1}.
 
 \begin{figure}[h]
 	\centering
@@ -294,7 +294,7 @@ The brush model is a highly used simple physical model. The idea is to model the
 	\label{brush1}
 \end{figure}
 
-For pure side slip ratio the bristles will deflect in the direction of the y-axis, this can be seen at the top right in Figure \ref{brush1}. In the same figure pure brake slip ratio can be seen, that is when the bristles deflects in the direction of the x-axis. Finally at the bottom right of this figure combined slip is illustrated.
+For pure side slip ratio the bristles will deflect in the direction of the y-axis, this can be seen at the top right in Figure \ref{brush1}. In the same figure pure brake slip ratio can be seen, that is when the bristles deflect in the direction of the x-axis. Finally at the bottom right of this figure combined slip is illustrated.
 
 \begin{figure}[h]
 	\centering
@@ -303,27 +303,28 @@ For pure side slip ratio the bristles will deflect in the direction of the y-axi
 	\label{brush2}
 \end{figure}
 
-In Figure \ref{brush2} it can be seen how different slip angles affects the tire. Small slip angles gives a large adhesion area (flat part) and a small sliding area (curved part). As the slip angle increases a larger number of bristles reaches their maximum deflection, hence increasing the sliding area. At a certain slip angle all bristles have reached their maximum deflection and this results in full sliding. 
+In Figure \ref{brush2} it can be seen how different slip angles affects the tire. Small slip angles gives a large adhesion area (flat part) and a small sliding area (curved part). As the slip angle increases a larger number of bristles reach their maximum deflection, hence increasing the sliding area. At a certain slip angle all bristles have reached their maximum deflection and this results in full sliding. 
 
+\pagebreak
 The longitudinal force described by the Brush model \cite{pacejka}:
 \begin{equation}
-	F_{x} = \frac{C_{x}(\frac{\kappa}{1+\kappa})}{f_{i}}F_{i}
+	F_{x} = \frac{C_{x}(\frac{\kappa}{1+\kappa})}{f}F
 \end{equation}
 where:
 \begin{equation}
-F_{i}= 
+F = 
 \begin{cases}
-f_{i}-\frac{1}{3\mu F_{z}}f_{i}^{2}+\frac{1}{27\mu^{2}F_{z}^{2}}f_{i}^{3}, & \text{if } f_{i} \leq 3\mu F_{z} 1\\
+f-\frac{1}{3\mu F_{z}}f^{2}+\frac{1}{27\mu^{2}F_{z}^{2}}f^{3}, & \text{if } f \leq 3\mu F_{z} \\
 \mu F_{z}, & \text{otherwise}
 \end{cases}
 \end{equation}
 and:
 \begin{equation}
-	f_{i} = C_{x}\frac{\kappa}{1+\kappa}
+	f = C_{x}\frac{\kappa}{1+\kappa}
 \end{equation}
 
 \subsection{The Magic Formula tire model}
-The magic formula is a series of tire design models developed by H. Pacejka \cite{pacejka} in collaboration with Volvo. The formula is a well known empirical model which has been given its name due to no physical basis for the structure of the equation. It models the fact that different tires has various characteristics which influence the final force generated from the contact patch to the ground. The formula is very complex, where numerous parameters for each tire can be used to calculate lateral and longitudinal forces and also self aligning torque depending on the slip angle or slip ratio. In this report, the magic formula is kept fairly simple to show the idea behind the model, rather than getting a profound understanding behind the development of the model.
+The magic formula is a series of tire design models developed by H. Pacejka \cite{pacejka} in collaboration with Volvo. The formula is a well known empirical model which has been given its name due to no physical basis for the structure of the equation. It models the fact that different tires have various characteristics which influence the final force generated from the contact patch to the ground. The formula is very complex, where numerous parameters for each tire can be used to calculate lateral and longitudinal forces and also self aligning torque depending on the slip angle or slip ratio. In this report, the magic formula is kept fairly simple to show the idea behind the model, rather than getting a profound understanding behind the development of the model.
 
 
 \begin{figure}[h]
@@ -403,18 +404,20 @@ Due to confidential reasons this model can't be explained in any greater detail.
 When driving in a straight line on a road with equal friction for all wheels, both driven wheels will have equal torque and velocity. In this situation a differential wouldn't even be necessary. The differential is needed when the vehicle is cornering. In this situation the different wheels will have different turning radii, thus requiring different angular velocities. This is the general idea behind a differential, to be able to have different angular velocities of the driven wheels. Without a differential it would be very hard to turn the vehicle, especially at low velocities, since equal speed of the wheels prevents the rotating movement happening while turning.
 
 \subsection{Open differential}
-The open differential is the classic differential used in most cars today. With an open differential, the torque will always be evenly distributed to the two driving wheels. One wheel can not have higher torque than the other wheel but they can have different angular velocities. This behavior is directly related to the mechanical construction of the open differential which can be seen in Figure \ref{wikidiff}. 
+The open differential is the classic differential used in most cars today. With an open differential, the torque will always be evenly distributed to the two driving wheels. One wheel can not have higher torque than the other wheel but they can have different angular velocities. This behavior is directly related to the mechanical construction of the open differential which can be seen in Figure \ref{wikidiff}.
+
+The angular velocities of the two side gears and the crown wheel can be described as:
+\begin{equation}
+\omega_{r} = \frac{\omega_{1} + \omega_{2}}{2}
+\label{eq:diff}
+\end{equation}
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Pictures/opendiff}
 	\caption{The open differential. To the left the case of equal wheel speed, to the right is one wheel completely stationary while the other wheel still rotates. \cite{wikidiff}}
 	\label{wikidiff}
 \end{figure}
-The angular velocities of the two side gears and the crown wheel can be described as:
-\begin{equation}
-\omega_{r} = \frac{\omega_{1} + \omega_{2}}{2}
-\label{eq:diff}
-\end{equation}
 
 \subsection{Problems with the open differential}
 A situation that creates a problem for a vehicle with an open differential, is when one driven wheel has significant lower friction to the ground than the other. The wheel with low friction can only handle relatively low torque before it starts spinning. This means that the torque applied to the two drive shafts will be restricted by the wheel with the lowest friction to the ground due to the torque splitting nature of the open differential. This will in turn reduce the traction of the vehicle. Two possible scenarios for when the friction force to the ground might differ between the driven wheels are when the road is partly covered in ice and when cornering at high velocities which will make the inner wheel lift from the ground. 
@@ -423,20 +426,18 @@ When driving on a split-$ \mu $ (different friction coefficients for the driven 
 
 The other scenario, when cornering at a high velocity leading to the inner wheel lifting, will give the same effect. The normal force acting on the inner wheel will be reduced when it lifts. This will reduce the force that can be transfered to the ground which will reduce the amount of torque that can be applied to the drive shafts. In a worst case scenario the inner wheel has lost contact to the ground completely reducing the transfered force to the ground to zero. The only torque applied is to spin the wheel and this is almost no torque at all compared to the torque used to propel the vehicle. The propulsive power will be zero and the vehicle will lose velocity. After a while the inner wheel will touch the ground again and some force will be transfered only to lift the wheel up again. This will get the vehicle stuck oscillating around this inefficient boundary wasting lots of power.
 
-A solution for these two different scenarios would be to lock the two drive shafts together. This would keep torque applied to the outer wheel even when the inner wheel loses grip, but the fundamental idea of the differential would be lost. That is, the possibility of a speed difference between the two drive shafts. This would also affect the steering behavior in several bad ways, especially at lower velocities. Hence it would be very beneficial to be able to lock the drive shafts together in certain situations. It would be even more beneficial if they were coupled with a device where some slip were allowed between the shafts, making it possible to control the amount of torque transfered from one shaft to the other. Enter, the limited slip differential.
+A solution for these two different scenarios would be to lock the two drive shafts together. This would keep torque applied to the outer wheel even when the inner wheel loses grip, but the fundamental idea of the differential would be lost. That is, the possibility of a speed difference between the two drive shafts. This would also affect the steering behavior in several bad ways, especially at lower velocities. Hence it would be very beneficial to be able to lock the drive shafts together in certain situations. It would be even more beneficial if they were coupled with a device where some slip were allowed between the shafts, making it possible to control the amount of torque transfered from one shaft to the other.
 
 \subsection{Limited slip differential}
 The idea of a limited slip differential (LSD) is not to apply more torque to a wheel than it can transfer to the ground. This means that the torque splitting nature of an open differential needs to be countered. Take the sharp turn example from above. The lateral forces of the vehicle will lift the inner wheel from the ground which will result in less traction. With a LSD the torque distribution can be managed so that more torque is applied on the outer wheel. The vehicle will gain more traction when cornering with a LSD than with an open differential. The same effect is applied when driving on a split-$ \mu $ surface. Torque is transfered from the wheel with lower friction to the ground to the wheel with higher friction to the ground to increase the traction.
 
-There are different types of LSDs, they can be divided in two main categories, passive and active LSDs. Passive LSDs are designed in such a way that they do the torque distribution without any required activity from the outside. The Torsen differential is a brilliant example of a passive differential. A complex set of worm gears and spur gears results in a differential that does the torque distribution by itself when needed. Passive differentials require little effort to use but the properties of the differential can't be changed in any way.
-
-Active differentials are controlled from the outside. The amount of torque transfered from one shaft to the other can be freely controlled and this gives much more power over the vehicles behavior.
+There are different types of LSDs, they can be divided in two main categories, passive and active LSDs. Passive LSDs are designed in such a way that they do the torque distribution without any required activity from the outside. The Torsen differential is a brilliant example of a passive differential. A complex set of worm gears and spur gears results in a differential that does the torque distribution by itself when needed. Passive differentials require little effort to use but the properties of the differential can't be changed in any way. Active differentials are controlled from the outside. The amount of torque transfered from one shaft to the other can be freely controlled and this gives much more power over the vehicles behavior.
 
 \subsection{FXD}
 The FXD is an electronic limited slip differential made by BorgWarner AB for FWD cars. It uses the same clutch technology as their four wheel drive systems. Instead of using the clutch to transfer torque between front and rear it's used to transfer torque between the left and right front wheels. The fact that the clutch is actuated from the outside is what makes the FXD an active limited slip differential, the torque transfered between the wheels is freely controlled.
 
 \subsubsection{The clutch}
-The clutch is based on BorgWarner's Gen5 clutch which is an electro-hydraulic clutch. The clutch is engaged by building a hydraulic pressure in the clutch forcing the clutch plates together resulting in a torque transfer. The pressure is built up by a hydraulic pump operated by an electric DC motor. A the quick and exact control nature of the DC motor results in the clutch being very accurate. The amount of torque transfered through the clutch is easily managed with a rather simple electric signal and above all changed can be made very quick. This is positive when used in cars because things happens very fast.
+The clutch is based on BorgWarner's Gen5 clutch which is an electro-hydraulic clutch. The clutch is engaged by building a hydraulic pressure in the clutch forcing the clutch plates together resulting in a torque transfer. The pressure is built up by a hydraulic pump operated by an electric DC motor. The quick and exact control nature of the DC motor results in the clutch being very accurate. The amount of torque transfered through the clutch is easily managed with a rather simple electric signal and above all changed can be made very quick. This is positive when used in cars because things happens very fast.
 
 \subsubsection{The differential}
 The differential is basically an open differential but with one major difference, the electro-hydraulic clutch. The clutch is installed in a way that makes it possible to couple one of the drive shafts together with the differential housing. This gives the possibility to transfer torque from one shaft to the other in certain situations. One of these situations is when one wheel has less grip than the other wheel, torque can then be transfered to the wheel with the most grip. When cornering hard or driving on a split-$ \mu $ surface the clutch will be engaged allowing for the torque distribution to be altered.
