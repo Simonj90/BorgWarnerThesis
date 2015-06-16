@@ -37,9 +37,11 @@ Some different approaches have been used before. Sometimes a tire model is looke
 
 In \cite{gustafsson1997} Gustafsson uses the first of the above mentioned approaches. The method is called the slip slope method and the idea is that the force per slip ratio curve for a tire will have different inclination (slip slope) depending on the friction to the road. It's also said that the distribution of the data points says something about the road condition. The data points are more widely spread when driving on snow or gravel for instance.
 
-In \cite{linearized} the authors use two models, one tire model and one vehicle model. The idea is that the tire model should match the vehicle model since ideally the forces acting on the vehicle should come from the tires. The friction coefficient is then estimated with a Kalman filter.
+In \cite{linearized} the authors use two models, one tire model and one vehicle model. The idea is that the tire model should match the vehicle model since ideally the forces acting on the vehicle should come from the tires. A Kalman filter is used to calculate the tire and vehicle forces. The friction coefficient is then estimated with a recursive least squares algorithm. This article uses several signals that's neither available on the CAN bus or can be calculated in any good way which makes it impossible to use.
 
-Finally, in \cite{novelcost} the authors mix the methods mentioned above. 
+Finally, in \cite{novelcost} the authors mix the methods mentioned above. A Kalman filter is used to estimate the tire forces and then the slip slope is estimated with RLS. The slip slope is then used to estimate the friction coefficient. 
+
+All these articles have flaws. Gustafsson's method is too simple and therefore not accurate enough. The other two both used unavailable signals and are unnecessarily complicated. 
 
 
 \subsection{Conclusion}
