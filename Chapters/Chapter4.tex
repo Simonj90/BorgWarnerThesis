@@ -49,11 +49,11 @@ All in all it is a great challenge to estimate the tire/road friction coefficien
 
 \section{Signal processing}
 
-Apart from the fact that a vehicle is hard to model properly, there is an uncertainty from the signals taken from the vehicle's CAN bus. The true parameter values can be distorted from measuring and process noise as well as being delayed due to calculations and approximations. Different parameter signals can have varying distortions, and therefore include various challenges.
+Apart from the fact that a vehicle is hard to model properly, there is an uncertainty from the signals taken from the vehicle's CAN bus. The true signal values can be distorted from measuring and process noise as well as being delayed due to calculations and approximations. Different parameter signals can have varying distortions, and therefore include various challenges.
 
 \subsection{Filters}
 
-The signals that are taken from the vehicle's CAN bus usually include quite a lot of noise and can cause severe succeeding errors during calculations and approximations. This measure and process noise mainly consist of sudden unwanted changes of the signal that generally has higher frequency than the true parameter value. To exclude these high frequencies, the signal is run trough a low pass filter which will dampen the amplitude of the higher frequencies. The amount of damping for certain frequencies depend on the filters cutoff frequency. 
+The signals that are taken from the vehicle's CAN bus usually include quite a lot of noise and can cause severe succeeding errors during calculations and approximations. This measure and process noise mainly consist of sudden unwanted changes of the signal that generally has higher frequency than the true signal value. To exclude these high frequencies, the signal is run trough a low pass filter which will attenuate the amplitude of the higher frequencies. The amount of attenuate for certain frequencies depend on the filters cutoff frequency. 
 
 In Figure \ref{filter_and_no}, the filtered and unfiltered values can be seen for two signals, one of the wheel speeds and the engine torque. It can be seen that the noise of the signals are reduced after filtering, but to a cost of a delaying the signal. The sudden drop of the engine torque, at around $ 11 $ seconds, appear due to a gear change. This sudden drop of engine torque will be seen as a high frequency and is therefore incorrectly suppressed by the low pass filter.
 
@@ -64,9 +64,9 @@ In Figure \ref{filter_and_no}, the filtered and unfiltered values can be seen fo
 	\label{filter_and_no}
 \end{figure}
 
-The amplitude and frequency of the noise will differ for various signals and could therefore be filtered with different cutoff frequencies to get the most correct value. For example, the engine torque signal, seen in Figure $ \ref{filter_and_no} $, subplot 2, could be filtered with a higher cutoff frequency than the wheel speed, seen in Figure $ \ref{filter_and_no} $, subplot one, to capture its faster changing characteristic better. However, an important aspect to consider during filtering, is the duration of the delay that will affect the signal. Signals that are run through filters with different cutoff frequencies, will also have differing delay durations. In the extent, this could lead to computations that should equal one another will differ greatly due to their different parameter dependencies. 
+The amplitude and frequency of the noise will differ for various signals and could therefore be filtered with different cutoff frequencies to get the most correct value for each individual signal. For example, the engine torque signal, seen in Figure $ \ref{filter_and_no} $, subplot 2, could be filtered with a higher cutoff frequency than the wheel speed, seen in Figure $ \ref{filter_and_no} $, subplot one, to capture its faster changing characteristic better. However, an important aspect to consider during filtering, is the duration of the delay that will affect the signal. Signals that are run through filters with different cutoff frequencies, will also have differing delay durations. In the extent, this could lead to computations that should equal one another will differ greatly due to their different parameter dependencies. All signals will therefore be filtered with the same low pass filter. 
 
-In Figure $ \ref{different_filter_val} $, two different force models, that should be equal to each other, are dependent on different parameter values. In subplot one, a signal that affect the tire model is filtered with a cutoff frequency significantly lower than the cutoff frequency for the parameters affecting the vehicle model. In the extent, the force calculated from the tire model becomes delayed compared to the computed vehicle force. In subplot 2, the signals are filtered with the same cutoff frequency, hence resulting in a better match between the two models. The conclusion from this is that the low pass filters should not only be designed to get the best possible accuracy for that specific parameter, but the succeeding effects also need to be considered.
+In Figure $ \ref{different_filter_val} $, two different force models, that should be equal to each other, are dependent on different parameter values. In subplot one, a signal that affect the tire model is filtered with a cutoff frequency significantly lower than the cutoff frequency for the parameters affecting the vehicle model. In the extent, the force calculated from the tire model becomes delayed compared to the computed vehicle force. In subplot 2, the signals are filtered with the same cutoff frequency, hence resulting in a better match between the two models. The conclusion from this is that the low pass filters should not only be designed to get the best possible accuracy for that specific signals, but the succeeding effects also need to be considered.
 
 \begin{figure}[h]
 	\centering
@@ -124,7 +124,7 @@ The rolling resistance is calculated as in Equation \ref{eq:rollingres}.
 The total amount of force acting on the vehicle thus becomes:
 \begin{equation}
 \label{eq:newton}
-F_{vehicle} = m \cdot a + F_{drag} + F_{rolling resistance}
+F_{vehicle} = m \cdot a + F_{drag} + F_{rolling resistance} + F_{road gradient}
 \end{equation}
 
 \subsubsection{Complications}
@@ -148,16 +148,16 @@ T_{driveshafts} = T_{engineshaft}\cdot GearRatio
 where the gear ratio is the speed ratio between the engine shaft and the differential housing:
 \begin{equation}
 \label{eq:GR}
-Gear Ratio = \frac{RPM_{engine}}{RPM_{diffhouse}}
+Gear Ratio = \frac{\omega_{engine}}{\omega_{diffhouse}}
 \end{equation}
 and finally the speed of the differential housing is the average speed of the left and right drive shafts:
 \begin{equation}
 \label{eq:diffhouse}
-RPM_{diffhouse} = \frac{RPM_{leftdriveshaft}+RPM_{rightdriveshaft}}{2}
+\omega_{diffhouse} = \frac{\omega_{leftdriveshaft}+\omega_{rightdriveshaft}}{2}
 \end{equation}
-The engine torque, engine speed and the drive shaft speeds (wheel speeds) are all parameters commonly found on the CAN bus of a newer car. Important to notice is that these calculations do not consider any losses from the engine to the drive shaft. By combining Equations $ \ref{eq:tshaft} $ \& $ \ref{eq:GR} $, it is seen that the power generated by the engine and the power outputted to the drive shaft are equal.
+The engine torque, engine speed and the drive shaft speeds (wheel speeds) are all signals commonly found on the CAN bus of a newer car. Important to notice is that these calculations do not consider any losses from the engine to the drive shaft. By combining Equations $ \ref{eq:tshaft} $ \& $ \ref{eq:GR} $, it is seen that the power generated by the engine and the power outputted to the drive shaft are equal.
 \begin{equation}
-P = T_{driveshaft}\cdot RPM_{driveshaft} = T_{engineshaft}\cdot RPM_{engineshaft}
+P = T_{driveshaft}\cdot \omega_{driveshaft} = T_{engineshaft}\cdot \omega_{engineshaft}
 \end{equation}
 
 The torque will be split evenly between the two drive shafts, assuming an open differential, i.e. when the FXD is inactive. If the FXD is active the available torque on the drive shafts has to the redistributed according to the amount of torque being transfered through the FXD. This is important to consider if force calculations for a single wheel are to be done. 
@@ -203,9 +203,9 @@ There are several factors that affect how much of the engine torque that actuall
 \begin{equation}
 T_{driveshaft} = T_{driveshaftwithoutlosses}\cdot\eta_{friction}\cdot\eta_{rotating mass} - T_{wheelacceleration}
 \end{equation}
-$ \eta_{friction} $ is just a scalar factor. The frictional losses are very dependent on the design of the drive line. This means that the losses will differ between vehicles and that this factor needs to be calculated for each specific car model. Since this factor is easy to change it will also include other losses in the drive line such as acceleration of the drive shafts. 
+$ \eta_{friction} $ is just a scalar factor. The frictional losses are very dependent on the design of the drive line. This means that the losses will differ between vehicles and that this factor needs to be calculated for each specific car model. 
 
-$ \eta_{rotating mass} $ is modeled as \cite{mason}:
+The losses due to the acceleration of the drive shaft is also included in the rotating mass scaling factor. $ \eta_{rotating mass} $ is modeled as \cite{mason}:
 \begin{equation} \label{eq:rotatingmass}
 	\eta_{rotating mass} = \frac{1}{1 + x\cdot gearratio^2}
 \end{equation}
@@ -253,7 +253,7 @@ Two different models for estimating the vehicle force have been presented. One i
 	\label{vehicle_model_comp_olikaacc}
 \end{figure}
 
-The models will differ more when cornering, as can be seen in Figure \ref{vehicle_model_comp_race}. Neither the acceleration calculated from the undriven wheel speed or the measured acceleration from the accelerometer will be true while cornering. This is because both solutions for acquiring the vehicle acceleration is for longitudinal acceleration only. The undriven wheels is in this case the rear wheels and since these can't turn only the longitudinal acceleration is represented. The same goes for the accelerometer, only the longitudinal part of the acceleration is measured. The actual acceleration of the vehicle while cornering is a combination of longitudinal and lateral acceleration. The result of all this is that the force from the acceleration based vehicle models gets to low when cornering. 
+The models will differ more when cornering, as can be seen in Figure \ref{vehicle_model_comp_race}. Neither the method with acceleration calculated from the undriven wheel speed or the measured acceleration from the accelerometer will be accurate while cornering. This is because both methods for acquiring the vehicle acceleration is for longitudinal acceleration only. The undriven wheels are in this case the rear wheels and since these can not turn, only the longitudinal acceleration is represented. The same goes for the accelerometer. Only the longitudinal part of the acceleration is measured. The actual acceleration of the vehicle while cornering is a combination of longitudinal and lateral acceleration. The result of all this is that the force from the acceleration based vehicle models gets to low when cornering. 
 
 \begin{figure}[h]
 	\centering
@@ -264,7 +264,7 @@ The models will differ more when cornering, as can be seen in Figure \ref{vehicl
 
 A solution to this could be to measure both the longitudinal and lateral accelerations with accelerometers and calculate the total acceleration of the vehicle. Unfortunately it's not that easy. When using both longitudinal and lateral acceleration of the vehicle the tire models must be able to account for both longitudinal and lateral force which is hard to model. More on this in Section \ref{tire_forces}.
 
-It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. The drive session shown is uphill, hence the force will be to low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the vehicle, although, it won't be right.
+It get's even worse when driving on a road that's hilly, as can be seen in Figure \ref{vehicle_model_comp_mm2}. While driving uphill or downhill the longitudinal acceleration from both the calculations and the accelerator measurements will be wrong. The drive session shown is uphill, hence the force will be too low since the force needed to counter the force of gravity isn't considered. When cornering both acceleration based models where almost equally faulty at all time. When driving in a hill there's a difference between them. This is because the model based on undriven wheel acceleration won't consider the force of gravity at all. The model based on the accelerometer will consider it to some extent since the accelerometer will incline with the vehicle, although, it won't be right.
 
 The acceleration based vehicle models have been discussed a lot so far. The model based on engine torque hasn't been mentioned much at all and it has even been implied that this one is correct when the acceleration based models are falling behind. This is because it really is a good model that fills it purpose. It's not affected by hills and it's not as severely affected by cornering as the acceleration based models are. The force will always be applied in the longitudinal direction of the tire, hence it works good to match this with a longitudinal tire model. The main problem is the fact that the slip ratio calculation will be a bit off while cornering since lateral velocity isn't considered but this is solved later on in Section \ref{sec:latacccomp}. 
 
@@ -281,18 +281,18 @@ All in all, the obvious choice is the engine torque based vehicle model.
 \label{tire_forces}
 The characteristic of a tire is very complex, which makes the actual force generated to the vehicle difficult to obtain. As was shown in the theory, Section \ref{sec:tire_models}, there are several tire models that can be used, everyone of them with different properties.
 
-A tire can generate both longitudinal and lateral force. It's quite easy to create a tire model that considers both these forces, the hard part is to acquire all the input parameters to the model in real time while driving. The parameters to model the lateral force are especially hard to obtain. These parameters are the slip angle and the lateral tire stiffness. Since these are so hard to calculate only the longitudinal part of a force model is used. The main dynamic parameters of a longitudinal tire force model (except Magic formula) includes the slip ratio, normal force, and the tire/road friction coefficient. A fourth, less dynamic parameter is the longitudinal tire stiffness. 
+A tire can generate both longitudinal and lateral force. It's quite easy to create a tire model that considers both these forces, the hard part is to acquire all the input signals to the model in real time while driving. The signals to model the lateral force are especially hard to obtain. These signals are the slip angle and the lateral tire stiffness. Since these are so hard to calculate only the longitudinal part of a force model is used. The main dynamic parameters of a longitudinal tire force model (except Magic formula) includes the slip ratio, normal force, and the tire/road friction coefficient. A fourth, less dynamic parameter is the longitudinal tire stiffness. 
 \begin{equation}
 F_{tire, longitudinal} = f(\kappa, Fz, \mu, C_{x})
 \end{equation}
-The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in Equation $ \ref{eq:longslip} $, the normal force from the weight of the vehicle and the changing weight distribution derived in  Section \ref{normal_force}, and the tire stiffness as explained in Section \ref{sec:tire_stiffness}. Thereafter, the only dynamic parameter of the tire force equation becomes the friction coefficient. By choosing the correct $ \mu $, the force from the tire model will equal the force from the vehicle model. This calculation is done in a feedback manner, meaning that the tire force depends on the friction coefficient derived in the previous iteration.
+The slip ratio is calculated from the wheels difference in angular and forward velocity as seen in Equation $ \ref{eq:longslip} $, the normal force is calculated from the weight of the vehicle and the changing weight distribution derived in  Section \ref{normal_force}, and the tire stiffness as explained in Section \ref{sec:tire_stiffness}. Thereafter, the only dynamic parameter of the tire force equation becomes the friction coefficient. By choosing the correct $ \mu $, the force from the tire model will equal the force from the vehicle model. This calculation is done in a feedback manner, meaning that the tire force depends on the friction coefficient derived in the previous iteration.
 
 \subsection{Choosing a tire model}
 Four models where described in the theory part. Brush model, Dugoff model, Magic formula and a tire model created by Ola Nockhammar at BorgWarner Torque Transfer Systems AB, further on called the BW model.
 
 The magic formula was ruled out almost immediately since it's a too complicated model. The shear amount of variables it depends on makes it really hard to make it adaptive enough. Some of them are hard to calculate and some of them are almost impossible to obtain. It's great for simulating a specific tire in a lab for example but using it in a real time vehicle environment will be too complex. Further on the model requires several trigonometric calculations which is hard to implement efficiently in C code that's supposed to run on a simple micro controller. 
 
-The other three models are more simple with fewer input parameters and above all it's parameters that are more easily available, like slip ratio and normal force. The Brush model and the Dugoff model are even too simple. The only available parameter to change the characteristics of the force per slip ratio curve is the longitudinal tire stiffness. The BW model on the other hand contains two degrees of freedom by introducing a second parameter to affect the inclination of the force per slip ratio curve. Hence, it's easier to model a tire correctly with this model. Another positive aspect is the fact that the model is made for longitudinal force estimation only. Thus, it doesn't need to be modified for longitudinal use only like the Brush and Dugoff models.
+The other three models are more simple with fewer input parameters and above all their parameters are more easily available, like slip ratio and normal force. The Brush model and the Dugoff model are even too simple. The only available parameter to change the characteristics of the force per slip ratio curve is the longitudinal tire stiffness. The BW model on the other hand contains two degrees of freedom by introducing a second parameter to affect the inclination of the force per slip ratio curve. Hence, it's easier to model a tire correctly with this model. Another positive aspect is the fact that the model is made for longitudinal force estimation only. Thus, it doesn't need to be modified for longitudinal use only like the Brush and Dugoff models.
 
 All in all, the BW model was the obvious choice for this work.
 
@@ -323,7 +323,7 @@ The tire stiffness for a certain tire should theoretically be the same for diffe
 \subsubsection{Slip ratio}
 As seen most force per slip ratio figures, the maximum force will be generated at a specific slip ratio and will thereafter decrease with an increasing slip ratio. If the tire model doesn't capture this force peak at the correct slip ratio value, it will become very difficult to match the tire model force with the calculated vehicle force. The slip ratio value during a real driving sequence is usually rather small (maximum force is generally obtained at a slip ratio $ \geq 12 \% $), which means that a small variances in the slip ratio calculations will have a large impact on the resulting force.
 
-In order to calculate the slip ratios of the two front wheels, the four wheel speeds are gathered from the vehicles CAN bus. These signals generally include quite a lot of measurement and/or process noise which will lead to inaccurate slip ratio calculations, as can be seen in the first row of Figure \ref{wheel_speed_and_slip}. In order to overcome this noise and capture the actual value, the signals are run through a low pass filter. The wheel speeds will, even after filtering, have an oscillating attribute. When these oscillations from the front and its respective rear wheel are not synchronized and of different magnitude, the calculated slip ratio will have rather large variation compared to its real value. This can be seen in the second row of Figure \ref{wheel_speed_and_slip}, where the wheel speeds are run trough a relatively slow low pass filter, i.e. a low pass filter with a high cutoff frequency. Most of the measure and/or process noise is removed, but due to the characteristics of the wheel speed sensor and its design, the signal will still oscillate with a frequency that is proportional to its angular velocity. To minimize the error from the oscillations, the wheel speeds are filtered with a lower cutoff frequency, which can be seen in the third row of Figure \ref{wheel_speed_and_slip}. 
+In order to calculate the slip ratios of the two front wheels, the four wheel speeds are gathered from the vehicles CAN bus. These signals generally include quite a lot of measurement and/or process noise which will lead to inaccurate slip ratio calculations, as can be seen in the first row of Figure \ref{wheel_speed_and_slip}. In order to overcome this noise and capture the actual value, the signals are run through a low pass filter. The wheel speeds will, even after filtering, have an oscillating attribute. When these oscillations from the front and its respective rear wheel are not synchronized and of different magnitude, the calculated slip ratio will have rather large variation compared to its real value. This can be seen in the second row of Figure \ref{wheel_speed_and_slip}, where the wheel speeds are run trough a relatively slow low pass filter, i.e. a low pass filter with a high cutoff frequency. Most of the measure and/or process noise are removed, but due to the characteristics of the wheel speed sensor and its design, the signal will still oscillate with a frequency that is proportional to its angular velocity. To minimize the error from the oscillations, the wheel speeds are filtered with a lower cutoff frequency, which can be seen in the third row of Figure \ref{wheel_speed_and_slip}. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Pictures/wheel_speed_and_slip}
@@ -333,7 +333,7 @@ In order to calculate the slip ratios of the two front wheels, the four wheel sp
 Another concrete problem that arises when calculating the slip ratio, is that the radius for each wheel on a vehicle can be different, e.g. when the air pressure of a tire drops slightly over time. The wheel speed from the CAN bus will in this case be wrong, leading to an offset in the slip ratio calculations. Methods to calculate difference in wheel radii already exists, therefore the wheel radii are assumed to be known at all times.
 
 \subsubsection{Normal force}
-The amount of longitudinal force (neglecting lateral forces) generated from a tire depends on the normal force acting on the tire. The force generated by a tire is linearly proportional to the normal force on the tire:
+The amount of longitudinal force (neglecting lateral forces) generated from a tire depends on the normal force acting on the tire. The force generated by a tire is assumed to be linearly proportional to the normal force on the tire:
 \begin{equation}
 	F_{x} = F_{z}\mu_{0}
 \end{equation}
@@ -390,7 +390,7 @@ For now we assume that only valid data points are displayed. The same drive sess
 	\label{slip_kraft_ljungby}
 \end{figure}
 
-The tire model parameters that was fitted to the data and the friction coefficient became:
+The tire model parameters that were fitted to the data and the friction coefficient became:
 \begin{equation}
 \label{winter_asphalt}
 \begin{split}
@@ -466,7 +466,7 @@ $ \beta $ is a scaling factor that decides how much of an impact the lateral acc
 	\label{latacc_compensated}
 \end{figure}
 
-It can be seen that the result from the second subplot corresponds better to the fitted tire model parameters that was acquired on a straight line acceleration. Even after the slip ratio has been compensated for, it is seen that the resulting force per slip ratio values has much higher variance than the acceleration run showed. This once again shows the difficulties in modeling different possible driving sequences with good accuracy. 
+It can be seen that the result from the second subplot corresponds better to the fitted tire model parameters that were acquired on a straight line acceleration. Even after the slip ratio has been compensated for, it is seen that the resulting force per slip ratio values have much higher variance than the acceleration run showed. This once again shows the difficulties in modeling different possible driving sequences with good accuracy. 
 
 \subsection{Tire mode selector}
 The two different fitted tire models presented in \ref{winter_tire} \& \ref{summer_tire} can result in very differing forces at the same slip ratio value. It's therefore important to know if the vehicle is equipped with winter or summer tires in order for the system to work. It should also not be a necessity for the driver to specify what kind of tires that are used. The tire mode selector consists  of an algorithm that finds the set of tire model parameters that matches the force from the vehicle model with the smallest error. The algorithm calculates the force difference between the respective set of tire parameters and the vehicle model. It is low pass filtered to eliminate sudden changes that shouldn't affect the choice of tire parameter set. The filtered result can be seen in Figure \ref{force_difference}. Winter tires are used in the first subplot, where the difference between the summer tires and vehicle model is seen to increase over time. In the second subplot, summer tires are used instead, and the difference between the winter tire and vehicle model is seen to decrease as time passes. The tire mode selector can be seen in Figure \ref{friction_estimator_ext}.
@@ -583,7 +583,7 @@ When a vehicle engages the clutch prior to a gear change, there will be no torqu
 Due to this disturbance during the gear shifts, the RLS fitting method should not be updated during a certain amount of time after a gear shift engages. An updated friction coefficient can therefore not be calculated during this period. 
 
 \subsubsection{Limitations due to low forces}
-Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total forces acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason for this is that the force from the tire model changes less per $ \mu $ for low forces, which can also be seen in Figure \ref{different_mue}. The amount of force generated for a certain friction coefficient varies very little between the curves at lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of the friction coefficient which is undesired. 
+Another limitation that adds to the restrictions when the friction coefficient shouldn't be updated is when the total force acting on the vehicle is too low. During this period of time, when the normalized force is far from the friction coefficient limit, it is very hard to approximate the actual value of the friction coefficient. The reason for this is that the force from the tire model changes less per $ \mu $ for low forces, which can also be seen in Figure \ref{different_mue}. The amount of force generated for a certain friction coefficient varies very little between the curves at lower slip ratio values. Small errors between the forces from the models will therefore generate a larger change of the friction coefficient which is undesired. 
 
 The RLS should not be updated when the normalized forces from both the vehicle and tire model is a certain amount below the friction coefficient:
 \begin{equation}
