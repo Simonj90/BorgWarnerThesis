@@ -491,8 +491,14 @@ The extended friction estimator with tire model selector and adaptive longitudin
 \end{equation}
 This relation, and therefore also a friction coefficient, could theoretically be obtained at every instance when new CAN packages are available. This would lead to a rapid changing friction coefficient which wouldn't reflect the actual tire/road friction. Instead of approximating a new friction coefficient at every moment, a least square fitting method is used to find the friction coefficient. The goal of such a method is to find the friction coefficient that provides the smallest error between the two models over a certain amount of time. 
 
-It could be possible to estimate the friction coefficient between the two different driving tires and its road contact, which  means that a split-$ \mu $ scenario could be detected. The trade off to estimating two different friction coefficients, instead of one, is that differences between the models would result in larger estimating errors. It has been chosen that a more stable friction estimation is preferred rather than being able to detect two different friction coefficient. All forces that are calculated from the vehicle or tire model are here on the combined force from the two driving tires. 
-
+It could be possible to estimate two different friction coefficients, one for each of the driven tires and its road contact. This means that a split-$ \mu $ scenario could be detected. The trade off to estimating two different friction coefficients instead of one, is that variances between the models would result in larger estimation error. It has been chosen that a more stable friction estimation is preferred rather than being able to detect two different friction coefficients. The vehicle and tire model forces are here on after the combined force from the two driving tires. 
+\begin{equation}
+\label{eq:force_tot}
+\begin{split}
+F_{vehicle} &= F_{vehicle, left} + F_{vehicle, right} \\
+F_{tire} &= F_{tire, left} + F_{tire, right} \\
+\end{split}
+\end{equation}
 \subsection{Least square fitting}
 The general idea of a least square fitting method is to minimize the sum of the squares between a theoretical model and observed data. 
 \begin{equation} 
@@ -571,6 +577,7 @@ Another driving scenario that creates a misleading slip ratio is during accelera
 
 Limitations has to be set so that the RLS fitting method does not update the friction coefficient during these scenarios when the calculated slip ratio gives an unreliable result.
 
+\pagebreak
 \subsubsection{Limitations due to gear shifts}
 \label{sec:gearchange}
 When a vehicle engages the clutch prior to a gear change, there will be no torque transfered from the engine to the wheels. Due to filtering and differences between various signals, the force losses in the different models will be different. This can be seen in Figure \ref{gear_change}, where gear shifts appear at around $ 54.5 $ s and $ 57 $ s.

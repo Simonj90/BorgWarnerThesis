@@ -55,22 +55,23 @@ The two modeled forces and the resulting $ \mu $ from the merged run can be seen
 
 Due to the limitations set concerning when the friction coefficient should be estimated (Section \ref{when_to_estimate}), the algorithm may not update $ \mu $ at the same instance as the new surface is present. However, when the algorithm is allowed to estimate, the new friction coefficient is estimated with good speed. In Figure \ref{force_mue_comb2_zoom}, the two forces and the friction coefficient can be seen when the result is zoomed in on a sudden drop of the friction coefficient. The converging $ \mu $ is seen to drop very fast as the two forces differs greatly right after $ \approx 26.2 $ s, and thereafter decrease more slowly. 
 
-\begin{figure}[h]
+\begin{figure}[!]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Pictures/force_mue_comb2_zoom}
+	\includegraphics[width=0.95\textwidth]{Pictures/force_mue_comb2_zoom}
 	\caption {Zoomed in result of Figure \ref{force_mue_comb2}, showing the speed of the friction coefficient algorithm.}
 	\label{force_mue_comb2_zoom}
 \end{figure}
 
 The normalized force per slip ratio curve for the combined sequence can be seen in Figure \ref{slip_kraft_comb2}. Note that this figure is merely the two Figures \ref{slip_kraft_ljungby} \& \ref{slip_kraft_is} added on top of each other, with some erroneous result due to the wrong calculated force when the friction coefficient suddenly changes. The result clearly shows that a tire's stiffness varies for surfaces.
 
-\begin{figure}[h]
+\begin{figure}[!]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Pictures/slip_kraft_comb2}
+	\includegraphics[width=0.95\textwidth]{Pictures/slip_kraft_comb2}
 	\caption {Force per slip ratio for the combined driving sequence with both low- and high-$ \mu $.}
 	\label{slip_kraft_comb2}
 \end{figure}
 
+\pagebreak
 \subsection{Summer tires on asphalt}
 A fast track lap was also run with the summer tires on asphalt. These tires were, as mentioned before, relatively stiff and with the peak force located at a relative small slip ratio value. This tire attribute makes it tougher to estimate the friction coefficient, due to the fact that variances will result in larger force errors between the two models.
 
